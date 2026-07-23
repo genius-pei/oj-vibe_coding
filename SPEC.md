@@ -127,18 +127,22 @@ sequenceDiagram
 
 ## 5. 数据模型
 
+> 全部表均满足**第一范式（1NF）**：每个字段原子不可再分、不存在重复组。测试用例、标签等"一对多/多对多"属性全部拆为单独表，通过外键与题目关联。
+
 ### 5.1 ER 图
 
 ```mermaid
 erDiagram
-    problems ||--o{ testcases : has
+    problems ||--o{ testcases    : "1:N 包含"
+    problems ||--o{ problem_tags : "1:N 关联"
+    tags     ||--o{ problem_tags : "1:N 属于"
+    users    ||--o{ sessions     : "1:N 拥有"
 
     problems {
         int id PK
         varchar title
         text description_md
         enum difficulty
-        json tags
         int time_limit_ms
         int memory_limit_mb
         datetime created_at
@@ -152,6 +156,17 @@ erDiagram
         text expected_output
         bool is_sample
         int score
+        datetime created_at
+    }
+
+    tags {
+        int id PK
+        varchar name UK
+    }
+
+    problem_tags {
+        int problem_id FK
+        int tag_id FK
     }
 
     users {
@@ -161,18 +176,54 @@ erDiagram
         enum role
         datetime created_at
     }
+
+    sessions {
+        varchar id PK
+        int user_id FK
+        datetime expires_at
+        datetime created_at
+    }
 ```
 
-### 5.2 字段说明
+### 5.2 表关系说明
 
-- `problems.difficulty`：`easy | medium | hard`
-- `problems.tags`：JSON 数组，如 `["数组","双指针"]`
-- `testcases.is_sample`：true 时随题目详情返回给前端展示；false 时仅服务端判题用
-- `testcases.score`：单用例分值（可选用，MVP 不强制要求总分计算）
-- `users.role`：`admin | user`（MVP 仅用 `admin`）
-- `users.password_hash`：bcrypt
+| 关系 | 类型 | 关联方式 |
+|------|------|----------|
+| `problems` — `testcases` | **1 : N** | 一道题包含多个测试用例，`testcases.problem_id` 外键引用 `problems.id` |
+| `problems` — `tags` | **M : N** | 通过中间表 `problem_tags`（`problem_id` + `tag_id`）拆解 |
+| `users` — `sessions` | 1 : N | 一个用户可有多端 Session（可选，MVP 可只保留一条） |
 
-### 5.3 不持久化的内容
+### 5.3 字段说明
+
+**problems**
+- `difficulty`：`easy | medium | hard`
+- `time_limit_ms` / `memory_limit_mb`：判题资源限制（与判题子系统 § 8.1 对齐）
+
+**testcases（1:N 独立表）**
+- `problem_id`：FK → `problems.id`，级联删除
+- `input` / `expected_output`：TEXT，存原始字符串（含换行）
+- `is_sample`：true 时随题目详情返回给前端展示；false 时仅服务端判题用
+- `score`：单用例分值（可选用，MVP 不强制要求总分计算）
+- 索引：`(problem_id, id)`，按题目拉取全部用例时走索引扫描
+
+**tags**
+- `name`：唯一，如 `"数组"`、`"双指针"`
+- 通过 `problem_tags` 联合主键 `(problem_id, tag_id)` 保证不重复关联
+
+**users**
+- `role`：`admin | user`
+- `password_hash`：bcrypt
+
+**sessions**（可选表；如改用 JWT + 无状态可省略）
+- `id`：随机 32 字节 hex，作为 Cookie 值
+- `expires_at`：TTL，到期由后端惰性清理
+
+### 5.4 1NF 规范化决策
+- **不再使用 JSON 数组字段**：原 `problems.tags` JSON 数组违反 1NF（字段非原子 + 重复组），已拆为 `tags` + `problem_tags` 两表，可按标签筛选、做 JOIN、统计。
+- **测试用例必为单独表**：题目与用例是典型 1:N，用例数量大且需要独立 CRUD、级联删除，不能内嵌到 `problems` 行内。
+- **可扩展性**：未来若加"题目分类 / 难度档位 / 出题人"等维度，均按 1NF 拆表，不在 `problems` 上堆 JSON。
+
+### 5.5 不持久化的内容
 - 用户提交的代码（仅在内存中流转）
 - 提交记录（每次提交的结果只在 HTTP 响应中返回）
 
@@ -484,6 +535,7 @@ minioj/
 - [ ] `docker-compose.yml` 骨架
 - [ ] backend `CMakeLists.txt` + cpp-httplib 接入
 - [ ] frontend 静态页骨架（首页 + 题目页占位）
+- [ ] **MySQL 建表 DDL**：`problems` / `testcases`（1:N）/ `tags` / `problem_tags` / `users` / `sessions`，全部符合 1NF，含索引与外键级联策略
 
 ### Phase 1：基础 HTTP 与题单展示
 - [ ] 后端：`/api/problems`、`/api/problems/:id` 实现
