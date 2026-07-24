@@ -852,11 +852,11 @@ EOF
 
 ### Phase 0：脚手架
 - [x] 仓库目录结构初始化
-- [ ] README 草案
-- [ ] `docker-compose.yml` 骨架
+- [x] README 草案
+- [x] `docker-compose.yml` 骨架
 - [x] backend `CMakeLists.txt` + cpp-httplib 接入
 - [x] 后端配置管理、日志封装与 MySQL 连接池
-- [ ] frontend 静态页骨架（首页 + 题目页占位）
+- [x] frontend 静态页骨架（首页 + 题目页占位）
 - [x] **MySQL 建表 DDL**：`problems` / `testcases`（1:N）/ `tags` / `problem_tags` / `users` / `sessions`，全部符合 1NF，含索引与外键级联策略
 
 ### Phase 1：基础 HTTP 与题单展示

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiniOJ — 题单</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/problem.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">MiniOJ</a>
+    <nav class="nav">
+      <a href="/">题单</a>
+      <a href="/login">登录</a>
+      <a href="/register">注册</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="filters">
+      <label>难度：
+        <select id="filter-difficulty">
+          <option value="">全部</option>
+          <option value="easy">简单</option>
+          <option value="medium">中等</option>
+          <option value="hard">困难</option>
+        </select>
+      </label>
+      <label>标签：
+        <select id="filter-tag">
+          <option value="">全部</option>
+        </select>
+      </label>
+    </section>
+
+    <section id="problem-list" class="problem-grid">
+      <p class="empty">题单加载中…</p>
+    </section>
+  </main>
+
+  <script type="module" src="/js/problem_list.js"></script>
+</body>
+</html>

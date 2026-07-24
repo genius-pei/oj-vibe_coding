@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题目详情 — MiniOJ</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/problem.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">MiniOJ</a>
+    <nav class="nav">
+      <a href="/">题单</a>
+      <a href="/login">登录</a>
+      <a href="/register">注册</a>
+    </nav>
+  </header>
+
+  <main class="problem-layout">
+    <article class="description">
+      <h1 id="problem-title">加载中…</h1>
+      <div id="problem-meta" class="meta"></div>
+      <div id="problem-body" class="markdown"></div>
+      <section id="problem-samples"></section>
+    </article>
+
+    <section class="editor-panel">
+      <div class="editor-toolbar">
+        <label>语言：
+          <select id="lang">
+            <option value="cpp" selected>C++</option>
+            <option value="c">C</option>
+          </select>
+        </label>
+        <button id="btn-template" type="button">加载模板</button>
+      </div>
+      <div id="editor" class="editor"></div>
+      <div class="editor-actions">
+        <button id="btn-submit" type="button">提交</button>
+        <button id="btn-reset" type="button">重置</button>
+      </div>
+      <section id="result" class="result"></section>
+    </section>
+  </main>
+
+  <script src="/vendor/marked.min.js"></script>
+  <script type="module" src="/vendor/codemirror/editor.js"></script>
+  <script type="module" src="/js/problem_detail.js"></script>
+  <script type="module" src="/js/editor.js"></script>
+</body>
+</html>
