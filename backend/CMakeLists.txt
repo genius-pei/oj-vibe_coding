@@ -24,6 +24,8 @@ add_library(minioj_core
     src/db/pool.cpp
     src/db/problem_dao.cpp
     src/http/problem_dto.cpp
+    src/http/admin_dto.cpp
+    src/http/admin_request.cpp
     src/http/handlers_public.cpp
 )
 
@@ -64,4 +66,8 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_problem_dto tests/test_problem_dto.cpp)
     target_link_libraries(minioj_test_problem_dto PRIVATE minioj_core GTest::gtest GTest::gtest_main)
     gtest_discover_tests(minioj_test_problem_dto)
+
+    add_executable(minioj_test_admin_request tests/test_admin_request.cpp)
+    target_link_libraries(minioj_test_admin_request PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_admin_request)
 endif()

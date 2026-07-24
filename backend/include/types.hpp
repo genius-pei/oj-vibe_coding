@@ -49,6 +49,26 @@ struct ProblemDetail {
     std::vector<Tag> tags;
 };
 
+struct AdminTestCase {
+    std::uint64_t id{0};
+    std::uint64_t problem_id{0};
+    std::string input;
+    std::string expected_output;
+    bool is_sample{false};
+    std::uint32_t score{0};
+};
+
+struct AdminProblemDetail {
+    std::uint64_t id{0};
+    std::string title;
+    std::string description_md;
+    Difficulty difficulty{Difficulty::easy};
+    std::uint32_t time_limit_ms{500};
+    std::uint32_t memory_limit_mb{256};
+    std::vector<Tag> tags;
+    std::vector<AdminTestCase> testcases;
+};
+
 struct ProblemFilters {
     std::optional<Difficulty> difficulty;
     std::optional<std::string> tag;
