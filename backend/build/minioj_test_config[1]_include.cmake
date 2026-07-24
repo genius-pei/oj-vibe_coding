@@ -1,0 +1,5 @@
+if(EXISTS "/root/project/oj-vibe_coding/backend/build/minioj_test_config[1]_tests.cmake")
+  include("/root/project/oj-vibe_coding/backend/build/minioj_test_config[1]_tests.cmake")
+else()
+  add_test(minioj_test_config_NOT_BUILT minioj_test_config_NOT_BUILT)
+endif()

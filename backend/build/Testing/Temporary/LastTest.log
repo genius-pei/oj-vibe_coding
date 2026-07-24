@@ -1,0 +1,597 @@
+Start testing: Jul 24 16:29 CST
+----------------------------------------------------------
+1/22 Testing: ConfigTest.DefaultsWhenFileMissing
+1/22 Test: ConfigTest.DefaultsWhenFileMissing
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.DefaultsWhenFileMissing" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.DefaultsWhenFileMissing" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.DefaultsWhenFileMissing
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.DefaultsWhenFileMissing
+[       OK ] ConfigTest.DefaultsWhenFileMissing (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.DefaultsWhenFileMissing" end time: Jul 24 16:29 CST
+"ConfigTest.DefaultsWhenFileMissing" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/22 Testing: ConfigTest.LoadsValuesFromDotenv
+2/22 Test: ConfigTest.LoadsValuesFromDotenv
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.LoadsValuesFromDotenv" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.LoadsValuesFromDotenv" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.LoadsValuesFromDotenv
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.LoadsValuesFromDotenv
+[       OK ] ConfigTest.LoadsValuesFromDotenv (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.LoadsValuesFromDotenv" end time: Jul 24 16:29 CST
+"ConfigTest.LoadsValuesFromDotenv" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/22 Testing: ConfigTest.EnvironmentOverridesDotenv
+3/22 Test: ConfigTest.EnvironmentOverridesDotenv
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.EnvironmentOverridesDotenv" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.EnvironmentOverridesDotenv" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.EnvironmentOverridesDotenv
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.EnvironmentOverridesDotenv
+[       OK ] ConfigTest.EnvironmentOverridesDotenv (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.EnvironmentOverridesDotenv" end time: Jul 24 16:29 CST
+"ConfigTest.EnvironmentOverridesDotenv" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/22 Testing: ConfigTest.IgnoresCommentsAndBlankLines
+4/22 Test: ConfigTest.IgnoresCommentsAndBlankLines
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.IgnoresCommentsAndBlankLines" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.IgnoresCommentsAndBlankLines" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.IgnoresCommentsAndBlankLines
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.IgnoresCommentsAndBlankLines
+[       OK ] ConfigTest.IgnoresCommentsAndBlankLines (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.IgnoresCommentsAndBlankLines" end time: Jul 24 16:29 CST
+"ConfigTest.IgnoresCommentsAndBlankLines" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/22 Testing: ConfigTest.TrimsWhitespaceAndQuotes
+5/22 Test: ConfigTest.TrimsWhitespaceAndQuotes
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.TrimsWhitespaceAndQuotes" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.TrimsWhitespaceAndQuotes" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.TrimsWhitespaceAndQuotes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.TrimsWhitespaceAndQuotes
+[       OK ] ConfigTest.TrimsWhitespaceAndQuotes (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.TrimsWhitespaceAndQuotes" end time: Jul 24 16:29 CST
+"ConfigTest.TrimsWhitespaceAndQuotes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/22 Testing: ConfigTest.RejectsMalformedLine
+6/22 Test: ConfigTest.RejectsMalformedLine
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsMalformedLine" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsMalformedLine" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsMalformedLine
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsMalformedLine
+[       OK ] ConfigTest.RejectsMalformedLine (2 ms)
+[----------] 1 test from ConfigTest (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (4 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsMalformedLine" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsMalformedLine" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/22 Testing: ConfigTest.RejectsEmptyKey
+7/22 Test: ConfigTest.RejectsEmptyKey
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsEmptyKey" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsEmptyKey" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsEmptyKey
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsEmptyKey
+[       OK ] ConfigTest.RejectsEmptyKey (1 ms)
+[----------] 1 test from ConfigTest (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsEmptyKey" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsEmptyKey" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/22 Testing: ConfigTest.RejectsInvalidPort
+8/22 Test: ConfigTest.RejectsInvalidPort
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsInvalidPort" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsInvalidPort" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsInvalidPort
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsInvalidPort
+[       OK ] ConfigTest.RejectsInvalidPort (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsInvalidPort" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsInvalidPort" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/22 Testing: ConfigTest.RejectsZeroPort
+9/22 Test: ConfigTest.RejectsZeroPort
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsZeroPort" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsZeroPort" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsZeroPort
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsZeroPort
+[       OK ] ConfigTest.RejectsZeroPort (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsZeroPort" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsZeroPort" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/22 Testing: ConfigTest.RejectsNonNumericPoolSize
+10/22 Test: ConfigTest.RejectsNonNumericPoolSize
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsNonNumericPoolSize" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsNonNumericPoolSize" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsNonNumericPoolSize
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsNonNumericPoolSize
+[       OK ] ConfigTest.RejectsNonNumericPoolSize (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsNonNumericPoolSize" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsNonNumericPoolSize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/22 Testing: ConfigTest.RejectsPoolSizeAboveLimit
+11/22 Test: ConfigTest.RejectsPoolSizeAboveLimit
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsPoolSizeAboveLimit" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsPoolSizeAboveLimit" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsPoolSizeAboveLimit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsPoolSizeAboveLimit
+[       OK ] ConfigTest.RejectsPoolSizeAboveLimit (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsPoolSizeAboveLimit" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsPoolSizeAboveLimit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/22 Testing: ConfigTest.RejectsInvalidBoolean
+12/22 Test: ConfigTest.RejectsInvalidBoolean
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsInvalidBoolean" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsInvalidBoolean" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsInvalidBoolean
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsInvalidBoolean
+[       OK ] ConfigTest.RejectsInvalidBoolean (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsInvalidBoolean" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsInvalidBoolean" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/22 Testing: ConfigTest.RejectsInvalidLogLevel
+13/22 Test: ConfigTest.RejectsInvalidLogLevel
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsInvalidLogLevel" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsInvalidLogLevel" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsInvalidLogLevel
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsInvalidLogLevel
+[       OK ] ConfigTest.RejectsInvalidLogLevel (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsInvalidLogLevel" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsInvalidLogLevel" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/22 Testing: ConfigTest.RejectsEmptyPassword
+14/22 Test: ConfigTest.RejectsEmptyPassword
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsEmptyPassword" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsEmptyPassword" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsEmptyPassword
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsEmptyPassword
+[       OK ] ConfigTest.RejectsEmptyPassword (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsEmptyPassword" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsEmptyPassword" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/22 Testing: ConfigTest.RejectsNegativeNumber
+15/22 Test: ConfigTest.RejectsNegativeNumber
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsNegativeNumber" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ConfigTest.RejectsNegativeNumber" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ConfigTest.RejectsNegativeNumber
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ConfigTest
+[ RUN      ] ConfigTest.RejectsNegativeNumber
+[       OK ] ConfigTest.RejectsNegativeNumber (2 ms)
+[----------] 1 test from ConfigTest (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ConfigTest.RejectsNegativeNumber" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsNegativeNumber" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/22 Testing: ParseLogLevelTest.RecognisesAllLevels
+16/22 Test: ParseLogLevelTest.RecognisesAllLevels
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=ParseLogLevelTest.RecognisesAllLevels" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseLogLevelTest.RecognisesAllLevels" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseLogLevelTest.RecognisesAllLevels
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseLogLevelTest
+[ RUN      ] ParseLogLevelTest.RecognisesAllLevels
+[       OK ] ParseLogLevelTest.RecognisesAllLevels (0 ms)
+[----------] 1 test from ParseLogLevelTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseLogLevelTest.RecognisesAllLevels" end time: Jul 24 16:29 CST
+"ParseLogLevelTest.RecognisesAllLevels" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/22 Testing: ParseLogLevelTest.RejectsUnknownLevel
+17/22 Test: ParseLogLevelTest.RejectsUnknownLevel
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=ParseLogLevelTest.RejectsUnknownLevel" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseLogLevelTest.RejectsUnknownLevel" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseLogLevelTest.RejectsUnknownLevel
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseLogLevelTest
+[ RUN      ] ParseLogLevelTest.RejectsUnknownLevel
+[       OK ] ParseLogLevelTest.RejectsUnknownLevel (0 ms)
+[----------] 1 test from ParseLogLevelTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ParseLogLevelTest.RejectsUnknownLevel" end time: Jul 24 16:29 CST
+"ParseLogLevelTest.RejectsUnknownLevel" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/22 Testing: LogLevelNameTest.MatchesParseInverse
+18/22 Test: LogLevelNameTest.MatchesParseInverse
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LogLevelNameTest.MatchesParseInverse" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"LogLevelNameTest.MatchesParseInverse" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = LogLevelNameTest.MatchesParseInverse
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from LogLevelNameTest
+[ RUN      ] LogLevelNameTest.MatchesParseInverse
+[       OK ] LogLevelNameTest.MatchesParseInverse (0 ms)
+[----------] 1 test from LogLevelNameTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"LogLevelNameTest.MatchesParseInverse" end time: Jul 24 16:29 CST
+"LogLevelNameTest.MatchesParseInverse" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/22 Testing: LoggerTest.EmitsFormattedLineAtOrAboveMinimum
+19/22 Test: LoggerTest.EmitsFormattedLineAtOrAboveMinimum
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LoggerTest.EmitsFormattedLineAtOrAboveMinimum" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"LoggerTest.EmitsFormattedLineAtOrAboveMinimum" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = LoggerTest.EmitsFormattedLineAtOrAboveMinimum
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from LoggerTest
+[ RUN      ] LoggerTest.EmitsFormattedLineAtOrAboveMinimum
+[       OK ] LoggerTest.EmitsFormattedLineAtOrAboveMinimum (1 ms)
+[----------] 1 test from LoggerTest (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"LoggerTest.EmitsFormattedLineAtOrAboveMinimum" end time: Jul 24 16:29 CST
+"LoggerTest.EmitsFormattedLineAtOrAboveMinimum" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/22 Testing: LoggerTest.SuppressesMessagesBelowMinimum
+20/22 Test: LoggerTest.SuppressesMessagesBelowMinimum
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LoggerTest.SuppressesMessagesBelowMinimum" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"LoggerTest.SuppressesMessagesBelowMinimum" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = LoggerTest.SuppressesMessagesBelowMinimum
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from LoggerTest
+[ RUN      ] LoggerTest.SuppressesMessagesBelowMinimum
+[       OK ] LoggerTest.SuppressesMessagesBelowMinimum (0 ms)
+[----------] 1 test from LoggerTest (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"LoggerTest.SuppressesMessagesBelowMinimum" end time: Jul 24 16:29 CST
+"LoggerTest.SuppressesMessagesBelowMinimum" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/22 Testing: LoggerTest.ErrorAlwaysEmitted
+21/22 Test: LoggerTest.ErrorAlwaysEmitted
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LoggerTest.ErrorAlwaysEmitted" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"LoggerTest.ErrorAlwaysEmitted" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = LoggerTest.ErrorAlwaysEmitted
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from LoggerTest
+[ RUN      ] LoggerTest.ErrorAlwaysEmitted
+[       OK ] LoggerTest.ErrorAlwaysEmitted (0 ms)
+[----------] 1 test from LoggerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"LoggerTest.ErrorAlwaysEmitted" end time: Jul 24 16:29 CST
+"LoggerTest.ErrorAlwaysEmitted" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/22 Testing: LoggerTest.UsesUtcTimestamp
+22/22 Test: LoggerTest.UsesUtcTimestamp
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LoggerTest.UsesUtcTimestamp" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"LoggerTest.UsesUtcTimestamp" start time: Jul 24 16:29 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = LoggerTest.UsesUtcTimestamp
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from LoggerTest
+[ RUN      ] LoggerTest.UsesUtcTimestamp
+[       OK ] LoggerTest.UsesUtcTimestamp (0 ms)
+[----------] 1 test from LoggerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"LoggerTest.UsesUtcTimestamp" end time: Jul 24 16:29 CST
+"LoggerTest.UsesUtcTimestamp" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 24 16:29 CST

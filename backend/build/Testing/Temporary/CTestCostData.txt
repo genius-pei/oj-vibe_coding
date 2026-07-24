@@ -1,0 +1,23 @@
+ConfigTest.DefaultsWhenFileMissing 1 0.00482658
+ConfigTest.LoadsValuesFromDotenv 2 0.00242858
+ConfigTest.EnvironmentOverridesDotenv 2 0.00479525
+ConfigTest.IgnoresCommentsAndBlankLines 2 0.00606476
+ConfigTest.TrimsWhitespaceAndQuotes 2 0.00605642
+ConfigTest.RejectsMalformedLine 2 0.00722252
+ConfigTest.RejectsEmptyKey 2 0.00312664
+ConfigTest.RejectsInvalidPort 2 0.00233699
+ConfigTest.RejectsZeroPort 2 0.00232341
+ConfigTest.RejectsNonNumericPoolSize 2 0.00229476
+ConfigTest.RejectsPoolSizeAboveLimit 2 0.00232206
+ConfigTest.RejectsInvalidBoolean 2 0.00231219
+ConfigTest.RejectsInvalidLogLevel 2 0.00232645
+ConfigTest.RejectsEmptyPassword 2 0.00235786
+ConfigTest.RejectsNegativeNumber 2 0.00326811
+ParseLogLevelTest.RecognisesAllLevels 2 0.00235593
+ParseLogLevelTest.RejectsUnknownLevel 2 0.00345184
+LogLevelNameTest.MatchesParseInverse 2 0.002074
+LoggerTest.EmitsFormattedLineAtOrAboveMinimum 2 0.00199
+LoggerTest.SuppressesMessagesBelowMinimum 2 0.00268093
+LoggerTest.ErrorAlwaysEmitted 2 0.00244564
+LoggerTest.UsesUtcTimestamp 2 0.0018515
+---

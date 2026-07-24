@@ -9,6 +9,13 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(MYSQLCLIENT REQUIRED IMPORTED_TARGET mysqlclient)
 find_package(Threads REQUIRED)
 
+option(MINIOJ_BUILD_TESTS "Build unit tests" ON)
+if(MINIOJ_BUILD_TESTS)
+    find_package(GTest REQUIRED)
+    include(GoogleTest)
+    enable_testing()
+endif()
+
 add_library(minioj_core
     src/util/config.cpp
     src/util/logger.cpp
@@ -34,3 +41,13 @@ target_compile_options(minioj_core PRIVATE
 
 add_executable(minioj-backend src/main.cpp)
 target_link_libraries(minioj-backend PRIVATE minioj_core)
+
+if(MINIOJ_BUILD_TESTS)
+    add_executable(minioj_test_config tests/test_config.cpp)
+    target_link_libraries(minioj_test_config PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_config)
+
+    add_executable(minioj_test_logger tests/test_logger.cpp)
+    target_link_libraries(minioj_test_logger PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_logger)
+endif()
