@@ -21,6 +21,7 @@ add_library(minioj_core
     src/util/logger.cpp
     src/util/types.cpp
     src/db/pool.cpp
+    src/db/problem_dao.cpp
     src/http/problem_dto.cpp
 )
 
