@@ -23,6 +23,7 @@ add_library(minioj_core
     src/db/pool.cpp
     src/db/problem_dao.cpp
     src/http/problem_dto.cpp
+    src/http/handlers_public.cpp
 )
 
 target_include_directories(minioj_core PUBLIC
