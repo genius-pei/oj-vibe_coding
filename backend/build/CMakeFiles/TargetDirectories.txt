@@ -1,0 +1,4 @@
+/root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_core.dir
+/root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj-backend.dir
+/root/project/oj-vibe_coding/backend/build/CMakeFiles/edit_cache.dir
+/root/project/oj-vibe_coding/backend/build/CMakeFiles/rebuild_cache.dir
