@@ -855,6 +855,9 @@ EOF
 
 ## 10. TODO 清单（分阶段）
 
+> **约定**：每个 Phase 全部完成后，必须同步更新本节勾选状态并提交 commit。
+> 部分完成的子项保留 `[ ]`，不勾选。
+
 ### Phase 0：脚手架
 - [x] 仓库目录结构初始化
 - [x] README 草案
@@ -880,11 +883,20 @@ EOF
 - [ ] `users` 表索引：username 唯一索引
 
 ### Phase 3：判题核心
-- [ ] worker 池（信号量）
-- [ ] 编译子进程（g++，3s 超时）
-- [ ] 运行子进程（rlimit：CPU/内存/输出）
-- [ ] 状态判定（AC/WA/TLE/CE/MLE/RE）
-- [ ] `/api/submissions` 端到端打通
+- [x] worker 池（信号量，8 并发，FIFO 队列，std::future 同步等待）
+- [x] 编译子进程（g++ `-O2 -std=c++17`，3s 超时，stderr 捕获）
+- [x] 运行子进程（rlimit `CPU/AS/FSIZE`，wall-clock 超时强杀，getrusage 度量 RSS）
+- [x] 状态判定（AC/WA/TLE/CE/MLE/RE，Diff 容许末尾空白）
+- [x] `/api/submissions` 端到端打通（`POST` handler → WorkerPool → Pipeline → JSON）
+
+### Phase 3.5：单元测试（伴随 Phase 3 落地）
+- [x] test_diff（10 例）：末尾空白容忍、内部精确匹配、大小写敏感
+- [x] test_worker_pool（9 例）：FIFO、并发提交、shutdown、异常传播
+- [x] test_compiler（5 例）：空 work dir、hello world、语法错误、自定义文件名
+- [x] test_runner（7 例）：echo / 死循环 TLE / 256MB vs 32MB → MLE / segfault → RE / spawn error
+- [x] test_submission_dto（6 例）：AC 最小字段 / WA 附 expected/actual / SubmissionResult 包裹
+- [x] test_pipeline（5 例）：全 AC / 第二用例 WA / CE 短路 / TLE / 空用例 RE
+- [x] test_submission_request（9 例）：合法 / lang=cli / 非法 lang / 缺字段 / 超大 code
 
 ### Phase 4：前端编辑器与判题结果
 - [ ] CodeMirror 6 接入 + 模板加载
@@ -892,10 +904,16 @@ EOF
 - [ ] 用例详情（WA 时显示 expected/actual）
 
 ### Phase 5：管理员后台
-- [ ] 登录接口（bcrypt + Session）
-- [ ] 后台页面：题单 CRUD
-- [ ] 题目编辑页（含用例管理）
-- [ ] 一键重置接口
+- [x] 后端：题目 CRUD（`GET/POST /api/admin/problems`、`GET/PUT/DELETE /api/admin/problems/:id`）
+- [x] 后端：创建/更新题目时一并管理 tags + testcases（在事务内 upsert）
+- [ ] 后端：单独的用例 CRUD（`POST/PUT/DELETE /api/admin/testcases[/:id]`）
+- [ ] 后端：登录接口（bcrypt + Session）— 鉴权留 `TODO(phase2)` 注释
+- [ ] 前端：后台登录页 / 后台管理页 / 题目编辑页（页面骨架尚未填充）
+- [ ] 一键重置接口（`POST /api/admin/reset`）
+
+### Phase 5.5：单元测试（伴随 Phase 5 落地）
+- [x] test_admin_request（20 例）：DTO 序列化 + parseProblemInput / parseTestCaseInput / parseJsonBody 全校验路径
+- [ ] test_problem_dao（集成测试，需 MySQL 真库）
 
 ### Phase 6：打磨与部署
 - [ ] Dockerfile（backend / frontend）
