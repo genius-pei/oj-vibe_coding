@@ -4,6 +4,7 @@
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_test_logger.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_test_types.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_test_problem_dto.dir
+/root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_test_admin_request.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/test.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/edit_cache.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/rebuild_cache.dir

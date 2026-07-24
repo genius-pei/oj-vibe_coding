@@ -8,3 +8,4 @@ include("/root/project/oj-vibe_coding/backend/build/minioj_test_config[1]_includ
 include("/root/project/oj-vibe_coding/backend/build/minioj_test_logger[1]_include.cmake")
 include("/root/project/oj-vibe_coding/backend/build/minioj_test_types[1]_include.cmake")
 include("/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto[1]_include.cmake")
+include("/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request[1]_include.cmake")
