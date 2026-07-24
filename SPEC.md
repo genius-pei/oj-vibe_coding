@@ -489,41 +489,361 @@ docker compose run --rm seed  # 首次执行：建表 + 写入 seed 题目 + 创
 
 ```
 minioj/
-├── docker-compose.yml
-├── README.md
-├── backend/
+├── docker-compose.yml              # 一键编排：mysql / backend / frontend / seed
+├── README.md                       # 启动步骤、默认账号、注册流程
+├── SPEC.md                         # 本文档
+├── .env.example                    # 环境变量样例（DB 密码、Session TTL 等）
+├── .gitignore
+│
+├── backend/                        # ─── C++17 后端（cpp-httplib）
 │   ├── CMakeLists.txt
-│   ├── Dockerfile
-│   ├── third_party/         # cpp-httplib 单头
+│   ├── Dockerfile                  # 多阶段构建：基础镜像含 g++ / mysql-client
+│   ├── third_party/
+│   │   ├── httplib.h               # cpp-httplib 单头
+│   │   └── bcrypt.h / bcrypt.cpp   # 密码哈希（如使用 libbcrypt）
+│   ├── include/                    # 公共头文件
+│   │   ├── common.hpp
+│   │   ├── config.hpp
+│   │   └── types.hpp
 │   ├── src/
-│   │   ├── main.cpp
-│   │   ├── http/            # 路由与中间件
-│   │   ├── db/              # MySQL 连接池与 DAO
-│   │   ├── judge/           # 判题核心 (worker/compile/run)
-│   │   ├── auth/            # Session + bcrypt
-│   │   └── util/            # 配置、日志、信号处理
+│   │   ├── main.cpp                # 入口：读配置 → 起 HTTP → 注册路由
+│   │   ├── http/                   # 路由 & 中间件
+│   │   │   ├── router.hpp / .cpp   # 路由表集中注册
+│   │   │   ├── middleware.hpp / .cpp # Session 解析、CORS、错误处理
+│   │   │   ├── handlers_public.cpp # /api/problems、/api/submissions
+│   │   │   ├── handlers_auth.cpp   # /api/auth/{register,login,logout,me}
+│   │   │   └── handlers_admin.cpp  # /api/admin/*
+│   │   ├── db/                     # 数据访问层
+│   │   │   ├── pool.hpp / .cpp     # MySQL 连接池
+│   │   │   ├── problem_dao.cpp     # problems / testcases / tags / problem_tags
+│   │   │   ├── user_dao.cpp        # users / sessions
+│   │   │   └── migrate.cpp         # 启动时校验表结构
+│   │   ├── judge/                  # 判题核心
+│   │   │   ├── worker_pool.cpp     # 信号量 ≤8 + FIFO 队列
+│   │   │   ├── compiler.cpp        # g++ 编译子进程（3s 超时）
+│   │   │   ├── runner.cpp          # rlimit 沙箱 + 跑单个用例
+│   │   │   ├── diff.cpp            # 输出比对（AC / WA）
+│   │   │   └── pipeline.cpp        # 编排：编译 → 遍历用例 → 汇总
+│   │   ├── auth/                   # 鉴权
+│   │   │   ├── session.cpp         # Session 创建 / 校验 / 销毁
+│   │   │   ├── password.cpp        # bcrypt 封装
+│   │   │   └── validator.cpp       # 用户名 / 密码强度校验
+│   │   └── util/                   # 工具
+│   │       ├── config.cpp          # 读 .env / 环境变量
+│   │       ├── logger.cpp          # 简易日志
+│   │       └── signal.cpp          # SIGCHLD / SIGTERM 处理
+│   ├── sql/
+│   │   ├── schema.sql              # 建表 DDL：problems / testcases / tags / problem_tags / users / sessions（1NF）
+│   │   └── seed.sql                # 内置 admin 与种子标签
 │   ├── seed/
-│   │   └── problems.json    # 内置题目
-│   └── scripts/
-│       └── seed.cpp
-└── frontend/
-    ├── Dockerfile
-    ├── nginx.conf
+│   │   ├── problems.json           # 内置题目（含用例 + 标签名数组）
+│   │   └── tags.json               # 内置标签字典
+│   ├── scripts/
+│   │   └── seed.cpp                # 独立 seed 进程（读 JSON → 写入 DB）
+│   └── tests/                      # 单元 / 集成测试（可选）
+│       ├── test_diff.cpp
+│       └── test_validator.cpp
+│
+└── frontend/                       # ─── 静态前端（Nginx）
+    ├── Dockerfile                  # 基于 nginx:alpine，COPY public/
+    ├── nginx.conf                  # 反代 /api → backend:8080
     └── public/
-        ├── index.html          # 题目列表页
-        ├── problem.html        # 题目详情页
-        ├── login.html          # 普通用户登录页
-        ├── register.html       # 普通用户注册页
+        ├── index.html              # 题目列表页（卡片网格 + 难度/标签筛选）
+        ├── problem.html            # 题目详情页（描述 / 编辑器 / 结果）
+        ├── login.html              # 普通用户登录页
+        ├── register.html           # 普通用户注册页
         ├── admin/
-        │   ├── login.html      # 管理员登录页
-        │   ├── index.html      # 后台管理页
-        │   └── edit.html       # 题目编辑页
+        │   ├── login.html          # 管理员登录页
+        │   ├── index.html          # 后台管理页（题库表格 + CRUD + 重置）
+        │   └── edit.html           # 题目编辑页（描述 / 用例 / 标签）
         ├── css/
+        │   ├── common.css          # 全局变量、Header、按钮
+        │   ├── theme.css           # 暗色主题（#1a1a1a / #ffa116）
+        │   ├── problem.css         # 题目页布局
+        │   ├── auth.css            # 登录 / 注册卡片
+        │   └── admin.css           # 后台表格 / 表单
         ├── js/
-        │   ├── api.js          # API 封装（含 token / cookie 处理）
-        │   ├── auth.js         # 登录态读写 & Header 切换
-        │   └── ...
+        │   ├── api.js              # fetch 封装，自动带 cookie、统一错误处理
+        │   ├── auth.js             # /api/auth/me 探测、Header 登录态切换
+        │   ├── problem_list.js     # 列表页卡片渲染 + 筛选
+        │   ├── problem_detail.js   # 题目详情 + 提交 + 结果渲染
+        │   ├── editor.js           # CodeMirror 6 初始化 / 模板加载
+        │   ├── register.js         # 注册表单实时校验 + 提交
+        │   ├── login.js            # 登录表单提交
+        │   ├── admin_list.js       # 后台题库表格 + CRUD
+        │   └── admin_edit.js       # 题目编辑（含用例增删）
+        ├── vendor/                 # 本地化的第三方库（避免 CDN 依赖）
+        │   ├── marked.min.js       # Markdown 渲染
+        │   └── codemirror/         # CodeMirror 6 bundle
+        │       ├── editor.js
+        │       ├── cpp.js
+        │       └── ...
         └── assets/
+            ├── logo.svg
+            └── favicon.ico
+```
+
+### 9.4 依赖与安装指令
+
+#### 9.4.1 依赖总览
+
+| 组件 | 用途 | 版本建议 | 必需 | 安装位置 |
+|------|------|----------|------|----------|
+| **Docker Engine** | 容器运行时 | ≥ 24.0 | 容器化路径必需 | 宿主机 |
+| **Docker Compose** | 一键编排 | v2（`docker compose`） | 容器化路径必需 | 宿主机 |
+| **MySQL 8.0** | 题库 / 用户 / Session 持久化 | 8.0.x | 容器内自带，裸机需装 | 容器 / 宿主机 |
+| **Nginx** | 托管前端 + 反代 `/api` | ≥ 1.22 (alpine) | 容器内自带 | 容器内 |
+| **g++** | 编译后端二进制 + 判题子进程 | ≥ 9（C++17 完整支持） | 后端必需 | 容器 / 宿主机 |
+| **CMake** | 后端构建 | ≥ 3.16 | 后端构建必需 | 容器 / 宿主机 |
+| **make / ninja** | 实际构建工具 | 系统默认即可 | 后端构建必需 | 容器 / 宿主机 |
+| **libmysqlclient-dev** | MySQL C API | 与服务端版本匹配 | 后端连库必需 | 容器 / 宿主机 |
+| **libssl-dev** | cpp-httplib HTTPS 可选 | OpenSSL ≥ 1.1 | 可选（HTTPS 部署时） | 容器 / 宿主机 |
+| **bcrypt 实现** | 用户密码哈希 | libbcrypt 或 vendored 单头 | 注册/登录必需 | 后端 third_party |
+| **nlohmann/json** | JSON 解析 | ≥ 3.11 | 后端 API 必需 | 后端 third_party / vcpkg |
+| **cpp-httplib** | HTTP 服务 | 最新单头 | 后端必需 | 后端 third_party（vendored） |
+| **marked.js** | 前端 Markdown 渲染 | ≥ 12 | 前端必需 | 前端 vendor |
+| **CodeMirror 6** | 代码编辑器 | ≥ 6.x | 前端必需 | 前端 vendor |
+
+> 标"容器内自带"表示 `docker compose up -d` 自动从镜像拉取，宿主机无需安装。
+
+#### 9.4.2 容器化路径（推荐，Ubuntu 优先 apt）
+
+宿主机**仅需** Docker + Compose，其余工具链全部在 `backend/Dockerfile` 与官方镜像内构建。
+
+> **优先策略**：默认走 **Ubuntu 官方 APT 源里的 `docker.io` 包**，避免访问 `download.docker.com`（代理不稳定时该外网源常断）。如必须使用 Docker 官方较新版，再切到 § 9.4.7 的镜像源。
+
+**方式 A：Ubuntu 官方 apt 源（推荐，几乎零外网）**
+
+```bash
+sudo apt-get update
+sudo apt-get install -y docker.io docker-compose-v2   # Ubuntu 22.04+ 包名
+# Ubuntu 20.04：sudo apt-get install -y docker.io docker-compose
+sudo usermod -aG docker $USER                         # 重新登录后免 sudo
+newgrp docker
+
+# 验证
+docker --version                # 20.10.x 起步，足以本项目使用
+docker compose version          # v2.x
+```
+
+**方式 B：Docker 官方源（如确需较新版本，请走 § 9.4.7 的镜像源，避免直接访问官方域名）**
+
+```bash
+sudo apt-get install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+# ↓↓↓ 此处替换为 § 9.4.7 的镜像源域名 ↓↓↓
+curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu/gpg \
+  | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+启动项目（一条命令搞定）：
+
+```bash
+docker compose up -d            # 拉镜像、构建后端、起 mysql + backend + frontend
+docker compose run --rm seed    # 首次：建表 + 灌种子题 + 创建 admin
+```
+
+#### 9.4.3 裸机 / 开发机路径（不通过 Docker）
+
+##### Ubuntu / Debian（apt 一行装齐）
+
+> 所有包均在 Ubuntu 官方源可达，**无需第三方 PPA**。Ubuntu 22.04+ 包名使用 `default-libmysqlclient-dev`。
+
+```bash
+sudo apt-get update
+sudo apt-get install -y \
+    build-essential cmake ninja-build pkg-config \
+    g++ \
+    default-libmysqlclient-dev libssl-dev \
+    default-mysql-client \
+    nginx
+# Ubuntu 20.04：把 default-libmysqlclient-dev / default-mysql-client 换成 libmysqlclient-dev / mysql-client
+```
+
+##### RHEL / CentOS / Fedora
+
+```bash
+# RHEL 9 / Fedora
+sudo dnf install -y \
+    gcc-c++ cmake ninja-build pkgconfig \
+    openssl-devel \
+    mysql mysql-devel \
+    nginx
+
+# CentOS 7（需要 EPEL；MySQL 官方源需外网，建议改用 MariaDB）
+sudo yum install -y epel-release
+sudo yum install -y gcc-c++ cmake3 mariadb-devel openssl-devel nginx
+sudo alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 30
+```
+
+##### macOS（Homebrew + Apple Silicon，仅供本机开发参考）
+
+```bash
+brew install cmake ninja pkg-config mysql-client openssl nginx
+brew install mysql && brew services start mysql
+```
+
+#### 9.4.4 后端 C++ 第三方库（**默认 vendored，零网络**）
+
+> 项目自带 vendored 目录，clone 仓库后**不需再下载任何 C++ 依赖**。仅在网络通畅且想升级库版本时才走 (b)。
+
+**(a) Vendored（默认，推荐）**
+
+仓库根目录的 `backend/third_party/` 已托管：
+
+| 库 | 路径 | 说明 |
+|----|------|------|
+| cpp-httplib | `third_party/httplib.h` | 单头 |
+| nlohmann/json | `third_party/json.hpp` | 单头 |
+| bcrypt | `third_party/bcrypt.{h,cpp}` | 单源实现 |
+
+`CMakeLists.txt` 已通过 `target_include_directories(backend third_party)` 直接引用，**离线即可编译**。
+
+如需手动替换最新版本（可选，需要稳定代理）：
+
+```bash
+cd backend/third_party
+curl -fL https://raw.githubusercontent.com/yhirose/cpp-httplib/master/httplib.h -o httplib.h
+curl -fL https://raw.githubusercontent.com/nlohmann/json/develop/single_include/nlohmann/json.hpp -o json.hpp
+```
+
+**(b) vcpkg（可选，需要稳定代理 + git）**
+
+```bash
+sudo apt-get install -y git curl zip unzip tar pkg-config   # apt 装齐前置
+git clone https://github.com/microsoft/vcpkg ~/vcpkg
+~/vcpkg/bootstrap-vcpkg.sh
+echo 'export VCPKG_ROOT=$HOME/vcpkg' >> ~/.bashrc
+
+~/vcpkg/vcpkg install nlohmann-json libmysqlclient cpp-httplib
+
+cmake -S backend -B backend/build \
+    -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
+    -DCMAKE_BUILD_TYPE=Release
+cmake --build backend/build -j
+```
+
+#### 9.4.5 前端第三方库（**默认 vendored，零网络**）
+
+> `frontend/public/vendor/` 目录随仓库一起交付，clone 后即可离线使用，不依赖任何 CDN。**正常情况下不需要执行下面任何命令**。
+
+如首次 clone 后 `vendor/` 为空（极少见），或需要升级版本，按需选用：
+
+```bash
+# marked.js（备用脚本）
+curl -fL https://cdn.jsdelivr.net/npm/marked/marked.min.js \
+  -o frontend/public/vendor/marked.min.js
+
+# CodeMirror 6（备用脚本）
+mkdir -p frontend/public/vendor/codemirror && cd $_
+npm pack codemirror @codemirror/lang-cpp @codemirror/theme-one-dark
+for t in *.tgz; do tar -xf "$t" && mv package/* . && rm -rf package; rm "$t"; done
+```
+
+页面引用统一使用**相对路径**，避免 CDN 依赖：
+
+```html
+<script src="/vendor/marked.min.js"></script>
+<script type="module" src="/vendor/codemirror/editor.js"></script>
+```
+
+#### 9.4.6 验证安装
+
+```bash
+# 后端工具链
+g++ --version          # 期望 ≥ 9
+cmake --version        # 期望 ≥ 3.16
+mysql --version        # 客户端可用
+
+# 数据库连通（容器化路径下，等 mysql 就绪后）
+docker compose exec mysql mysqladmin ping -h localhost -uroot -p"$MYSQL_ROOT_PASSWORD"
+
+# 一键冒烟（完整启动后）
+curl -fsSL http://localhost/                  # 应返回题单页 HTML
+curl -fsSL http://localhost/api/problems | jq # 应返回 JSON 数组
+```
+
+#### 9.4.7 国内 / 镜像源替换（Ubuntu + Docker）
+
+> 当代理不稳定或默认源被墙时，切换到国内镜像。所有操作都在 Ubuntu 官方源的可达范围内完成。
+
+**(a) Ubuntu APT 源 → 清华源**
+
+```bash
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+sudo sed -i 's|http://archive.ubuntu.com|https://mirrors.tuna.tsinghua.edu.cn|g; \
+             s|http://security.ubuntu.com|https://mirrors.tuna.tsinghua.edu.cn|g' \
+             /etc/apt/sources.list
+sudo apt-get update
+```
+
+也可用中科大 `mirrors.ustc.edu.cn/ubuntu` 或阿里云 `mirrors.aliyun.com/ubuntu`。
+
+**(b) Docker 镜像源（用于 `docker pull` 加速）**
+
+新建/编辑 `/etc/docker/daemon.json`：
+
+```json
+{
+  "registry-mirrors": [
+    "https://docker.mirrors.tuna.tsinghua.edu.cn",
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com"
+  ]
+}
+```
+
+```bash
+sudo systemctl restart docker
+docker info | grep -A1 "Registry Mirrors"   # 确认生效
+```
+
+**(c) MySQL 镜像拉取（如使用自建 MySQL 容器而非官方）**
+
+`docker-compose.yml` 中镜像改写为：
+
+```yaml
+mysql:
+  image: mysql:8.0
+  # 若 docker.io 拉取慢，可在 daemon.json 里加 mirrors 后重试
+```
+
+#### 9.4.8 代理不稳定的兜底策略
+
+| 场景 | 现象 | 兜底方案 |
+|------|------|----------|
+| `apt-get update` 超时 | 默认源被墙 / 慢 | § 9.4.7(a) 切清华源 |
+| `download.docker.com` 不可达 | Docker 官方源失败 | § 9.4.2 方式 A（apt 装 `docker.io`）或 § 9.4.7(b) 用清华 Docker 镜像 |
+| `docker pull mysql:8.0` 拉镜像慢 | 跨国网络差 | § 9.4.7(b) 配 `registry-mirrors` |
+| `curl github.com` 失败 | 无法 `git clone` vcpkg / 下 httplib | § 9.4.4(a) 直接用 vendored，零网络 |
+| `npm pack codemirror` 失败 | 前端 vendor 缺失 | § 9.4.5 已默认随仓库交付，**无需执行该命令** |
+| 仅 HTTP 代理可用，无科学上网 | 多数外网断 | 给 `apt` / `docker` / `curl` / `git` 设 `http_proxy` / `https_proxy` 环境变量；或仅使用 `mirrors.tuna.tsinghua.edu.cn` 域内资源 |
+| 完全离线 | 无任何外网 | 提前在有网机器 `apt-get download` + `docker save` 打包，复制到目标机 `dpkg -i` / `docker load` |
+
+**给 apt / docker 配置 HTTP 代理（一次性）**
+
+```bash
+sudo mkdir -p /etc/systemd/system/docker.service.d
+sudo tee /etc/systemd/system/docker.service.d/proxy.conf <<'EOF'
+[Service]
+Environment="HTTP_PROXY=http://your-proxy:port"
+Environment="HTTPS_PROXY=http://your-proxy:port"
+Environment="NO_PROXY=localhost,127.0.0.1"
+EOF
+sudo systemctl daemon-reload && sudo systemctl restart docker
+
+# apt 代理（apt 本身不走环境变量，需写配置）
+sudo tee /etc/apt/apt.conf.d/95proxy <<'EOF'
+Acquire::http::Proxy  "http://your-proxy:port";
+Acquire::https::Proxy "http://your-proxy:port";
+EOF
 ```
 
 ---
