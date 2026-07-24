@@ -22,10 +22,15 @@
 | 依赖 | 版本或实现 | 文件路径 | 用途 |
 |---|---|---|---|
 | cpp-httplib | 0.18.3 | `backend/third_party/httplib.h` | HTTP 服务 |
-| nlohmann/json | 3.11.3 | `backend/third_party/json.hpp` | JSON 解析与序列化 |
 | bcrypt 封装 | 基于系统 `crypt(3)` 的 bcrypt `$2b$` | `backend/third_party/bcrypt.h`, `backend/third_party/bcrypt.cpp` | 密码生成与验证 |
 
 使用 bcrypt 封装时，链接参数需要包含 `-lcrypt`，多线程程序应同时包含 `-pthread`。
+
+## 后端系统依赖（pkg-config 链接，不 vendored）
+
+| 依赖 | 当前版本 | pkg-config 名 | 用途 |
+|---|---:|---|---|
+| jsoncpp | 1.9.5 | `jsoncpp` | JSON 解析与序列化 |
 
 ## 前端 Vendored 依赖
 
@@ -49,7 +54,7 @@
 
 ## 验证状态
 
-- cpp-httplib 与 nlohmann/json 已通过 C++17 编译验证。
+- cpp-httplib 与 jsoncpp 已通过 C++17 编译验证。
 - bcrypt 已通过密码生成、正确密码验证和错误密码拒绝测试。
 - Docker daemon 和 Docker Compose 可用。
-- MySQL、OpenSSL 开发头文件及 pkg-config 元数据可用。
+- MySQL、OpenSSL、jsoncpp 开发头文件及 pkg-config 元数据可用。

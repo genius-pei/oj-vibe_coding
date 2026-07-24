@@ -597,9 +597,9 @@ minioj/
 | **CMake** | 后端构建 | ≥ 3.16 | 后端构建必需 | 容器 / 宿主机 |
 | **make / ninja** | 实际构建工具 | 系统默认即可 | 后端构建必需 | 容器 / 宿主机 |
 | **libmysqlclient-dev** | MySQL C API | 与服务端版本匹配 | 后端连库必需 | 容器 / 宿主机 |
-| **libssl-dev** | cpp-httplib HTTPS 可选 | OpenSSL ≥ 1.1 | 可选（HTTPS 部署时） | 容器 / 宿主机 |
+| **libjsoncpp-dev** | JSON 解析与序列化 | ≥ 1.9（pkg-config 提供 `jsoncpp`） | 后端 API 必需 | 容器 / 宿主机 |
+| **libssl-dev** | cpp-httplib HTTPS 可选 | OpenSSL ≥ 1.1 | 可选（HTTPS 部署时） | 宿主机 |
 | **bcrypt 实现** | 用户密码哈希 | libbcrypt 或 vendored 单头 | 注册/登录必需 | 后端 third_party |
-| **nlohmann/json** | JSON 解析 | ≥ 3.11 | 后端 API 必需 | 后端 third_party / vcpkg |
 | **cpp-httplib** | HTTP 服务 | 最新单头 | 后端必需 | 后端 third_party（vendored） |
 | **marked.js** | 前端 Markdown 渲染 | ≥ 12 | 前端必需 | 前端 vendor |
 | **CodeMirror 6** | 代码编辑器 | ≥ 6.x | 前端必需 | 前端 vendor |
@@ -661,7 +661,7 @@ sudo apt-get update
 sudo apt-get install -y \
     build-essential cmake ninja-build pkg-config \
     g++ \
-    default-libmysqlclient-dev libssl-dev \
+    default-libmysqlclient-dev libjsoncpp-dev libssl-dev \
     default-mysql-client \
     nginx
 # Ubuntu 20.04：把 default-libmysqlclient-dev / default-mysql-client 换成 libmysqlclient-dev / mysql-client
@@ -674,47 +674,51 @@ sudo apt-get install -y \
 sudo dnf install -y \
     gcc-c++ cmake ninja-build pkgconfig \
     openssl-devel \
+    jsoncpp-devel \
     mysql mysql-devel \
     nginx
 
 # CentOS 7（需要 EPEL；MySQL 官方源需外网，建议改用 MariaDB）
 sudo yum install -y epel-release
-sudo yum install -y gcc-c++ cmake3 mariadb-devel openssl-devel nginx
+sudo yum install -y gcc-c++ cmake3 jsoncpp-devel mariadb-devel openssl-devel nginx
 sudo alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 30
 ```
 
 ##### macOS（Homebrew + Apple Silicon，仅供本机开发参考）
 
 ```bash
-brew install cmake ninja pkg-config mysql-client openssl nginx
+brew install cmake ninja pkg-config mysql-client openssl nginx jsoncpp
 brew install mysql && brew services start mysql
 ```
 
-#### 9.4.4 后端 C++ 第三方库（**默认 vendored，零网络**）
+#### 9.4.4 后端 C++ 第三方库
 
-> 项目自带 vendored 目录，clone 仓库后**不需再下载任何 C++ 依赖**。仅在网络通畅且想升级库版本时才走 (b)。
+后端 C++ 依赖采用「**Vendored 单头 + 系统 pkg-config**」混合策略：
 
-**(a) Vendored（默认，推荐）**
+- 单头库（`cpp-httplib`、`bcrypt`）随仓库 `third_party/` 交付，零网络依赖
+- JSON 解析使用 **jsoncpp**，通过系统包提供，由 CMake 的 `pkg_check_modules(JSONCPP REQUIRED ...)` 链接（详见 §9.4.1 / §9.4.3 中 `libjsoncpp-dev` / `jsoncpp-devel` 安装方式）
+
+**(a) Vendored 单头（默认，零网络）**
 
 仓库根目录的 `backend/third_party/` 已托管：
 
 | 库 | 路径 | 说明 |
 |----|------|------|
 | cpp-httplib | `third_party/httplib.h` | 单头 |
-| nlohmann/json | `third_party/json.hpp` | 单头 |
 | bcrypt | `third_party/bcrypt.{h,cpp}` | 单源实现 |
 
-`CMakeLists.txt` 已通过 `target_include_directories(backend third_party)` 直接引用，**离线即可编译**。
+`CMakeLists.txt` 已通过 `target_include_directories(... third_party)` 直接引用，**离线即可编译**。
 
 如需手动替换最新版本（可选，需要稳定代理）：
 
 ```bash
 cd backend/third_party
 curl -fL https://raw.githubusercontent.com/yhirose/cpp-httplib/master/httplib.h -o httplib.h
-curl -fL https://raw.githubusercontent.com/nlohmann/json/develop/single_include/nlohmann/json.hpp -o json.hpp
 ```
 
 **(b) vcpkg（可选，需要稳定代理 + git）**
+
+> 当前项目仅 vendored 上述两个单头库，其余依赖（MySQL 客户端、jsoncpp）走系统包；vcpkg 路径仅在你想把 jsoncpp / MySQL 也通过 vcpkg 链接时使用。
 
 ```bash
 sudo apt-get install -y git curl zip unzip tar pkg-config   # apt 装齐前置
@@ -722,7 +726,8 @@ git clone https://github.com/microsoft/vcpkg ~/vcpkg
 ~/vcpkg/bootstrap-vcpkg.sh
 echo 'export VCPKG_ROOT=$HOME/vcpkg' >> ~/.bashrc
 
-~/vcpkg/vcpkg install nlohmann-json libmysqlclient cpp-httplib
+# 仅当希望通过 vcpkg 提供 jsoncpp / libmysqlclient 时安装，否则继续用 §9.4.3 的系统包
+~/vcpkg/vcpkg install jsoncpp libmysqlclient
 
 cmake -S backend -B backend/build \
     -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
