@@ -27,6 +27,7 @@ add_library(minioj_core
     src/http/admin_dto.cpp
     src/http/admin_request.cpp
     src/http/handlers_public.cpp
+    src/http/handlers_admin.cpp
 )
 
 target_include_directories(minioj_core PUBLIC

@@ -1,5 +1,6 @@
 #include "config.hpp"
 #include "db/pool.hpp"
+#include "http/handlers_admin.hpp"
 #include "http/handlers_public.hpp"
 #include "logger.hpp"
 
@@ -21,6 +22,7 @@ int main() {
         server.set_write_timeout(5, 0);
 
         minioj::http::registerPublicRoutes(server, pool);
+        minioj::http::registerAdminRoutes(server, pool);
 
         const std::string host = config.http.host;
         const int port = static_cast<int>(config.http.port);
