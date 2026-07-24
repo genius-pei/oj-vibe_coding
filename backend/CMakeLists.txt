@@ -32,6 +32,7 @@ add_library(minioj_core
     src/http/admin_dto.cpp
     src/http/admin_request.cpp
     src/http/submission_dto.cpp
+    src/http/submission_request.cpp
     src/http/handlers_public.cpp
     src/http/handlers_admin.cpp
 )
@@ -101,4 +102,8 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_pipeline tests/test_pipeline.cpp)
     target_link_libraries(minioj_test_pipeline PRIVATE minioj_core GTest::gtest GTest::gtest_main Threads::Threads)
     gtest_discover_tests(minioj_test_pipeline)
+
+    add_executable(minioj_test_submission_request tests/test_submission_request.cpp)
+    target_link_libraries(minioj_test_submission_request PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_submission_request)
 endif()

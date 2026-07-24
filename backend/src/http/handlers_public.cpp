@@ -2,13 +2,19 @@
 
 #include "db/problem_dao.hpp"
 #include "http/problem_dto.hpp"
+#include "http/submission_dto.hpp"
+#include "http/submission_request.hpp"
+#include "judge/pipeline.hpp"
 #include "logger.hpp"
 #include "types.hpp"
 
 #include "httplib.h"
 #include <json/json.h>
 
+#include <chrono>
 #include <cstdint>
+#include <future>
+#include <optional>
 #include <stdexcept>
 #include <string>
 
@@ -97,14 +103,72 @@ void getProblemHandler(db::ConnectionPool& pool, const httplib::Request& req, ht
     }
 }
 
+judge::PipelineInput buildPipelineInput(const AdminProblemDetail& problem, const SubmissionInput& submission) {
+    judge::PipelineInput input;
+    input.source_code = submission.source_code;
+    for (const auto& admin_tc : problem.testcases) {
+        TestCase tc;
+        tc.id = admin_tc.id;
+        tc.problem_id = admin_tc.problem_id;
+        tc.input = admin_tc.input;
+        tc.expected_output = admin_tc.expected_output;
+        tc.is_sample = admin_tc.is_sample;
+        input.testcases.push_back(std::move(tc));
+    }
+    input.run_timeout = std::chrono::milliseconds(problem.time_limit_ms);
+    input.memory_limit_bytes = static_cast<std::uint64_t>(problem.memory_limit_mb) * 1024 * 1024;
+    return input;
 }
 
-void registerPublicRoutes(httplib::Server& server, db::ConnectionPool& pool) {
+void submitHandler(db::ConnectionPool& pool, judge::WorkerPool& judge_pool, const httplib::Request& req, httplib::Response& res) {
+    SubmissionInput submission;
+    try {
+        submission = parseSubmissionInput(req.body);
+    } catch (const std::invalid_argument& error) {
+        writeError(res, 400, error.what());
+        return;
+    }
+
+    std::optional<AdminProblemDetail> full;
+    try {
+        full = db::getFullProblem(pool, submission.problem_id);
+    } catch (const std::exception& error) {
+        writeError(res, 500, std::string("database error: ") + error.what());
+        return;
+    }
+    if (!full.has_value()) {
+        writeError(res, 404, "problem not found");
+        return;
+    }
+
+    if (full->testcases.empty()) {
+        writeError(res, 400, "problem has no testcases");
+        return;
+    }
+
+    try {
+        const judge::PipelineInput pipeline_input = buildPipelineInput(*full, submission);
+        auto future = judge_pool.submit([pipeline_input]() {
+            return judge::runPipeline(pipeline_input);
+        });
+        const SubmissionResult result = future.get();
+        writeJson(res, 200, dto::toJson(result));
+    } catch (const std::exception& error) {
+        writeError(res, 500, std::string("judge error: ") + error.what());
+    }
+}
+
+}
+
+void registerPublicRoutes(httplib::Server& server, db::ConnectionPool& pool, judge::WorkerPool& judge_pool) {
     server.Get("/api/problems", [&pool](const httplib::Request& req, httplib::Response& res) {
         listProblemsHandler(pool, req, res);
     });
     server.Get(R"(/api/problems/(\d+))", [&pool](const httplib::Request& req, httplib::Response& res) {
         getProblemHandler(pool, req, res);
+    });
+    server.Post("/api/submissions", [&pool, &judge_pool](const httplib::Request& req, httplib::Response& res) {
+        submitHandler(pool, judge_pool, req, res);
     });
 }
 

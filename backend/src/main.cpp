@@ -2,6 +2,7 @@
 #include "db/pool.hpp"
 #include "http/handlers_admin.hpp"
 #include "http/handlers_public.hpp"
+#include "judge/worker_pool.hpp"
 #include "logger.hpp"
 
 #include "httplib.h"
@@ -16,12 +17,16 @@ int main() {
         minioj::Logger logger(minioj::parseLogLevel(config.logging.level), std::cout);
         minioj::db::ConnectionPool pool(config.database, logger);
 
+        constexpr std::size_t kJudgeWorkers = 8;
+        minioj::judge::WorkerPool judge_pool(kJudgeWorkers);
+        logger.info("backend", "judge worker pool started with " + std::to_string(kJudgeWorkers) + " workers");
+
         httplib::Server server;
         server.set_keep_alive_max_count(20);
         server.set_read_timeout(5, 0);
         server.set_write_timeout(5, 0);
 
-        minioj::http::registerPublicRoutes(server, pool);
+        minioj::http::registerPublicRoutes(server, pool, judge_pool);
         minioj::http::registerAdminRoutes(server, pool);
 
         const std::string host = config.http.host;
@@ -30,8 +35,11 @@ int main() {
 
         if (!server.listen(host, port)) {
             logger.error("backend", "failed to bind HTTP port");
+            judge_pool.shutdown();
             return 1;
         }
+
+        judge_pool.shutdown();
         return 0;
     } catch (const std::exception& error) {
         std::cerr << "backend startup failed: " << error.what() << '\n';
