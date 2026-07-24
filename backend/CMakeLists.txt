@@ -21,6 +21,7 @@ add_library(minioj_core
     src/util/logger.cpp
     src/util/types.cpp
     src/db/pool.cpp
+    src/http/problem_dto.cpp
 )
 
 target_include_directories(minioj_core PUBLIC
@@ -55,4 +56,8 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_types tests/test_types.cpp)
     target_link_libraries(minioj_test_types PRIVATE minioj_core GTest::gtest GTest::gtest_main)
     gtest_discover_tests(minioj_test_types)
+
+    add_executable(minioj_test_problem_dto tests/test_problem_dto.cpp)
+    target_link_libraries(minioj_test_problem_dto PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_problem_dto)
 endif()
