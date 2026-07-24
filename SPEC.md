@@ -851,11 +851,12 @@ EOF
 ## 10. TODO 清单（分阶段）
 
 ### Phase 0：脚手架
-- [ ] 仓库结构与 README 草案
+- [x] 仓库目录结构初始化
+- [ ] README 草案
 - [ ] `docker-compose.yml` 骨架
 - [ ] backend `CMakeLists.txt` + cpp-httplib 接入
 - [ ] frontend 静态页骨架（首页 + 题目页占位）
-- [ ] **MySQL 建表 DDL**：`problems` / `testcases`（1:N）/ `tags` / `problem_tags` / `users` / `sessions`，全部符合 1NF，含索引与外键级联策略
+- [x] **MySQL 建表 DDL**：`problems` / `testcases`（1:N）/ `tags` / `problem_tags` / `users` / `sessions`，全部符合 1NF，含索引与外键级联策略
 
 ### Phase 1：基础 HTTP 与题单展示
 - [ ] 后端：`/api/problems`、`/api/problems/:id` 实现
