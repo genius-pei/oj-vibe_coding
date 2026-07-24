@@ -24,6 +24,7 @@ add_library(minioj_core
     src/db/pool.cpp
     src/db/problem_dao.cpp
     src/judge/diff.cpp
+    src/judge/worker_pool.cpp
     src/http/problem_dto.cpp
     src/http/admin_dto.cpp
     src/http/admin_request.cpp
@@ -76,4 +77,8 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_diff tests/test_diff.cpp)
     target_link_libraries(minioj_test_diff PRIVATE minioj_core GTest::gtest GTest::gtest_main)
     gtest_discover_tests(minioj_test_diff)
+
+    add_executable(minioj_test_worker_pool tests/test_worker_pool.cpp)
+    target_link_libraries(minioj_test_worker_pool PRIVATE minioj_core GTest::gtest GTest::gtest_main Threads::Threads)
+    gtest_discover_tests(minioj_test_worker_pool)
 endif()
