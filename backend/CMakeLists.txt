@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(MYSQLCLIENT REQUIRED IMPORTED_TARGET mysqlclient)
+pkg_check_modules(JSONCPP REQUIRED IMPORTED_TARGET jsoncpp)
 find_package(Threads REQUIRED)
 
 option(MINIOJ_BUILD_TESTS "Build unit tests" ON)
@@ -34,6 +35,7 @@ target_include_directories(minioj_core PUBLIC
 
 target_link_libraries(minioj_core PUBLIC
     PkgConfig::MYSQLCLIENT
+    PkgConfig::JSONCPP
     Threads::Threads
 )
 

@@ -6,7 +6,7 @@
 #include "types.hpp"
 
 #include "httplib.h"
-#include "json.hpp"
+#include <json/json.h>
 
 #include <cstdint>
 #include <stdexcept>
@@ -16,13 +16,15 @@ namespace minioj::http {
 
 namespace {
 
-void writeJson(httplib::Response& res, int status, const nlohmann::json& body) {
+void writeJson(httplib::Response& res, int status, const Json::Value& body) {
     res.status = status;
-    res.set_content(body.dump(), "application/json; charset=utf-8");
+    res.set_content(dto::serializeJson(body), "application/json; charset=utf-8");
 }
 
 void writeError(httplib::Response& res, int status, const std::string& message) {
-    writeJson(res, status, nlohmann::json{{"error", message}});
+    Json::Value body(Json::objectValue);
+    body["error"] = message;
+    writeJson(res, status, body);
 }
 
 std::optional<Difficulty> parseDifficultyQuery(const httplib::Request& req) {

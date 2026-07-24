@@ -1,12 +1,14 @@
 #include "http/problem_dto.hpp"
 
-#include "json.hpp"
+#include <json/json.h>
+
+#include <string>
 
 namespace minioj::dto {
 
 namespace {
 
-nlohmann::json difficultyToJson(Difficulty value) {
+std::string difficultyToString(Difficulty value) {
     switch (value) {
         case Difficulty::easy:   return "easy";
         case Difficulty::medium: return "medium";
@@ -15,63 +17,80 @@ nlohmann::json difficultyToJson(Difficulty value) {
     return "unknown";
 }
 
+Json::UInt64 toUInt64(std::uint64_t value) {
+    return static_cast<Json::UInt64>(value);
 }
 
-nlohmann::json toJson(const Tag& tag) {
-    return nlohmann::json{
-        {"id", tag.id},
-        {"name", tag.name}
-    };
+Json::UInt toUInt(std::uint32_t value) {
+    return static_cast<Json::UInt>(value);
 }
 
-nlohmann::json toJson(const TestCase& testcase) {
-    return nlohmann::json{
-        {"id", testcase.id},
-        {"input", testcase.input},
-        {"expected_output", testcase.expected_output}
-    };
 }
 
-nlohmann::json toJson(const ProblemSummary& summary) {
-    nlohmann::json tags = nlohmann::json::array();
+std::string serializeJson(const Json::Value& value) {
+    Json::StreamWriterBuilder builder;
+    builder["indentation"] = "";
+    return Json::writeString(builder, value);
+}
+
+Json::Value toJson(const Tag& tag) {
+    Json::Value value(Json::objectValue);
+    value["id"] = toUInt64(tag.id);
+    value["name"] = tag.name;
+    return value;
+}
+
+Json::Value toJson(const TestCase& testcase) {
+    Json::Value value(Json::objectValue);
+    value["id"] = toUInt64(testcase.id);
+    value["input"] = testcase.input;
+    value["expected_output"] = testcase.expected_output;
+    return value;
+}
+
+Json::Value toJson(const ProblemSummary& summary) {
+    Json::Value value(Json::objectValue);
+    value["id"] = toUInt64(summary.id);
+    value["title"] = summary.title;
+    value["difficulty"] = difficultyToString(summary.difficulty);
+    value["time_limit_ms"] = toUInt(summary.time_limit_ms);
+    value["memory_limit_mb"] = toUInt(summary.memory_limit_mb);
+
+    Json::Value tags(Json::arrayValue);
     for (const auto& name : summary.tags) {
-        tags.push_back(name);
+        tags.append(name);
     }
-    return nlohmann::json{
-        {"id", summary.id},
-        {"title", summary.title},
-        {"difficulty", difficultyToJson(summary.difficulty)},
-        {"time_limit_ms", summary.time_limit_ms},
-        {"memory_limit_mb", summary.memory_limit_mb},
-        {"tags", std::move(tags)}
-    };
+    value["tags"] = std::move(tags);
+    return value;
 }
 
-nlohmann::json toJson(const ProblemDetail& detail) {
-    nlohmann::json tags = nlohmann::json::array();
+Json::Value toJson(const ProblemDetail& detail) {
+    Json::Value value(Json::objectValue);
+    value["id"] = toUInt64(detail.id);
+    value["title"] = detail.title;
+    value["description_md"] = detail.description_md;
+    value["difficulty"] = difficultyToString(detail.difficulty);
+    value["time_limit_ms"] = toUInt(detail.time_limit_ms);
+    value["memory_limit_mb"] = toUInt(detail.memory_limit_mb);
+
+    Json::Value tags(Json::arrayValue);
     for (const auto& tag : detail.tags) {
-        tags.push_back(toJson(tag));
+        tags.append(toJson(tag));
     }
-    nlohmann::json samples = nlohmann::json::array();
+    value["tags"] = std::move(tags);
+
+    Json::Value samples(Json::arrayValue);
     for (const auto& tc : detail.sample_testcases) {
-        samples.push_back(toJson(tc));
+        samples.append(toJson(tc));
     }
-    return nlohmann::json{
-        {"id", detail.id},
-        {"title", detail.title},
-        {"description_md", detail.description_md},
-        {"difficulty", difficultyToJson(detail.difficulty)},
-        {"time_limit_ms", detail.time_limit_ms},
-        {"memory_limit_mb", detail.memory_limit_mb},
-        {"tags", std::move(tags)},
-        {"sample_testcases", std::move(samples)}
-    };
+    value["sample_testcases"] = std::move(samples);
+    return value;
 }
 
-nlohmann::json toJson(const std::vector<ProblemSummary>& summaries) {
-    nlohmann::json array = nlohmann::json::array();
+Json::Value toJson(const std::vector<ProblemSummary>& summaries) {
+    Json::Value array(Json::arrayValue);
     for (const auto& summary : summaries) {
-        array.push_back(toJson(summary));
+        array.append(toJson(summary));
     }
     return array;
 }

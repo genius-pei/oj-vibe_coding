@@ -2,16 +2,18 @@
 
 #include "types.hpp"
 
-#include "json.hpp"
+#include <json/json.h>
 
 #include <vector>
 
 namespace minioj::dto {
 
-nlohmann::json toJson(const Tag& tag);
-nlohmann::json toJson(const TestCase& testcase);
-nlohmann::json toJson(const ProblemSummary& summary);
-nlohmann::json toJson(const ProblemDetail& detail);
-nlohmann::json toJson(const std::vector<ProblemSummary>& summaries);
+std::string serializeJson(const Json::Value& value);
+
+Json::Value toJson(const Tag& tag);
+Json::Value toJson(const TestCase& testcase);
+Json::Value toJson(const ProblemSummary& summary);
+Json::Value toJson(const ProblemDetail& detail);
+Json::Value toJson(const std::vector<ProblemSummary>& summaries);
 
 }
