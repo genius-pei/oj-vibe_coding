@@ -74,4 +74,32 @@ struct ProblemFilters {
     std::optional<std::string> tag;
 };
 
+enum class Verdict {
+    AC,
+    WA,
+    TLE,
+    CE,
+    MLE,
+    RE
+};
+
+std::string_view verdictName(Verdict verdict) noexcept;
+
+struct CaseResult {
+    std::uint32_t index{0};
+    Verdict verdict{Verdict::AC};
+    std::uint32_t time_ms{0};
+    std::uint32_t memory_mb{0};
+    std::string expected;
+    std::string actual;
+};
+
+struct SubmissionResult {
+    Verdict verdict{Verdict::AC};
+    std::uint32_t time_ms{0};
+    std::uint32_t memory_mb{0};
+    std::string compile_output;
+    std::vector<CaseResult> per_case;
+};
+
 }
