@@ -27,9 +27,11 @@ add_library(minioj_core
     src/judge/worker_pool.cpp
     src/judge/compiler.cpp
     src/judge/runner.cpp
+    src/judge/pipeline.cpp
     src/http/problem_dto.cpp
     src/http/admin_dto.cpp
     src/http/admin_request.cpp
+    src/http/submission_dto.cpp
     src/http/handlers_public.cpp
     src/http/handlers_admin.cpp
 )
@@ -91,4 +93,12 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_runner tests/test_runner.cpp)
     target_link_libraries(minioj_test_runner PRIVATE minioj_core GTest::gtest GTest::gtest_main Threads::Threads)
     gtest_discover_tests(minioj_test_runner)
+
+    add_executable(minioj_test_submission_dto tests/test_submission_dto.cpp)
+    target_link_libraries(minioj_test_submission_dto PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_submission_dto)
+
+    add_executable(minioj_test_pipeline tests/test_pipeline.cpp)
+    target_link_libraries(minioj_test_pipeline PRIVATE minioj_core GTest::gtest GTest::gtest_main Threads::Threads)
+    gtest_discover_tests(minioj_test_pipeline)
 endif()
