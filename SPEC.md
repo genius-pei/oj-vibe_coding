@@ -860,9 +860,9 @@ EOF
 - [x] **MySQL 建表 DDL**：`problems` / `testcases`（1:N）/ `tags` / `problem_tags` / `users` / `sessions`，全部符合 1NF，含索引与外键级联策略
 
 ### Phase 1：基础 HTTP 与题单展示
-- [ ] 后端：`/api/problems`、`/api/problems/:id` 实现
-- [ ] 前端：首页题单卡片渲染
-- [ ] 前端：题目详情 Markdown 渲染（marked.js CDN）
+- [x] 后端：`/api/problems`、`/api/problems/:id` 实现
+- [x] 前端：首页题单卡片渲染
+- [x] 前端：题目详情 Markdown 渲染（marked.js CDN）
 
 ### Phase 2：用户账号体系（注册 / 登录 / 注销）
 - [ ] 后端：`POST /api/auth/register`（参数校验 + 唯一性 + bcrypt 落库 + 自动登录）
