@@ -874,38 +874,13 @@ EOF
 
 ### Phase 2：用户账号体系（注册 / 登录 / 注销）
 
-> **拆分落地**：Phase 2-A 会话管理基础（已完成）/ Phase 2-B 登录注册流程（待续）。
-> 阶段 A 落地以下三项：session 工具、`GET /api/auth/me`、`users.username` 唯一索引。
-> register/login/logout 与前端注册登录页保留为阶段 B。
-
-- [x] 后端 session 工具：`auth::session`（64 hex 随机 id / `isSessionIdShape` / `formatSessionCookie` 写 / `formatClearSessionCookie` 清除），Cookie 名 `minioj_sid`、`HttpOnly; SameSite=Lax; Max-Age=ttl[; Secure]`
-- [x] 后端 `db/user_dao`：`findUserByUsername` / `findUserById` / `createSession` / `findUserByValidSessionId`（带 `expires_at > NOW()` 过滤）/ `deleteSession`
-- [x] 后端 `http/middleware`：解析 `Cookie` 头 → `parseSessionId`；写 `Set-Cookie` → `attachSessionCookie` / `clearSessionCookie`；共享 `writeJson` / `writeError`
-- [x] 后端 `http/router`：`registerAllRoutes` 总入口，集中接入 auth/public/admin 三组
-- [x] 后端：`GET /api/auth/me`（无/无效/过期 → 401；有效 → 200 + `{id, username, role}`）
-- [x] 单元测试 `test_session`（9 例）：id 长度/小写 hex/唯一性、shape 接受/拒绝、Set-Cookie/Clear-Cookie 字段
-- [x] 单元测试 `test_user_dao`（24 例）：`UserDaoFindTest` ×4 + `UserDaoSessionTest` ×8 + `MiddlewareParseTest` ×7 + `MiddlewareWriteTest` ×2 + `MiddlewareCookieTest` ×4；DAO 用例依赖真实 MySQL（`DB_PASSWORD` 未设置时 `GTEST_SKIP`），并发现并修复 `expires_at > NOW()` 在 UTC 写入/服务器本地时区下误判过期的 bug
-- [x] 后端 `auth/password`：bcrypt-12 包装（`hashPassword` / `verifyPassword`）；通过 apt `libcrypt-dev` 提供的 `<crypt.h>` `crypt(3)`，CMake 链 `${CRYPT_LIB}`；**已删 vendored `third_party/bcrypt.{h,cpp}`**
-- [x] 后端 `auth/validator`：`validateUsername` 3-20 `[A-Za-z0-9_]` + `validatePassword` 8-64 含字母与数字，错误统一抛 `invalid_argument`
-- [x] 后端：`POST /api/auth/register`：parse JSON → validate → bcrypt → `db::createUser`（捕获 `mysql_errno 1062` 转 `UsernameExistsError`） → `createSession` + `Set-Cookie` → 201；失败 400 / 409
-- [x] 后端：`POST /api/auth/logout`：解析 cookie → `db::deleteSession` → `clearSessionCookie` → 200（cookie 不存在也返回 200）
-- [x] 后端：`POST /api/auth/login`（阶段 C：parse JSON → findUserByUsername → `verifyPassword` → createSession → Set-Cookie → 200；401 用统一文案 `invalid username or password` 避免用户名枚举；TODO 注释：未做"用户不存在时跑假 bcrypt"的时序对齐）
-- [x] 后端 `UserSummary` 增加 `password_hash` 字段（`findUserByUsername` / `findUserById` 一并 SELECT），供 loginHandler 校验密码；前端 /me 不返回 hash（DTO 层只序列 id/username/role）
-- [x] `parseAuthPayload` 注册/登录共用，避免重复 JSON 解析
-- [x] 前端：登录页 `login.html` + `js/login.js`（API 调用 `POST /api/auth/login`，401 内联错误显示后端文案，loading 防重复，提交成功 window.location.href='/'）；与 register.html / admin/login.html 互链已埋点
-- [x] 前端：注册页 `register.html` + `register.js`（含用户名/密码/确认密码三字段，实时校验显示绿色 ✓ / 红色 ✗，loading 防重复，409 标到 username hint，提交成功跳首页）
-- [ ] 前端：登录页 `login.html`（阶段 C：与注册页互链）
-- [x] 前端：`css/theme.css` + `css/common.css` + `css/auth.css`（暗色 `#1a1a1a`/`#ffa116`，Header、`.button`、`.user-chip`、`.auth-card` 表单布局）
-- [x] 前端：`js/api.js` 加 `apiPost` / `apiDelete`，自动 JSON 化与错误归一化
-- [x] 前端：`js/auth.js` 探测 `/api/auth/me`，按登录态切换 Header（匿名 `登录 / 注册`，登录 `用户名 ▾ 退出`）
-- [x] 前端：在 `index.html` / `problem.html` / `register.html` 注入 `auth.js`，Header 中 `<a>` 包到 `<span id="auth-area">` 让 JS 可替换
-- [x] 单元测试 `test_validator`（10 例）：用户名接受/长度边界/字符集拒绝；密码接受/长度边界/缺字母/缺数字
-- [x] 单元测试 `test_password`（8 例）：bcrypt 头、明文泄漏、不同 salt、空密码、正确/错误密码、畸形 hash
-- [x] 单元测试 `test_user_dao::UserDaoCreateUserTest`（7 例）：insert id / 存储 hash+role / admin role / dup 抛 `UsernameExistsError` / 错误含 username / 与 findByUsername/Id roundtrip / 删除后可复用
-- [x] 单元测试 `test_handlers_auth::HandlersAuthFixture`（24 例，httplib::Server+Client 集成）：13 例 register/me/logout + 11 例 login（含：合法 200+Cookie / 错密 401 / 未知用户 401 / 缺字段 400 / 非 JSON 400 / 注册→logout→登录→/me 全路径 / 错密码与未知用户统一文案 / 两次登录各得不同 cookie）
-- [x] 前端抽出 `frontend/public/js/validation.js`（纯函数）；`register.js` 调用并 DOM 化；`frontend/tests/validation.test.mjs` 用 `node:test` 19 例（全过）
-- [x] 集成验证：nginx 反代下注册成功 201 + Set-Cookie、/me 200、logout 清 Cookie、dup 409、匿名 /me 401
-- [x] `users` 表索引：username 唯一索引（schema 已带 `UNIQUE KEY uk_users_username`）
+- [x] 后端 session 管理（Cookie 解析/写入/失效）
+- [x] 后端 user_dao（注册/查询/session CRUD）
+- [x] 后端 bcrypt 密码哈希 + 用户名/密码强度校验
+- [x] 后端 `/api/auth/register` `/api/auth/login` `/api/auth/logout` `/api/auth/me`
+- [x] 前端 `/login` `/register` 页面 + 暗色主题样式
+- [x] 前端 Header 按登录态自动切换
+- [x] 单元/集成测试覆盖 session / DAO / validator / password / handlers（55+ 例）
 
 ### Phase 3：判题核心
 - [x] worker 池（信号量，8 并发，FIFO 队列，std::future 同步等待）
