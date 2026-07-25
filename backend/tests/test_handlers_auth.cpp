@@ -144,6 +144,33 @@ std::string extractSetCookie(const std::string& value) {
     return value.substr(0, sep);
 }
 
+std::string createUserViaApi(httplib::Client& client, const std::string& username,
+                             const std::string& password) {
+    const std::string body = R"({"username":")" + username + R"(","password":")" + password + R"("})";
+    auto res = client.Post("/api/auth/register", body, "application/json");
+    if (!res || res->status != 201) {
+        return "";
+    }
+    return extractSetCookie(res->get_header_value("Set-Cookie"));
+}
+
+bool loginSucceedsAndReturnsCookie(httplib::Client& client, const std::string& username,
+                                   const std::string& password, std::string* cookie_out,
+                                   int* status_out) {
+    const std::string body = R"({"username":")" + username + R"(","password":")" + password + R"("})";
+    auto res = client.Post("/api/auth/login", body, "application/json");
+    if (!res) {
+        return false;
+    }
+    if (status_out) {
+        *status_out = res->status;
+    }
+    if (res->status == 200 && cookie_out) {
+        *cookie_out = extractSetCookie(res->get_header_value("Set-Cookie"));
+    }
+    return res->status == 200;
+}
+
 }
 
 class HandlersAuthFixture : public ::testing::Test {
@@ -334,6 +361,101 @@ TEST_F(HandlersAuthFixture, LogoutWithoutCookieIsIdempotent) {
     EXPECT_NE(header.find("Max-Age=0"), std::string::npos);
 }
 
+TEST_F(HandlersAuthFixture, LogoutResponseContentTypeIsJson) {
+    auto client = makeClient(server_->port);
+    auto res = client.Post("/api/auth/logout", "", "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->get_header_value("Content-Type").find("application/json"), std::string::npos);
+    EXPECT_NE(res->body.find("\"status\":\"ok\""), std::string::npos);
+}
+
+TEST_F(HandlersAuthFixture, LogoutWithMalformedCookieReturns200) {
+    auto client = makeClient(server_->port);
+    httplib::Headers headers;
+    headers.emplace("Cookie", "minioj_sid=not-a-valid-hex-id");
+    auto res = client.Post("/api/auth/logout", headers, "", "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->get_header_value("Set-Cookie").find("Max-Age=0"), std::string::npos);
+}
+
+TEST_F(HandlersAuthFixture, LogoutWithUnknownButWellFormedCookieReturns200) {
+    auto client = makeClient(server_->port);
+    httplib::Headers headers;
+    headers.emplace("Cookie", "minioj_sid=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
+    auto res = client.Post("/api/auth/logout", headers, "", "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->get_header_value("Set-Cookie").find("Max-Age=0"), std::string::npos);
+}
+
+TEST_F(HandlersAuthFixture, LogoutTwiceBothSucceed) {
+    auto client = makeClient(server_->port);
+    const auto username = randomUsername();
+    registerUsername(username);
+
+    const std::string body = R"({"username":")" + username + R"(","password":"P4ssword!"})";
+    auto reg = client.Post("/api/auth/register", body, "application/json");
+    ASSERT_TRUE(reg);
+    ASSERT_EQ(reg->status, 201);
+
+    httplib::Headers headers;
+    headers.emplace("Cookie", extractSetCookie(reg->get_header_value("Set-Cookie")));
+
+    auto first = client.Post("/api/auth/logout", headers, "", "application/json");
+    auto second = client.Post("/api/auth/logout", headers, "", "application/json");
+    ASSERT_TRUE(first);
+    ASSERT_TRUE(second);
+    EXPECT_EQ(first->status, 200);
+    EXPECT_EQ(second->status, 200);
+
+    auto me = client.Get("/api/auth/me", headers);
+    ASSERT_TRUE(me);
+    EXPECT_EQ(me->status, 401);
+}
+
+TEST_F(HandlersAuthFixture, LogoutDoesNotLeakOtherSessions) {
+    auto client = makeClient(server_->port);
+    const auto username = randomUsername();
+    registerUsername(username);
+
+    const std::string body = R"({"username":")" + username + R"(","password":"P4ssword!"})";
+    auto reg = client.Post("/api/auth/register", body, "application/json");
+    ASSERT_TRUE(reg);
+    ASSERT_EQ(reg->status, 201);
+    const auto reg_cookie = extractSetCookie(reg->get_header_value("Set-Cookie"));
+
+    std::string login_cookie;
+    int login_status = 0;
+    ASSERT_TRUE(loginSucceedsAndReturnsCookie(client, username, "P4ssword!", &login_cookie, &login_status));
+    ASSERT_EQ(login_status, 200);
+    ASSERT_NE(login_cookie, reg_cookie);
+
+    httplib::Headers logout_headers;
+    logout_headers.emplace("Cookie", reg_cookie);
+    auto logout = client.Post("/api/auth/logout", logout_headers, "", "application/json");
+    ASSERT_TRUE(logout);
+    EXPECT_EQ(logout->status, 200);
+
+    httplib::Headers other_headers;
+    other_headers.emplace("Cookie", login_cookie);
+    auto me_other = client.Get("/api/auth/me", other_headers);
+    ASSERT_TRUE(me_other);
+    EXPECT_EQ(me_other->status, 200);
+    EXPECT_NE(me_other->body.find("\"username\":\"" + username + "\""), std::string::npos);
+}
+
+TEST_F(HandlersAuthFixture, LogoutWithOtherUnrelatedCookieKeepsIt) {
+    auto client = makeClient(server_->port);
+    httplib::Headers headers;
+    headers.emplace("Cookie", "minioj_sid=aaa; other_cookie=keep_me");
+    auto res = client.Post("/api/auth/logout", headers, "", "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->get_header_value("Set-Cookie").find("Max-Age=0"), std::string::npos);
+}
+
 TEST_F(HandlersAuthFixture, RegisterTwiceDifferentPasswordsStill409) {
     auto client = makeClient(server_->port);
     const auto username = randomUsername();
@@ -350,37 +472,6 @@ TEST_F(HandlersAuthFixture, RegisterTwiceDifferentPasswordsStill409) {
 }
 
 // ----- Login -----
-
-namespace {
-
-std::string createUserViaApi(httplib::Client& client, const std::string& username,
-                              const std::string& password) {
-    const std::string body = R"({"username":")" + username + R"(","password":")" + password + R"("})";
-    auto res = client.Post("/api/auth/register", body, "application/json");
-    if (!res || res->status != 201) {
-        return "";
-    }
-    return extractSetCookie(res->get_header_value("Set-Cookie"));
-}
-
-bool loginSucceedsAndReturnsCookie(httplib::Client& client, const std::string& username,
-                                   const std::string& password, std::string* cookie_out,
-                                   int* status_out) {
-    const std::string body = R"({"username":")" + username + R"(","password":")" + password + R"("})";
-    auto res = client.Post("/api/auth/login", body, "application/json");
-    if (!res) {
-        return false;
-    }
-    if (status_out) {
-        *status_out = res->status;
-    }
-    if (res->status == 200 && cookie_out) {
-        *cookie_out = extractSetCookie(res->get_header_value("Set-Cookie"));
-    }
-    return res->status == 200;
-}
-
-}
 
 TEST_F(HandlersAuthFixture, LoginValidUserReturns200WithCookie) {
     auto client = makeClient(server_->port);
