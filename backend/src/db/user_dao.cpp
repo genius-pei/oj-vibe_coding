@@ -15,6 +15,10 @@
 
 namespace minioj::db {
 
+UsernameExistsError::UsernameExistsError(std::string username)
+    : std::runtime_error("username '" + username + "' is already taken"),
+      username_(std::move(username)) {}
+
 namespace {
 
 std::string escape(MYSQL* connection, std::string_view input) {
@@ -55,6 +59,12 @@ UserRole parseRoleOrThrow(const std::string& value) {
         return UserRole::user;
     }
     throw std::runtime_error("invalid role value: " + value);
+}
+
+constexpr unsigned int kDuplicateKeyErrorCode = 1062;
+
+bool isDuplicateKeyError(const MYSQL* connection) noexcept {
+    return mysql_errno(const_cast<MYSQL*>(connection)) == kDuplicateKeyErrorCode;
 }
 
 std::string formatMysqlTimestamp(std::chrono::system_clock::time_point tp) {
@@ -125,6 +135,30 @@ std::optional<UserSummary> findUserById(ConnectionPool& pool, std::uint64_t user
     }
     mysql_free_result(result);
     return found;
+}
+
+std::uint64_t createUser(ConnectionPool& pool,
+                         std::string_view username,
+                         std::string_view password_hash,
+                         std::string_view role) {
+    auto lease = pool.acquire();
+    MYSQL* connection = lease.get();
+
+    const std::string username_esc = escape(connection, username);
+    const std::string hash_esc = escape(connection, password_hash);
+    const std::string role_esc = escape(connection, role);
+
+    const std::string sql =
+        "INSERT INTO users (username, password_hash, role) VALUES ('"
+        + username_esc + "', '" + hash_esc + "', '" + role_esc + "')";
+
+    if (mysql_query(connection, sql.c_str()) != 0) {
+        if (isDuplicateKeyError(connection)) {
+            throw UsernameExistsError(std::string(username));
+        }
+        throw std::runtime_error(std::string("user insert failed: ") + mysql_error(connection));
+    }
+    return mysql_insert_id(connection);
 }
 
 SessionRecord createSession(ConnectionPool& pool,

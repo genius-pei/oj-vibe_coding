@@ -1,0 +1,139 @@
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.site-header .brand {
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.site-header .brand:hover {
+  text-decoration: none;
+  color: var(--accent-hover);
+}
+
+.site-header .nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.site-header .nav a {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.site-header .nav a:hover {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.site-header .nav a.active {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-5);
+}
+
+.button,
+button.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--accent);
+  color: #1a1a1a;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.button:hover,
+button.button:hover {
+  background-color: var(--accent-hover);
+}
+
+.button:active,
+button.button:active {
+  background-color: var(--accent-press);
+}
+
+.button[disabled],
+button.button[disabled] {
+  background-color: var(--border-soft);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.button.secondary,
+button.button.secondary {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-soft);
+}
+
+.button.secondary:hover,
+button.button.secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input:not([type]) {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 120ms ease;
+}
+
+input:focus {
+  border-color: var(--accent);
+}
+
+input.invalid {
+  border-color: var(--text-error);
+}
+
+.hint {
+  margin: var(--space-1) 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.hint.invalid {
+  color: var(--text-error);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.hidden {
+  display: none !important;
+}

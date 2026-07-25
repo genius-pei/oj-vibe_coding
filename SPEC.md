@@ -885,12 +885,20 @@ EOF
 - [x] 后端：`GET /api/auth/me`（无/无效/过期 → 401；有效 → 200 + `{id, username, role}`）
 - [x] 单元测试 `test_session`（9 例）：id 长度/小写 hex/唯一性、shape 接受/拒绝、Set-Cookie/Clear-Cookie 字段
 - [x] 单元测试 `test_user_dao`（24 例）：`UserDaoFindTest` ×4 + `UserDaoSessionTest` ×8 + `MiddlewareParseTest` ×7 + `MiddlewareWriteTest` ×2 + `MiddlewareCookieTest` ×4；DAO 用例依赖真实 MySQL（`DB_PASSWORD` 未设置时 `GTEST_SKIP`），并发现并修复 `expires_at > NOW()` 在 UTC 写入/服务器本地时区下误判过期的 bug
-- [ ] 后端：`POST /api/auth/register`（阶段 B：参数校验 + 唯一性 + bcrypt 落库 + 自动登录）
-- [ ] 后端：`POST /api/auth/login`（阶段 B：bcrypt 校验 + Session 写入 + Set-Cookie）
-- [ ] 后端：`POST /api/auth/logout`（阶段 B：清除 Session）
-- [ ] 前端：注册页 `register.html`（阶段 B：表单 + 实时校验 + 内联错误提示）
-- [ ] 前端：登录页 `login.html`（阶段 B：与注册页互链）
-- [ ] 前端：Header 登录态切换（阶段 B：未登录显登录/注册；已登录显用户名+退出）
+- [x] 后端 `auth/password`：bcrypt-12 包装（`hashPassword` / `verifyPassword`），CMake 加 `third_party/bcrypt.cpp` 与 `${CRYPT_LIB}`
+- [x] 后端 `auth/validator`：`validateUsername` 3-20 `[A-Za-z0-9_]` + `validatePassword` 8-64 含字母与数字，错误统一抛 `invalid_argument`
+- [x] 后端：`POST /api/auth/register`：parse JSON → validate → bcrypt → `db::createUser`（捕获 `mysql_errno 1062` 转 `UsernameExistsError`） → `createSession` + `Set-Cookie` → 201；失败 400 / 409
+- [x] 后端：`POST /api/auth/logout`：解析 cookie → `db::deleteSession` → `clearSessionCookie` → 200（cookie 不存在也返回 200）
+- [ ] 后端：`POST /api/auth/login`（阶段 C：bcrypt 校验 + Session 写入 + Set-Cookie）
+- [x] 前端：注册页 `register.html` + `register.js`（含用户名/密码/确认密码三字段，实时校验显示绿色 ✓ / 红色 ✗，loading 防重复，409 标到 username hint，提交成功跳首页）
+- [ ] 前端：登录页 `login.html`（阶段 C：与注册页互链）
+- [x] 前端：`css/theme.css` + `css/common.css` + `css/auth.css`（暗色 `#1a1a1a`/`#ffa116`，Header、`.button`、`.user-chip`、`.auth-card` 表单布局）
+- [x] 前端：`js/api.js` 加 `apiPost` / `apiDelete`，自动 JSON 化与错误归一化
+- [x] 前端：`js/auth.js` 探测 `/api/auth/me`，按登录态切换 Header（匿名 `登录 / 注册`，登录 `用户名 ▾ 退出`）
+- [x] 前端：在 `index.html` / `problem.html` / `register.html` 注入 `auth.js`，Header 中 `<a>` 包到 `<span id="auth-area">` 让 JS 可替换
+- [x] 单元测试 `test_validator`（10 例）：用户名接受/长度边界/字符集拒绝；密码接受/长度边界/缺字母/缺数字
+- [x] 单元测试 `test_password`（8 例）：bcrypt 头、明文泄漏、不同 salt、空密码、正确/错误密码、畸形 hash
+- [x] 集成验证：nginx 反代下注册成功 201 + Set-Cookie、/me 200、logout 清 Cookie、dup 409、匿名 /me 401
 - [x] `users` 表索引：username 唯一索引（schema 已带 `UNIQUE KEY uk_users_username`）
 
 ### Phase 3：判题核心

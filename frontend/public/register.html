@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>注册 — MiniOJ</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">MiniOJ</a>
+    <nav class="nav">
+      <a href="/">题单</a>
+      <span id="auth-area">
+        <a href="/login.html">登录</a>
+        <a href="/register.html">注册</a>
+      </span>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <form id="register-form" class="auth-card" novalidate>
+      <h1>注 册 账 号</h1>
+
+      <div class="field">
+        <label for="reg-username">用户名</label>
+        <input id="reg-username" name="username" type="text" autocomplete="username"
+               minlength="3" maxlength="20"
+               pattern="[A-Za-z0-9_]{3,20}" required>
+        <p class="hint" id="hint-username">3-20 位字母、数字或下划线</p>
+      </div>
+
+      <div class="field">
+        <label for="reg-password">密码</label>
+        <input id="reg-password" name="password" type="password"
+               autocomplete="new-password"
+               minlength="8" maxlength="64" required>
+        <p class="hint" id="hint-password">8-64 位，至少包含一个字母与一个数字</p>
+      </div>
+
+      <div class="field">
+        <label for="reg-confirm">确认密码</label>
+        <input id="reg-confirm" name="confirm" type="password"
+               autocomplete="new-password"
+               minlength="8" maxlength="64" required>
+        <p class="hint" id="hint-confirm">再次输入以确认</p>
+      </div>
+
+      <div class="submit-row">
+        <button id="submit-btn" class="button" type="submit" disabled>注 册</button>
+      </div>
+
+      <p class="form-error" id="form-error" role="alert"></p>
+
+      <p class="alt-link">
+        已有账号？<a href="/login.html">前往登录</a>
+      </p>
+      <p class="admin-link">
+        <a href="/admin/login.html">管理员入口 →</a>
+      </p>
+    </form>
+  </main>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/register.js"></script>
+</body>
+</html>

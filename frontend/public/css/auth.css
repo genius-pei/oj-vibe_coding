@@ -1,0 +1,89 @@
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px);
+  padding: var(--space-5);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 360px;
+  padding: var(--space-6) var(--space-5);
+  background-color: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.auth-card h1 {
+  margin: 0 0 var(--space-5);
+  font-size: 22px;
+  text-align: center;
+  color: var(--text-primary);
+  letter-spacing: 4px;
+}
+
+.auth-card .field {
+  margin-bottom: var(--space-4);
+}
+
+.auth-card .submit-row {
+  margin-top: var(--space-5);
+}
+
+.auth-card .submit-row button {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: 14px;
+}
+
+.auth-card .alt-link {
+  margin: var(--space-4) 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.auth-card .admin-link {
+  margin: var(--space-3) 0 0;
+  text-align: center;
+  font-size: 12px;
+}
+
+.form-error {
+  margin: var(--space-3) 0 0;
+  min-height: 1.2em;
+  font-size: 13px;
+  color: var(--text-error);
+  text-align: center;
+}
+
+.user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.user-chip .name {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.user-chip .logout {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  font-size: 12px;
+}
+
+.user-chip .logout:hover {
+  color: var(--text-error);
+}

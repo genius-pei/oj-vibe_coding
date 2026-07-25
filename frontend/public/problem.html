@@ -13,8 +13,10 @@
     <a class="brand" href="/">MiniOJ</a>
     <nav class="nav">
       <a href="/">题单</a>
-      <a href="/login">登录</a>
-      <a href="/register">注册</a>
+      <span id="auth-area">
+        <a href="/login.html">登录</a>
+        <a href="/register.html">注册</a>
+      </span>
     </nav>
   </header>
 
@@ -47,6 +49,7 @@
 
   <script src="/vendor/marked.min.js"></script>
   <script type="module" src="/vendor/codemirror/editor.js"></script>
+  <script type="module" src="/js/auth.js"></script>
   <script type="module" src="/js/problem_detail.js"></script>
   <script type="module" src="/js/editor.js"></script>
 </body>

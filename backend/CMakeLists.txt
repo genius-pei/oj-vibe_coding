@@ -10,6 +10,8 @@ pkg_check_modules(MYSQLCLIENT REQUIRED IMPORTED_TARGET mysqlclient)
 pkg_check_modules(JSONCPP REQUIRED IMPORTED_TARGET jsoncpp)
 find_package(Threads REQUIRED)
 
+find_library(CRYPT_LIB NAMES crypt libcrypt REQUIRED)
+
 option(MINIOJ_BUILD_TESTS "Build unit tests" ON)
 if(MINIOJ_BUILD_TESTS)
     find_package(GTest REQUIRED)
@@ -29,7 +31,9 @@ add_library(minioj_core
     src/judge/compiler.cpp
     src/judge/runner.cpp
     src/judge/pipeline.cpp
+    src/auth/password.cpp
     src/auth/session.cpp
+    src/auth/validator.cpp
     src/http/problem_dto.cpp
     src/http/admin_dto.cpp
     src/http/admin_request.cpp
@@ -40,6 +44,7 @@ add_library(minioj_core
     src/http/handlers_admin.cpp
     src/http/handlers_auth.cpp
     src/http/router.cpp
+    third_party/bcrypt.cpp
 )
 
 target_include_directories(minioj_core PUBLIC
@@ -52,6 +57,7 @@ target_link_libraries(minioj_core PUBLIC
     PkgConfig::MYSQLCLIENT
     PkgConfig::JSONCPP
     Threads::Threads
+    ${CRYPT_LIB}
 )
 
 target_compile_options(minioj_core PRIVATE
@@ -119,4 +125,12 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_user_dao tests/test_user_dao.cpp)
     target_link_libraries(minioj_test_user_dao PRIVATE minioj_core GTest::gtest GTest::gtest_main)
     gtest_discover_tests(minioj_test_user_dao)
+
+    add_executable(minioj_test_validator tests/test_validator.cpp)
+    target_link_libraries(minioj_test_validator PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_validator)
+
+    add_executable(minioj_test_password tests/test_password.cpp)
+    target_link_libraries(minioj_test_password PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_password)
 endif()
