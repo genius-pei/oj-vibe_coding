@@ -1,6 +1,9 @@
 import { apiPost } from './api.js';
-
-const USERNAME_RE = /^[A-Za-z0-9_]{3,20}$/;
+import {
+  validateUsernameInput,
+  validatePasswordInput,
+  validateConfirmInput
+} from './validation.js';
 
 const form = document.getElementById('register-form');
 const usernameInput = document.getElementById('reg-username');
@@ -21,74 +24,26 @@ function setInvalid(input, invalid) {
   input.classList.toggle('invalid', Boolean(invalid));
 }
 
+function applyHint(el, result, input) {
+  setHint(el, result.message, !result.ok);
+  setInvalid(input, !result.ok);
+  return result.ok;
+}
+
 function validateUsername() {
-  const value = usernameInput.value.trim();
-  if (value === '') {
-    setHint(hintUsername, '3-20 位字母、数字或下划线', false);
-    setInvalid(usernameInput, false);
-    return false;
-  }
-  if (!USERNAME_RE.test(value)) {
-    if (value.length < 3 || value.length > 20) {
-      setHint(hintUsername, '用户名长度需在 3 到 20 个字符之间', true);
-    } else {
-      setHint(hintUsername, '仅允许字母、数字与下划线', true);
-    }
-    setInvalid(usernameInput, true);
-    return false;
-  }
-  setHint(hintUsername, '✓ 用户名可用', false);
-  setInvalid(usernameInput, false);
-  return true;
+  return applyHint(hintUsername, validateUsernameInput(usernameInput.value), usernameInput);
 }
 
 function validatePassword() {
-  const value = passwordInput.value;
-  if (value === '') {
-    setHint(hintPassword, '8-64 位，至少包含一个字母与一个数字', false);
-    setInvalid(passwordInput, false);
-    return false;
-  }
-  if (value.length < 8 || value.length > 64) {
-    setHint(hintPassword, '密码长度需在 8 到 64 个字符之间', true);
-    setInvalid(passwordInput, true);
-    return false;
-  }
-  let hasLetter = false;
-  let hasDigit = false;
-  for (const ch of value) {
-    if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
-      hasLetter = true;
-    } else if (ch >= '0' && ch <= '9') {
-      hasDigit = true;
-    }
-    if (hasLetter && hasDigit) break;
-  }
-  if (!hasLetter || !hasDigit) {
-    setHint(hintPassword, '密码必须同时包含字母与数字', true);
-    setInvalid(passwordInput, true);
-    return false;
-  }
-  setHint(hintPassword, '✓ 密码强度符合要求', false);
-  setInvalid(passwordInput, false);
-  return true;
+  return applyHint(hintPassword, validatePasswordInput(passwordInput.value), passwordInput);
 }
 
 function validateConfirm() {
-  const value = confirmInput.value;
-  if (value === '') {
-    setHint(hintConfirm, '再次输入以确认', false);
-    setInvalid(confirmInput, false);
-    return false;
-  }
-  if (value !== passwordInput.value) {
-    setHint(hintConfirm, '两次密码不一致', true);
-    setInvalid(confirmInput, true);
-    return false;
-  }
-  setHint(hintConfirm, '✓ 密码一致', false);
-  setInvalid(confirmInput, false);
-  return true;
+  return applyHint(
+    hintConfirm,
+    validateConfirmInput(confirmInput.value, passwordInput.value),
+    confirmInput
+  );
 }
 
 function refreshSubmitState() {

@@ -898,6 +898,9 @@ EOF
 - [x] 前端：在 `index.html` / `problem.html` / `register.html` 注入 `auth.js`，Header 中 `<a>` 包到 `<span id="auth-area">` 让 JS 可替换
 - [x] 单元测试 `test_validator`（10 例）：用户名接受/长度边界/字符集拒绝；密码接受/长度边界/缺字母/缺数字
 - [x] 单元测试 `test_password`（8 例）：bcrypt 头、明文泄漏、不同 salt、空密码、正确/错误密码、畸形 hash
+- [x] 单元测试 `test_user_dao::UserDaoCreateUserTest`（7 例）：insert id / 存储 hash+role / admin role / dup 抛 `UsernameExistsError` / 错误含 username / 与 findByUsername/Id roundtrip / 删除后可复用
+- [x] 单元测试 `test_handlers_auth::HandlersAuthFixture`（13 例，httplib::Server+Client 集成）：注册成功 201+Set-Cookie / dup 409 / 缺 username / 缺 password / 短 username / 短 password / 缺字母 / 非 JSON / 匿名 /me 401 / 注册→/me 200 / logout 清 cookie→/me 401 / 无 cookie logout 幂等 / 不同密码仍 409
+- [x] 前端抽出 `frontend/public/js/validation.js`（纯函数）；`register.js` 调用并 DOM 化；`frontend/tests/validation.test.mjs` 用 `node:test` 19 例（全过）
 - [x] 集成验证：nginx 反代下注册成功 201 + Set-Cookie、/me 200、logout 清 Cookie、dup 409、匿名 /me 401
 - [x] `users` 表索引：username 唯一索引（schema 已带 `UNIQUE KEY uk_users_username`）
 

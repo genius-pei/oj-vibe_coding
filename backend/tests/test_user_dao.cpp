@@ -278,6 +278,145 @@ TEST(UserDaoSessionTest, DeleteSessionReturnsFalseForUnknown) {
     EXPECT_FALSE(minioj::db::deleteSession(*dbPool(), randomToken(32)));
 }
 
+TEST(UserDaoCreateUserTest, ReturnsInsertIdForNewUser) {
+    REQUIRE_DB();
+    auto& pool = *dbPool();
+    const auto username = randomUsername();
+    try {
+        const auto user_id = minioj::db::createUser(pool, username, "$2b$12$dummybcrypt", "user");
+        EXPECT_GT(user_id, 0u);
+    } catch (...) {
+        deleteTestUser(pool, 0);
+        throw;
+    }
+    const auto found = minioj::db::findUserByUsername(pool, username);
+    ASSERT_TRUE(found.has_value());
+    deleteTestUser(pool, found->id);
+}
+
+TEST(UserDaoCreateUserTest, StoresPasswordHashAndRole) {
+    REQUIRE_DB();
+    auto& pool = *dbPool();
+    const auto username = randomUsername();
+    constexpr const char* kHash = "$2b$12$abcdefghijklmnopqrstuv";
+    const auto user_id = minioj::db::createUser(pool, username, kHash, "user");
+    try {
+        const auto found = minioj::db::findUserById(pool, user_id);
+        ASSERT_TRUE(found.has_value());
+        EXPECT_EQ(found->username, username);
+        EXPECT_EQ(found->role, minioj::db::UserRole::user);
+
+        auto lease = pool.acquire();
+        MYSQL* conn = lease.get();
+        const std::string sql = "SELECT password_hash FROM users WHERE id = " + std::to_string(user_id);
+        ASSERT_EQ(mysql_query(conn, sql.c_str()), 0);
+        MYSQL_RES* res = mysql_store_result(conn);
+        ASSERT_NE(res, nullptr);
+        MYSQL_ROW row = mysql_fetch_row(res);
+        ASSERT_NE(row, nullptr);
+        EXPECT_STREQ(row[0], kHash);
+        mysql_free_result(res);
+    } catch (...) {
+        deleteTestUser(pool, user_id);
+        throw;
+    }
+    deleteTestUser(pool, user_id);
+}
+
+TEST(UserDaoCreateUserTest, AcceptsAdminRole) {
+    REQUIRE_DB();
+    auto& pool = *dbPool();
+    const auto username = randomUsername();
+    const auto user_id = minioj::db::createUser(pool, username, "$2b$12$dummybcrypt", "admin");
+    try {
+        const auto found = minioj::db::findUserById(pool, user_id);
+        ASSERT_TRUE(found.has_value());
+        EXPECT_EQ(found->role, minioj::db::UserRole::admin);
+    } catch (...) {
+        deleteTestUser(pool, user_id);
+        throw;
+    }
+    deleteTestUser(pool, user_id);
+}
+
+TEST(UserDaoCreateUserTest, ThrowsUsernameExistsForDuplicate) {
+    REQUIRE_DB();
+    auto& pool = *dbPool();
+    const auto username = randomUsername();
+    const auto first_id = minioj::db::createUser(pool, username, "$2b$12$dummybcrypt", "user");
+    try {
+        EXPECT_THROW(
+            minioj::db::createUser(pool, username, "$2b$12$otherhash", "user"),
+            minioj::db::UsernameExistsError);
+    } catch (...) {
+        deleteTestUser(pool, first_id);
+        throw;
+    }
+    deleteTestUser(pool, first_id);
+}
+
+TEST(UserDaoCreateUserTest, UsernameExistsErrorCarriesUsername) {
+    REQUIRE_DB();
+    auto& pool = *dbPool();
+    const auto username = randomUsername();
+    const auto first_id = minioj::db::createUser(pool, username, "$2b$12$dummybcrypt", "user");
+    try {
+        try {
+            minioj::db::createUser(pool, username, "$2b$12$dummybcrypt", "user");
+            FAIL() << "expected UsernameExistsError";
+        } catch (const minioj::db::UsernameExistsError& error) {
+            EXPECT_EQ(error.username(), username);
+        }
+    } catch (...) {
+        deleteTestUser(pool, first_id);
+        throw;
+    }
+    deleteTestUser(pool, first_id);
+}
+
+TEST(UserDaoCreateUserTest, RoundtripsWithFindByUsername) {
+    REQUIRE_DB();
+    auto& pool = *dbPool();
+    const auto username = randomUsername();
+    const auto user_id = minioj::db::createUser(pool, username, "$2b$12$dummybcrypt", "user");
+    try {
+        const auto by_name = minioj::db::findUserByUsername(pool, username);
+        ASSERT_TRUE(by_name.has_value());
+        EXPECT_EQ(by_name->id, user_id);
+        EXPECT_EQ(by_name->username, username);
+        EXPECT_EQ(by_name->role, minioj::db::UserRole::user);
+
+        const auto by_id = minioj::db::findUserById(pool, user_id);
+        ASSERT_TRUE(by_id.has_value());
+        EXPECT_EQ(by_id->username, username);
+    } catch (...) {
+        deleteTestUser(pool, user_id);
+        throw;
+    }
+    deleteTestUser(pool, user_id);
+}
+
+TEST(UserDaoCreateUserTest, AllowsReusingUsernameAfterDelete) {
+    REQUIRE_DB();
+    auto& pool = *dbPool();
+    const auto username = randomUsername();
+    constexpr const char* kHash1 = "$2b$12$dummybcryptone";
+    constexpr const char* kHash2 = "$2b$12$dummybcrypwtwo";
+
+    const auto first_id = minioj::db::createUser(pool, username, kHash1, "user");
+    deleteTestUser(pool, first_id);
+
+    const auto second_id = minioj::db::createUser(pool, username, kHash2, "user");
+    EXPECT_NE(first_id, second_id);
+    EXPECT_GT(second_id, 0u);
+
+    const auto found = minioj::db::findUserById(pool, second_id);
+    ASSERT_TRUE(found.has_value());
+    EXPECT_EQ(found->username, username);
+
+    deleteTestUser(pool, second_id);
+}
+
 namespace {
 
 httplib::Request makeRequest(const std::string& cookie_header) {

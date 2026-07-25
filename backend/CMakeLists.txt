@@ -132,4 +132,8 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_password tests/test_password.cpp)
     target_link_libraries(minioj_test_password PRIVATE minioj_core GTest::gtest GTest::gtest_main)
     gtest_discover_tests(minioj_test_password)
+
+    add_executable(minioj_test_handlers_auth tests/test_handlers_auth.cpp)
+    target_link_libraries(minioj_test_handlers_auth PRIVATE minioj_core GTest::gtest GTest::gtest_main Threads::Threads)
+    gtest_discover_tests(minioj_test_handlers_auth)
 endif()

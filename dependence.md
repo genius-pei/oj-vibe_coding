@@ -31,6 +31,12 @@
 |---|---:|---|---|
 | jsoncpp | 1.9.5 | `jsoncpp` | JSON 解析与序列化 |
 
+## 前端测试工具
+
+| 组件 | 版本 | 用途 |
+|---|---|---|
+| Node.js（任意 LTS ≥ 18） | 24.x 本地验证 | 跑 `node --test frontend/tests/validation.test.mjs`（不引入 npm 依赖，仅用内置 `node:test`） |
+
 ## 前端 Vendored 依赖
 
 | 依赖 | 版本 | 文件路径 | 用途 |
