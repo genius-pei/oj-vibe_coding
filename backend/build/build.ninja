@@ -84,6 +84,13 @@ build CMakeFiles/minioj_core.dir/src/db/problem_dao.cpp.o: CXX_COMPILER__minioj_
   OBJECT_DIR = CMakeFiles/minioj_core.dir
   OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/db
 
+build CMakeFiles/minioj_core.dir/src/db/user_dao.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/db/user_dao.cpp || cmake_object_order_depends_target_minioj_core
+  DEP_FILE = CMakeFiles/minioj_core.dir/src/db/user_dao.cpp.o.d
+  FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_core.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/db
+
 build CMakeFiles/minioj_core.dir/src/judge/diff.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/judge/diff.cpp || cmake_object_order_depends_target_minioj_core
   DEP_FILE = CMakeFiles/minioj_core.dir/src/judge/diff.cpp.o.d
   FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
@@ -118,6 +125,13 @@ build CMakeFiles/minioj_core.dir/src/judge/pipeline.cpp.o: CXX_COMPILER__minioj_
   INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
   OBJECT_DIR = CMakeFiles/minioj_core.dir
   OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/judge
+
+build CMakeFiles/minioj_core.dir/src/auth/session.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/auth/session.cpp || cmake_object_order_depends_target_minioj_core
+  DEP_FILE = CMakeFiles/minioj_core.dir/src/auth/session.cpp.o.d
+  FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_core.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/auth
 
 build CMakeFiles/minioj_core.dir/src/http/problem_dto.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/http/problem_dto.cpp || cmake_object_order_depends_target_minioj_core
   DEP_FILE = CMakeFiles/minioj_core.dir/src/http/problem_dto.cpp.o.d
@@ -154,6 +168,13 @@ build CMakeFiles/minioj_core.dir/src/http/submission_request.cpp.o: CXX_COMPILER
   OBJECT_DIR = CMakeFiles/minioj_core.dir
   OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/http
 
+build CMakeFiles/minioj_core.dir/src/http/middleware.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/http/middleware.cpp || cmake_object_order_depends_target_minioj_core
+  DEP_FILE = CMakeFiles/minioj_core.dir/src/http/middleware.cpp.o.d
+  FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_core.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/http
+
 build CMakeFiles/minioj_core.dir/src/http/handlers_public.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/http/handlers_public.cpp || cmake_object_order_depends_target_minioj_core
   DEP_FILE = CMakeFiles/minioj_core.dir/src/http/handlers_public.cpp.o.d
   FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
@@ -168,6 +189,20 @@ build CMakeFiles/minioj_core.dir/src/http/handlers_admin.cpp.o: CXX_COMPILER__mi
   OBJECT_DIR = CMakeFiles/minioj_core.dir
   OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/http
 
+build CMakeFiles/minioj_core.dir/src/http/handlers_auth.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/http/handlers_auth.cpp || cmake_object_order_depends_target_minioj_core
+  DEP_FILE = CMakeFiles/minioj_core.dir/src/http/handlers_auth.cpp.o.d
+  FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_core.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/http
+
+build CMakeFiles/minioj_core.dir/src/http/router.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/http/router.cpp || cmake_object_order_depends_target_minioj_core
+  DEP_FILE = CMakeFiles/minioj_core.dir/src/http/router.cpp.o.d
+  FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_core.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/http
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target minioj_core
@@ -176,7 +211,7 @@ build CMakeFiles/minioj_core.dir/src/http/handlers_admin.cpp.o: CXX_COMPILER__mi
 #############################################
 # Link the static library libminioj_core.a
 
-build libminioj_core.a: CXX_STATIC_LIBRARY_LINKER__minioj_core_Debug CMakeFiles/minioj_core.dir/src/util/config.cpp.o CMakeFiles/minioj_core.dir/src/util/logger.cpp.o CMakeFiles/minioj_core.dir/src/util/types.cpp.o CMakeFiles/minioj_core.dir/src/db/pool.cpp.o CMakeFiles/minioj_core.dir/src/db/problem_dao.cpp.o CMakeFiles/minioj_core.dir/src/judge/diff.cpp.o CMakeFiles/minioj_core.dir/src/judge/worker_pool.cpp.o CMakeFiles/minioj_core.dir/src/judge/compiler.cpp.o CMakeFiles/minioj_core.dir/src/judge/runner.cpp.o CMakeFiles/minioj_core.dir/src/judge/pipeline.cpp.o CMakeFiles/minioj_core.dir/src/http/problem_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/admin_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/admin_request.cpp.o CMakeFiles/minioj_core.dir/src/http/submission_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/submission_request.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_public.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_admin.cpp.o
+build libminioj_core.a: CXX_STATIC_LIBRARY_LINKER__minioj_core_Debug CMakeFiles/minioj_core.dir/src/util/config.cpp.o CMakeFiles/minioj_core.dir/src/util/logger.cpp.o CMakeFiles/minioj_core.dir/src/util/types.cpp.o CMakeFiles/minioj_core.dir/src/db/pool.cpp.o CMakeFiles/minioj_core.dir/src/db/problem_dao.cpp.o CMakeFiles/minioj_core.dir/src/db/user_dao.cpp.o CMakeFiles/minioj_core.dir/src/judge/diff.cpp.o CMakeFiles/minioj_core.dir/src/judge/worker_pool.cpp.o CMakeFiles/minioj_core.dir/src/judge/compiler.cpp.o CMakeFiles/minioj_core.dir/src/judge/runner.cpp.o CMakeFiles/minioj_core.dir/src/judge/pipeline.cpp.o CMakeFiles/minioj_core.dir/src/auth/session.cpp.o CMakeFiles/minioj_core.dir/src/http/problem_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/admin_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/admin_request.cpp.o CMakeFiles/minioj_core.dir/src/http/submission_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/submission_request.cpp.o CMakeFiles/minioj_core.dir/src/http/middleware.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_public.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_admin.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_auth.cpp.o CMakeFiles/minioj_core.dir/src/http/router.cpp.o
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/minioj_core.dir
   POST_BUILD = :
@@ -625,6 +660,74 @@ build minioj_test_submission_request minioj_test_submission_request[1]_tests.cma
   TARGET_FILE = minioj_test_submission_request
   TARGET_PDB = minioj_test_submission_request.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target minioj_test_session
+
+
+#############################################
+# Order-only phony target for minioj_test_session
+
+build cmake_object_order_depends_target_minioj_test_session: phony || cmake_object_order_depends_target_minioj_core
+
+build CMakeFiles/minioj_test_session.dir/tests/test_session.cpp.o: CXX_COMPILER__minioj_test_session_unscanned_Debug /root/project/oj-vibe_coding/backend/tests/test_session.cpp || cmake_object_order_depends_target_minioj_test_session
+  DEP_FILE = CMakeFiles/minioj_test_session.dir/tests/test_session.cpp.o.d
+  FLAGS = -g -std=c++17 -DGTEST_HAS_PTHREAD=1
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_test_session.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_test_session.dir/tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target minioj_test_session
+
+
+#############################################
+# Link the executable minioj_test_session
+
+build minioj_test_session minioj_test_session[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_session[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_session_Debug CMakeFiles/minioj_test_session.dir/tests/test_session.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+  FLAGS = -g
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  OBJECT_DIR = CMakeFiles/minioj_test_session.dir
+  POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_session -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_session -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_session_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_session[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
+  PRE_LINK = :
+  RESTAT = 1
+  TARGET_FILE = minioj_test_session
+  TARGET_PDB = minioj_test_session.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target minioj_test_user_dao
+
+
+#############################################
+# Order-only phony target for minioj_test_user_dao
+
+build cmake_object_order_depends_target_minioj_test_user_dao: phony || cmake_object_order_depends_target_minioj_core
+
+build CMakeFiles/minioj_test_user_dao.dir/tests/test_user_dao.cpp.o: CXX_COMPILER__minioj_test_user_dao_unscanned_Debug /root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp || cmake_object_order_depends_target_minioj_test_user_dao
+  DEP_FILE = CMakeFiles/minioj_test_user_dao.dir/tests/test_user_dao.cpp.o.d
+  FLAGS = -g -std=c++17 -DGTEST_HAS_PTHREAD=1
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_test_user_dao.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_test_user_dao.dir/tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target minioj_test_user_dao
+
+
+#############################################
+# Link the executable minioj_test_user_dao
+
+build minioj_test_user_dao minioj_test_user_dao[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_user_dao[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_user_dao_Debug CMakeFiles/minioj_test_user_dao.dir/tests/test_user_dao.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+  FLAGS = -g
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  OBJECT_DIR = CMakeFiles/minioj_test_user_dao.dir
+  POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_user_dao -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_user_dao_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
+  PRE_LINK = :
+  RESTAT = 1
+  TARGET_FILE = minioj_test_user_dao
+  TARGET_PDB = minioj_test_user_dao.dbg
+
 
 #############################################
 # Utility command for test
@@ -673,7 +776,7 @@ build minioj_core: phony libminioj_core.a
 #############################################
 # Folder: /root/project/oj-vibe_coding/backend/build
 
-build all: phony libminioj_core.a minioj-backend minioj_test_config minioj_test_logger minioj_test_types minioj_test_problem_dto minioj_test_admin_request minioj_test_diff minioj_test_worker_pool minioj_test_compiler minioj_test_runner minioj_test_submission_dto minioj_test_pipeline minioj_test_submission_request
+build all: phony libminioj_core.a minioj-backend minioj_test_config minioj_test_logger minioj_test_types minioj_test_problem_dto minioj_test_admin_request minioj_test_diff minioj_test_worker_pool minioj_test_compiler minioj_test_runner minioj_test_submission_dto minioj_test_pipeline minioj_test_submission_request minioj_test_session minioj_test_user_dao
 
 # =============================================================================
 # Built-in targets

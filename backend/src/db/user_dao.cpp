@@ -169,7 +169,7 @@ std::optional<UserSummary> findUserByValidSessionId(ConnectionPool& pool,
     const std::string sql =
         "SELECT u.id, u.username, u.role FROM users u "
         "INNER JOIN sessions s ON s.user_id = u.id "
-        "WHERE s.id = '" + session_esc + "' AND s.expires_at > NOW() "
+        "WHERE s.id = '" + session_esc + "' AND s.expires_at > UTC_TIMESTAMP() "
         "ORDER BY s.expires_at DESC LIMIT 1";
 
     if (mysql_query(connection, sql.c_str()) != 0) {

@@ -12,6 +12,8 @@
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_test_submission_dto.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_test_pipeline.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_test_submission_request.dir
+/root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_test_session.dir
+/root/project/oj-vibe_coding/backend/build/CMakeFiles/minioj_test_user_dao.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/test.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/edit_cache.dir
 /root/project/oj-vibe_coding/backend/build/CMakeFiles/rebuild_cache.dir

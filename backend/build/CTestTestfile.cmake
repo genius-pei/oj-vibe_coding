@@ -16,3 +16,5 @@ include("/root/project/oj-vibe_coding/backend/build/minioj_test_runner[1]_includ
 include("/root/project/oj-vibe_coding/backend/build/minioj_test_submission_dto[1]_include.cmake")
 include("/root/project/oj-vibe_coding/backend/build/minioj_test_pipeline[1]_include.cmake")
 include("/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request[1]_include.cmake")
+include("/root/project/oj-vibe_coding/backend/build/minioj_test_session[1]_include.cmake")
+include("/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao[1]_include.cmake")

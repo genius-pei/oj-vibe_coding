@@ -115,4 +115,8 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_session tests/test_session.cpp)
     target_link_libraries(minioj_test_session PRIVATE minioj_core GTest::gtest GTest::gtest_main)
     gtest_discover_tests(minioj_test_session)
+
+    add_executable(minioj_test_user_dao tests/test_user_dao.cpp)
+    target_link_libraries(minioj_test_user_dao PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_user_dao)
 endif()

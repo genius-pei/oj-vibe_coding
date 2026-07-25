@@ -1,10 +1,10 @@
-Start testing: Jul 24 16:29 CST
+Start testing: Jul 25 17:51 CST
 ----------------------------------------------------------
-1/22 Testing: ConfigTest.DefaultsWhenFileMissing
-1/22 Test: ConfigTest.DefaultsWhenFileMissing
+1/138 Testing: ConfigTest.DefaultsWhenFileMissing
+1/138 Test: ConfigTest.DefaultsWhenFileMissing
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.DefaultsWhenFileMissing" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.DefaultsWhenFileMissing" start time: Jul 24 16:29 CST
+"ConfigTest.DefaultsWhenFileMissing" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -23,15 +23,15 @@ Note: Google Test filter = ConfigTest.DefaultsWhenFileMissing
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.DefaultsWhenFileMissing" end time: Jul 24 16:29 CST
+"ConfigTest.DefaultsWhenFileMissing" end time: Jul 25 17:51 CST
 "ConfigTest.DefaultsWhenFileMissing" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/22 Testing: ConfigTest.LoadsValuesFromDotenv
-2/22 Test: ConfigTest.LoadsValuesFromDotenv
+2/138 Testing: ConfigTest.LoadsValuesFromDotenv
+2/138 Test: ConfigTest.LoadsValuesFromDotenv
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.LoadsValuesFromDotenv" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.LoadsValuesFromDotenv" start time: Jul 24 16:29 CST
+"ConfigTest.LoadsValuesFromDotenv" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -40,25 +40,25 @@ Note: Google Test filter = ConfigTest.LoadsValuesFromDotenv
 [----------] Global test environment set-up.
 [----------] 1 test from ConfigTest
 [ RUN      ] ConfigTest.LoadsValuesFromDotenv
-[       OK ] ConfigTest.LoadsValuesFromDotenv (0 ms)
-[----------] 1 test from ConfigTest (0 ms total)
+[       OK ] ConfigTest.LoadsValuesFromDotenv (1 ms)
+[----------] 1 test from ConfigTest (1 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.00 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.LoadsValuesFromDotenv" end time: Jul 24 16:29 CST
+"ConfigTest.LoadsValuesFromDotenv" end time: Jul 25 17:51 CST
 "ConfigTest.LoadsValuesFromDotenv" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/22 Testing: ConfigTest.EnvironmentOverridesDotenv
-3/22 Test: ConfigTest.EnvironmentOverridesDotenv
+3/138 Testing: ConfigTest.EnvironmentOverridesDotenv
+3/138 Test: ConfigTest.EnvironmentOverridesDotenv
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.EnvironmentOverridesDotenv" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.EnvironmentOverridesDotenv" start time: Jul 24 16:29 CST
+"ConfigTest.EnvironmentOverridesDotenv" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -67,25 +67,25 @@ Note: Google Test filter = ConfigTest.EnvironmentOverridesDotenv
 [----------] Global test environment set-up.
 [----------] 1 test from ConfigTest
 [ RUN      ] ConfigTest.EnvironmentOverridesDotenv
-[       OK ] ConfigTest.EnvironmentOverridesDotenv (0 ms)
-[----------] 1 test from ConfigTest (0 ms total)
+[       OK ] ConfigTest.EnvironmentOverridesDotenv (1 ms)
+[----------] 1 test from ConfigTest (1 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.EnvironmentOverridesDotenv" end time: Jul 24 16:29 CST
+"ConfigTest.EnvironmentOverridesDotenv" end time: Jul 25 17:51 CST
 "ConfigTest.EnvironmentOverridesDotenv" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/22 Testing: ConfigTest.IgnoresCommentsAndBlankLines
-4/22 Test: ConfigTest.IgnoresCommentsAndBlankLines
+4/138 Testing: ConfigTest.IgnoresCommentsAndBlankLines
+4/138 Test: ConfigTest.IgnoresCommentsAndBlankLines
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.IgnoresCommentsAndBlankLines" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.IgnoresCommentsAndBlankLines" start time: Jul 24 16:29 CST
+"ConfigTest.IgnoresCommentsAndBlankLines" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -98,21 +98,21 @@ Note: Google Test filter = ConfigTest.IgnoresCommentsAndBlankLines
 [----------] 1 test from ConfigTest (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (2 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.IgnoresCommentsAndBlankLines" end time: Jul 24 16:29 CST
+"ConfigTest.IgnoresCommentsAndBlankLines" end time: Jul 25 17:51 CST
 "ConfigTest.IgnoresCommentsAndBlankLines" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-5/22 Testing: ConfigTest.TrimsWhitespaceAndQuotes
-5/22 Test: ConfigTest.TrimsWhitespaceAndQuotes
+5/138 Testing: ConfigTest.TrimsWhitespaceAndQuotes
+5/138 Test: ConfigTest.TrimsWhitespaceAndQuotes
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.TrimsWhitespaceAndQuotes" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.TrimsWhitespaceAndQuotes" start time: Jul 24 16:29 CST
+"ConfigTest.TrimsWhitespaceAndQuotes" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -128,18 +128,18 @@ Note: Google Test filter = ConfigTest.TrimsWhitespaceAndQuotes
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.TrimsWhitespaceAndQuotes" end time: Jul 24 16:29 CST
+"ConfigTest.TrimsWhitespaceAndQuotes" end time: Jul 25 17:51 CST
 "ConfigTest.TrimsWhitespaceAndQuotes" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-6/22 Testing: ConfigTest.RejectsMalformedLine
-6/22 Test: ConfigTest.RejectsMalformedLine
+6/138 Testing: ConfigTest.RejectsMalformedLine
+6/138 Test: ConfigTest.RejectsMalformedLine
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsMalformedLine" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsMalformedLine" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsMalformedLine" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -148,25 +148,25 @@ Note: Google Test filter = ConfigTest.RejectsMalformedLine
 [----------] Global test environment set-up.
 [----------] 1 test from ConfigTest
 [ RUN      ] ConfigTest.RejectsMalformedLine
-[       OK ] ConfigTest.RejectsMalformedLine (2 ms)
-[----------] 1 test from ConfigTest (2 ms total)
+[       OK ] ConfigTest.RejectsMalformedLine (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (4 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsMalformedLine" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsMalformedLine" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsMalformedLine" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-7/22 Testing: ConfigTest.RejectsEmptyKey
-7/22 Test: ConfigTest.RejectsEmptyKey
+7/138 Testing: ConfigTest.RejectsEmptyKey
+7/138 Test: ConfigTest.RejectsEmptyKey
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsEmptyKey" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsEmptyKey" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsEmptyKey" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -175,25 +175,25 @@ Note: Google Test filter = ConfigTest.RejectsEmptyKey
 [----------] Global test environment set-up.
 [----------] 1 test from ConfigTest
 [ RUN      ] ConfigTest.RejectsEmptyKey
-[       OK ] ConfigTest.RejectsEmptyKey (1 ms)
-[----------] 1 test from ConfigTest (1 ms total)
+[       OK ] ConfigTest.RejectsEmptyKey (0 ms)
+[----------] 1 test from ConfigTest (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsEmptyKey" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsEmptyKey" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsEmptyKey" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-8/22 Testing: ConfigTest.RejectsInvalidPort
-8/22 Test: ConfigTest.RejectsInvalidPort
+8/138 Testing: ConfigTest.RejectsInvalidPort
+8/138 Test: ConfigTest.RejectsInvalidPort
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsInvalidPort" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsInvalidPort" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsInvalidPort" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -212,15 +212,15 @@ Note: Google Test filter = ConfigTest.RejectsInvalidPort
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsInvalidPort" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsInvalidPort" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsInvalidPort" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-9/22 Testing: ConfigTest.RejectsZeroPort
-9/22 Test: ConfigTest.RejectsZeroPort
+9/138 Testing: ConfigTest.RejectsZeroPort
+9/138 Test: ConfigTest.RejectsZeroPort
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsZeroPort" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsZeroPort" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsZeroPort" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -230,24 +230,24 @@ Note: Google Test filter = ConfigTest.RejectsZeroPort
 [----------] 1 test from ConfigTest
 [ RUN      ] ConfigTest.RejectsZeroPort
 [       OK ] ConfigTest.RejectsZeroPort (0 ms)
-[----------] 1 test from ConfigTest (0 ms total)
+[----------] 1 test from ConfigTest (1 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsZeroPort" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsZeroPort" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsZeroPort" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-10/22 Testing: ConfigTest.RejectsNonNumericPoolSize
-10/22 Test: ConfigTest.RejectsNonNumericPoolSize
+10/138 Testing: ConfigTest.RejectsNonNumericPoolSize
+10/138 Test: ConfigTest.RejectsNonNumericPoolSize
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsNonNumericPoolSize" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsNonNumericPoolSize" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsNonNumericPoolSize" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -256,25 +256,25 @@ Note: Google Test filter = ConfigTest.RejectsNonNumericPoolSize
 [----------] Global test environment set-up.
 [----------] 1 test from ConfigTest
 [ RUN      ] ConfigTest.RejectsNonNumericPoolSize
-[       OK ] ConfigTest.RejectsNonNumericPoolSize (0 ms)
-[----------] 1 test from ConfigTest (0 ms total)
+[       OK ] ConfigTest.RejectsNonNumericPoolSize (1 ms)
+[----------] 1 test from ConfigTest (1 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.00 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsNonNumericPoolSize" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsNonNumericPoolSize" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsNonNumericPoolSize" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-11/22 Testing: ConfigTest.RejectsPoolSizeAboveLimit
-11/22 Test: ConfigTest.RejectsPoolSizeAboveLimit
+11/138 Testing: ConfigTest.RejectsPoolSizeAboveLimit
+11/138 Test: ConfigTest.RejectsPoolSizeAboveLimit
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsPoolSizeAboveLimit" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsPoolSizeAboveLimit" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsPoolSizeAboveLimit" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -293,15 +293,15 @@ Note: Google Test filter = ConfigTest.RejectsPoolSizeAboveLimit
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsPoolSizeAboveLimit" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsPoolSizeAboveLimit" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsPoolSizeAboveLimit" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-12/22 Testing: ConfigTest.RejectsInvalidBoolean
-12/22 Test: ConfigTest.RejectsInvalidBoolean
+12/138 Testing: ConfigTest.RejectsInvalidBoolean
+12/138 Test: ConfigTest.RejectsInvalidBoolean
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsInvalidBoolean" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsInvalidBoolean" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsInvalidBoolean" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -320,15 +320,15 @@ Note: Google Test filter = ConfigTest.RejectsInvalidBoolean
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsInvalidBoolean" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsInvalidBoolean" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsInvalidBoolean" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-13/22 Testing: ConfigTest.RejectsInvalidLogLevel
-13/22 Test: ConfigTest.RejectsInvalidLogLevel
+13/138 Testing: ConfigTest.RejectsInvalidLogLevel
+13/138 Test: ConfigTest.RejectsInvalidLogLevel
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsInvalidLogLevel" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsInvalidLogLevel" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsInvalidLogLevel" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -338,24 +338,24 @@ Note: Google Test filter = ConfigTest.RejectsInvalidLogLevel
 [----------] 1 test from ConfigTest
 [ RUN      ] ConfigTest.RejectsInvalidLogLevel
 [       OK ] ConfigTest.RejectsInvalidLogLevel (0 ms)
-[----------] 1 test from ConfigTest (0 ms total)
+[----------] 1 test from ConfigTest (1 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsInvalidLogLevel" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsInvalidLogLevel" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsInvalidLogLevel" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-14/22 Testing: ConfigTest.RejectsEmptyPassword
-14/22 Test: ConfigTest.RejectsEmptyPassword
+14/138 Testing: ConfigTest.RejectsEmptyPassword
+14/138 Test: ConfigTest.RejectsEmptyPassword
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsEmptyPassword" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsEmptyPassword" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsEmptyPassword" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -374,15 +374,15 @@ Note: Google Test filter = ConfigTest.RejectsEmptyPassword
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsEmptyPassword" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsEmptyPassword" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsEmptyPassword" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-15/22 Testing: ConfigTest.RejectsNegativeNumber
-15/22 Test: ConfigTest.RejectsNegativeNumber
+15/138 Testing: ConfigTest.RejectsNegativeNumber
+15/138 Test: ConfigTest.RejectsNegativeNumber
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_config" "--gtest_filter=ConfigTest.RejectsNegativeNumber" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ConfigTest.RejectsNegativeNumber" start time: Jul 24 16:29 CST
+"ConfigTest.RejectsNegativeNumber" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -391,25 +391,25 @@ Note: Google Test filter = ConfigTest.RejectsNegativeNumber
 [----------] Global test environment set-up.
 [----------] 1 test from ConfigTest
 [ RUN      ] ConfigTest.RejectsNegativeNumber
-[       OK ] ConfigTest.RejectsNegativeNumber (2 ms)
-[----------] 1 test from ConfigTest (2 ms total)
+[       OK ] ConfigTest.RejectsNegativeNumber (0 ms)
+[----------] 1 test from ConfigTest (1 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (2 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"ConfigTest.RejectsNegativeNumber" end time: Jul 24 16:29 CST
+"ConfigTest.RejectsNegativeNumber" end time: Jul 25 17:51 CST
 "ConfigTest.RejectsNegativeNumber" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-16/22 Testing: ParseLogLevelTest.RecognisesAllLevels
-16/22 Test: ParseLogLevelTest.RecognisesAllLevels
+16/138 Testing: ParseLogLevelTest.RecognisesAllLevels
+16/138 Test: ParseLogLevelTest.RecognisesAllLevels
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=ParseLogLevelTest.RecognisesAllLevels" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ParseLogLevelTest.RecognisesAllLevels" start time: Jul 24 16:29 CST
+"ParseLogLevelTest.RecognisesAllLevels" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -428,15 +428,15 @@ Note: Google Test filter = ParseLogLevelTest.RecognisesAllLevels
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ParseLogLevelTest.RecognisesAllLevels" end time: Jul 24 16:29 CST
+"ParseLogLevelTest.RecognisesAllLevels" end time: Jul 25 17:51 CST
 "ParseLogLevelTest.RecognisesAllLevels" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-17/22 Testing: ParseLogLevelTest.RejectsUnknownLevel
-17/22 Test: ParseLogLevelTest.RejectsUnknownLevel
+17/138 Testing: ParseLogLevelTest.RejectsUnknownLevel
+17/138 Test: ParseLogLevelTest.RejectsUnknownLevel
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=ParseLogLevelTest.RejectsUnknownLevel" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"ParseLogLevelTest.RejectsUnknownLevel" start time: Jul 24 16:29 CST
+"ParseLogLevelTest.RejectsUnknownLevel" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -452,18 +452,18 @@ Note: Google Test filter = ParseLogLevelTest.RejectsUnknownLevel
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ParseLogLevelTest.RejectsUnknownLevel" end time: Jul 24 16:29 CST
+"ParseLogLevelTest.RejectsUnknownLevel" end time: Jul 25 17:51 CST
 "ParseLogLevelTest.RejectsUnknownLevel" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-18/22 Testing: LogLevelNameTest.MatchesParseInverse
-18/22 Test: LogLevelNameTest.MatchesParseInverse
+18/138 Testing: LogLevelNameTest.MatchesParseInverse
+18/138 Test: LogLevelNameTest.MatchesParseInverse
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LogLevelNameTest.MatchesParseInverse" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"LogLevelNameTest.MatchesParseInverse" start time: Jul 24 16:29 CST
+"LogLevelNameTest.MatchesParseInverse" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -482,15 +482,15 @@ Note: Google Test filter = LogLevelNameTest.MatchesParseInverse
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"LogLevelNameTest.MatchesParseInverse" end time: Jul 24 16:29 CST
+"LogLevelNameTest.MatchesParseInverse" end time: Jul 25 17:51 CST
 "LogLevelNameTest.MatchesParseInverse" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-19/22 Testing: LoggerTest.EmitsFormattedLineAtOrAboveMinimum
-19/22 Test: LoggerTest.EmitsFormattedLineAtOrAboveMinimum
+19/138 Testing: LoggerTest.EmitsFormattedLineAtOrAboveMinimum
+19/138 Test: LoggerTest.EmitsFormattedLineAtOrAboveMinimum
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LoggerTest.EmitsFormattedLineAtOrAboveMinimum" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"LoggerTest.EmitsFormattedLineAtOrAboveMinimum" start time: Jul 24 16:29 CST
+"LoggerTest.EmitsFormattedLineAtOrAboveMinimum" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -509,15 +509,15 @@ Note: Google Test filter = LoggerTest.EmitsFormattedLineAtOrAboveMinimum
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"LoggerTest.EmitsFormattedLineAtOrAboveMinimum" end time: Jul 24 16:29 CST
+"LoggerTest.EmitsFormattedLineAtOrAboveMinimum" end time: Jul 25 17:51 CST
 "LoggerTest.EmitsFormattedLineAtOrAboveMinimum" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-20/22 Testing: LoggerTest.SuppressesMessagesBelowMinimum
-20/22 Test: LoggerTest.SuppressesMessagesBelowMinimum
+20/138 Testing: LoggerTest.SuppressesMessagesBelowMinimum
+20/138 Test: LoggerTest.SuppressesMessagesBelowMinimum
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LoggerTest.SuppressesMessagesBelowMinimum" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"LoggerTest.SuppressesMessagesBelowMinimum" start time: Jul 24 16:29 CST
+"LoggerTest.SuppressesMessagesBelowMinimum" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -527,24 +527,24 @@ Note: Google Test filter = LoggerTest.SuppressesMessagesBelowMinimum
 [----------] 1 test from LoggerTest
 [ RUN      ] LoggerTest.SuppressesMessagesBelowMinimum
 [       OK ] LoggerTest.SuppressesMessagesBelowMinimum (0 ms)
-[----------] 1 test from LoggerTest (1 ms total)
+[----------] 1 test from LoggerTest (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.01 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"LoggerTest.SuppressesMessagesBelowMinimum" end time: Jul 24 16:29 CST
+"LoggerTest.SuppressesMessagesBelowMinimum" end time: Jul 25 17:51 CST
 "LoggerTest.SuppressesMessagesBelowMinimum" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-21/22 Testing: LoggerTest.ErrorAlwaysEmitted
-21/22 Test: LoggerTest.ErrorAlwaysEmitted
+21/138 Testing: LoggerTest.ErrorAlwaysEmitted
+21/138 Test: LoggerTest.ErrorAlwaysEmitted
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LoggerTest.ErrorAlwaysEmitted" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"LoggerTest.ErrorAlwaysEmitted" start time: Jul 24 16:29 CST
+"LoggerTest.ErrorAlwaysEmitted" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -563,15 +563,15 @@ Note: Google Test filter = LoggerTest.ErrorAlwaysEmitted
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"LoggerTest.ErrorAlwaysEmitted" end time: Jul 24 16:29 CST
+"LoggerTest.ErrorAlwaysEmitted" end time: Jul 25 17:51 CST
 "LoggerTest.ErrorAlwaysEmitted" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-22/22 Testing: LoggerTest.UsesUtcTimestamp
-22/22 Test: LoggerTest.UsesUtcTimestamp
+22/138 Testing: LoggerTest.UsesUtcTimestamp
+22/138 Test: LoggerTest.UsesUtcTimestamp
 Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_logger" "--gtest_filter=LoggerTest.UsesUtcTimestamp" "--gtest_also_run_disabled_tests"
 Directory: /root/project/oj-vibe_coding/backend/build
-"LoggerTest.UsesUtcTimestamp" start time: Jul 24 16:29 CST
+"LoggerTest.UsesUtcTimestamp" start time: Jul 25 17:51 CST
 Output:
 ----------------------------------------------------------
 Running main() from ./googletest/src/gtest_main.cc
@@ -590,8 +590,3221 @@ Note: Google Test filter = LoggerTest.UsesUtcTimestamp
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"LoggerTest.UsesUtcTimestamp" end time: Jul 24 16:29 CST
+"LoggerTest.UsesUtcTimestamp" end time: Jul 25 17:51 CST
 "LoggerTest.UsesUtcTimestamp" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Jul 24 16:29 CST
+23/138 Testing: ParseDifficultyTest.RecognisesAllLevels
+23/138 Test: ParseDifficultyTest.RecognisesAllLevels
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_types" "--gtest_filter=ParseDifficultyTest.RecognisesAllLevels" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseDifficultyTest.RecognisesAllLevels" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseDifficultyTest.RecognisesAllLevels
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseDifficultyTest
+[ RUN      ] ParseDifficultyTest.RecognisesAllLevels
+[       OK ] ParseDifficultyTest.RecognisesAllLevels (0 ms)
+[----------] 1 test from ParseDifficultyTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseDifficultyTest.RecognisesAllLevels" end time: Jul 25 17:51 CST
+"ParseDifficultyTest.RecognisesAllLevels" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/138 Testing: ParseDifficultyTest.IsCaseSensitive
+24/138 Test: ParseDifficultyTest.IsCaseSensitive
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_types" "--gtest_filter=ParseDifficultyTest.IsCaseSensitive" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseDifficultyTest.IsCaseSensitive" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseDifficultyTest.IsCaseSensitive
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseDifficultyTest
+[ RUN      ] ParseDifficultyTest.IsCaseSensitive
+[       OK ] ParseDifficultyTest.IsCaseSensitive (0 ms)
+[----------] 1 test from ParseDifficultyTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseDifficultyTest.IsCaseSensitive" end time: Jul 25 17:51 CST
+"ParseDifficultyTest.IsCaseSensitive" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/138 Testing: ParseDifficultyTest.RejectsUnknownValues
+25/138 Test: ParseDifficultyTest.RejectsUnknownValues
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_types" "--gtest_filter=ParseDifficultyTest.RejectsUnknownValues" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseDifficultyTest.RejectsUnknownValues" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseDifficultyTest.RejectsUnknownValues
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseDifficultyTest
+[ RUN      ] ParseDifficultyTest.RejectsUnknownValues
+[       OK ] ParseDifficultyTest.RejectsUnknownValues (0 ms)
+[----------] 1 test from ParseDifficultyTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseDifficultyTest.RejectsUnknownValues" end time: Jul 25 17:51 CST
+"ParseDifficultyTest.RejectsUnknownValues" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/138 Testing: TagDtoTest.ContainsIdAndName
+26/138 Test: TagDtoTest.ContainsIdAndName
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto" "--gtest_filter=TagDtoTest.ContainsIdAndName" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"TagDtoTest.ContainsIdAndName" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = TagDtoTest.ContainsIdAndName
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TagDtoTest
+[ RUN      ] TagDtoTest.ContainsIdAndName
+[       OK ] TagDtoTest.ContainsIdAndName (0 ms)
+[----------] 1 test from TagDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"TagDtoTest.ContainsIdAndName" end time: Jul 25 17:51 CST
+"TagDtoTest.ContainsIdAndName" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/138 Testing: TestCaseDtoTest.MapsAllFields
+27/138 Test: TestCaseDtoTest.MapsAllFields
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto" "--gtest_filter=TestCaseDtoTest.MapsAllFields" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"TestCaseDtoTest.MapsAllFields" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = TestCaseDtoTest.MapsAllFields
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TestCaseDtoTest
+[ RUN      ] TestCaseDtoTest.MapsAllFields
+[       OK ] TestCaseDtoTest.MapsAllFields (0 ms)
+[----------] 1 test from TestCaseDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"TestCaseDtoTest.MapsAllFields" end time: Jul 25 17:51 CST
+"TestCaseDtoTest.MapsAllFields" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/138 Testing: ProblemSummaryDtoTest.IncludesAllPublicFields
+28/138 Test: ProblemSummaryDtoTest.IncludesAllPublicFields
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto" "--gtest_filter=ProblemSummaryDtoTest.IncludesAllPublicFields" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ProblemSummaryDtoTest.IncludesAllPublicFields" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ProblemSummaryDtoTest.IncludesAllPublicFields
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ProblemSummaryDtoTest
+[ RUN      ] ProblemSummaryDtoTest.IncludesAllPublicFields
+[       OK ] ProblemSummaryDtoTest.IncludesAllPublicFields (0 ms)
+[----------] 1 test from ProblemSummaryDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ProblemSummaryDtoTest.IncludesAllPublicFields" end time: Jul 25 17:51 CST
+"ProblemSummaryDtoTest.IncludesAllPublicFields" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/138 Testing: ProblemSummaryDtoTest.ExcludesDescription
+29/138 Test: ProblemSummaryDtoTest.ExcludesDescription
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto" "--gtest_filter=ProblemSummaryDtoTest.ExcludesDescription" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ProblemSummaryDtoTest.ExcludesDescription" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ProblemSummaryDtoTest.ExcludesDescription
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ProblemSummaryDtoTest
+[ RUN      ] ProblemSummaryDtoTest.ExcludesDescription
+[       OK ] ProblemSummaryDtoTest.ExcludesDescription (0 ms)
+[----------] 1 test from ProblemSummaryDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ProblemSummaryDtoTest.ExcludesDescription" end time: Jul 25 17:51 CST
+"ProblemSummaryDtoTest.ExcludesDescription" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/138 Testing: ProblemSummaryDtoTest.DifficultySerialisesAsString
+30/138 Test: ProblemSummaryDtoTest.DifficultySerialisesAsString
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto" "--gtest_filter=ProblemSummaryDtoTest.DifficultySerialisesAsString" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ProblemSummaryDtoTest.DifficultySerialisesAsString" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ProblemSummaryDtoTest.DifficultySerialisesAsString
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ProblemSummaryDtoTest
+[ RUN      ] ProblemSummaryDtoTest.DifficultySerialisesAsString
+[       OK ] ProblemSummaryDtoTest.DifficultySerialisesAsString (0 ms)
+[----------] 1 test from ProblemSummaryDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ProblemSummaryDtoTest.DifficultySerialisesAsString" end time: Jul 25 17:51 CST
+"ProblemSummaryDtoTest.DifficultySerialisesAsString" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/138 Testing: ProblemSummaryDtoTest.EmptyTagsArrayWhenNone
+31/138 Test: ProblemSummaryDtoTest.EmptyTagsArrayWhenNone
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto" "--gtest_filter=ProblemSummaryDtoTest.EmptyTagsArrayWhenNone" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ProblemSummaryDtoTest.EmptyTagsArrayWhenNone" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ProblemSummaryDtoTest.EmptyTagsArrayWhenNone
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ProblemSummaryDtoTest
+[ RUN      ] ProblemSummaryDtoTest.EmptyTagsArrayWhenNone
+[       OK ] ProblemSummaryDtoTest.EmptyTagsArrayWhenNone (0 ms)
+[----------] 1 test from ProblemSummaryDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ProblemSummaryDtoTest.EmptyTagsArrayWhenNone" end time: Jul 25 17:51 CST
+"ProblemSummaryDtoTest.EmptyTagsArrayWhenNone" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/138 Testing: ProblemDetailDtoTest.IncludesDescriptionAndSamples
+32/138 Test: ProblemDetailDtoTest.IncludesDescriptionAndSamples
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto" "--gtest_filter=ProblemDetailDtoTest.IncludesDescriptionAndSamples" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ProblemDetailDtoTest.IncludesDescriptionAndSamples" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ProblemDetailDtoTest.IncludesDescriptionAndSamples
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ProblemDetailDtoTest
+[ RUN      ] ProblemDetailDtoTest.IncludesDescriptionAndSamples
+[       OK ] ProblemDetailDtoTest.IncludesDescriptionAndSamples (0 ms)
+[----------] 1 test from ProblemDetailDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ProblemDetailDtoTest.IncludesDescriptionAndSamples" end time: Jul 25 17:51 CST
+"ProblemDetailDtoTest.IncludesDescriptionAndSamples" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/138 Testing: ProblemListDtoTest.WrapsSummariesInArray
+33/138 Test: ProblemListDtoTest.WrapsSummariesInArray
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto" "--gtest_filter=ProblemListDtoTest.WrapsSummariesInArray" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ProblemListDtoTest.WrapsSummariesInArray" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ProblemListDtoTest.WrapsSummariesInArray
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ProblemListDtoTest
+[ RUN      ] ProblemListDtoTest.WrapsSummariesInArray
+[       OK ] ProblemListDtoTest.WrapsSummariesInArray (0 ms)
+[----------] 1 test from ProblemListDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ProblemListDtoTest.WrapsSummariesInArray" end time: Jul 25 17:51 CST
+"ProblemListDtoTest.WrapsSummariesInArray" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/138 Testing: ProblemDtoTest.EscapesSpecialCharacters
+34/138 Test: ProblemDtoTest.EscapesSpecialCharacters
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto" "--gtest_filter=ProblemDtoTest.EscapesSpecialCharacters" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ProblemDtoTest.EscapesSpecialCharacters" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ProblemDtoTest.EscapesSpecialCharacters
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ProblemDtoTest
+[ RUN      ] ProblemDtoTest.EscapesSpecialCharacters
+[       OK ] ProblemDtoTest.EscapesSpecialCharacters (0 ms)
+[----------] 1 test from ProblemDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ProblemDtoTest.EscapesSpecialCharacters" end time: Jul 25 17:51 CST
+"ProblemDtoTest.EscapesSpecialCharacters" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/138 Testing: AdminTestCaseDtoTest.MapsAllFields
+35/138 Test: AdminTestCaseDtoTest.MapsAllFields
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=AdminTestCaseDtoTest.MapsAllFields" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"AdminTestCaseDtoTest.MapsAllFields" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = AdminTestCaseDtoTest.MapsAllFields
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminTestCaseDtoTest
+[ RUN      ] AdminTestCaseDtoTest.MapsAllFields
+[       OK ] AdminTestCaseDtoTest.MapsAllFields (0 ms)
+[----------] 1 test from AdminTestCaseDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"AdminTestCaseDtoTest.MapsAllFields" end time: Jul 25 17:51 CST
+"AdminTestCaseDtoTest.MapsAllFields" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/138 Testing: AdminProblemDetailDtoTest.IncludesTagsAndAllTestcases
+36/138 Test: AdminProblemDetailDtoTest.IncludesTagsAndAllTestcases
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=AdminProblemDetailDtoTest.IncludesTagsAndAllTestcases" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"AdminProblemDetailDtoTest.IncludesTagsAndAllTestcases" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = AdminProblemDetailDtoTest.IncludesTagsAndAllTestcases
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminProblemDetailDtoTest
+[ RUN      ] AdminProblemDetailDtoTest.IncludesTagsAndAllTestcases
+[       OK ] AdminProblemDetailDtoTest.IncludesTagsAndAllTestcases (0 ms)
+[----------] 1 test from AdminProblemDetailDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"AdminProblemDetailDtoTest.IncludesTagsAndAllTestcases" end time: Jul 25 17:51 CST
+"AdminProblemDetailDtoTest.IncludesTagsAndAllTestcases" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/138 Testing: AdminProblemListDtoTest.WrapsInArray
+37/138 Test: AdminProblemListDtoTest.WrapsInArray
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=AdminProblemListDtoTest.WrapsInArray" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"AdminProblemListDtoTest.WrapsInArray" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = AdminProblemListDtoTest.WrapsInArray
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from AdminProblemListDtoTest
+[ RUN      ] AdminProblemListDtoTest.WrapsInArray
+[       OK ] AdminProblemListDtoTest.WrapsInArray (0 ms)
+[----------] 1 test from AdminProblemListDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"AdminProblemListDtoTest.WrapsInArray" end time: Jul 25 17:51 CST
+"AdminProblemListDtoTest.WrapsInArray" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/138 Testing: ParseJsonBodyTest.AcceptsObject
+38/138 Test: ParseJsonBodyTest.AcceptsObject
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseJsonBodyTest.AcceptsObject" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseJsonBodyTest.AcceptsObject" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseJsonBodyTest.AcceptsObject
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseJsonBodyTest
+[ RUN      ] ParseJsonBodyTest.AcceptsObject
+[       OK ] ParseJsonBodyTest.AcceptsObject (0 ms)
+[----------] 1 test from ParseJsonBodyTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ParseJsonBodyTest.AcceptsObject" end time: Jul 25 17:51 CST
+"ParseJsonBodyTest.AcceptsObject" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/138 Testing: ParseJsonBodyTest.RejectsEmpty
+39/138 Test: ParseJsonBodyTest.RejectsEmpty
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseJsonBodyTest.RejectsEmpty" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseJsonBodyTest.RejectsEmpty" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseJsonBodyTest.RejectsEmpty
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseJsonBodyTest
+[ RUN      ] ParseJsonBodyTest.RejectsEmpty
+[       OK ] ParseJsonBodyTest.RejectsEmpty (0 ms)
+[----------] 1 test from ParseJsonBodyTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseJsonBodyTest.RejectsEmpty" end time: Jul 25 17:51 CST
+"ParseJsonBodyTest.RejectsEmpty" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/138 Testing: ParseJsonBodyTest.RejectsMalformed
+40/138 Test: ParseJsonBodyTest.RejectsMalformed
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseJsonBodyTest.RejectsMalformed" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseJsonBodyTest.RejectsMalformed" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseJsonBodyTest.RejectsMalformed
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseJsonBodyTest
+[ RUN      ] ParseJsonBodyTest.RejectsMalformed
+[       OK ] ParseJsonBodyTest.RejectsMalformed (0 ms)
+[----------] 1 test from ParseJsonBodyTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseJsonBodyTest.RejectsMalformed" end time: Jul 25 17:51 CST
+"ParseJsonBodyTest.RejectsMalformed" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/138 Testing: ParseProblemInputTest.AcceptsValidPayload
+41/138 Test: ParseProblemInputTest.AcceptsValidPayload
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.AcceptsValidPayload" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.AcceptsValidPayload" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.AcceptsValidPayload
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.AcceptsValidPayload
+[       OK ] ParseProblemInputTest.AcceptsValidPayload (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.AcceptsValidPayload" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.AcceptsValidPayload" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/138 Testing: ParseProblemInputTest.TagsAndTestcasesOptionalDefaults
+42/138 Test: ParseProblemInputTest.TagsAndTestcasesOptionalDefaults
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.TagsAndTestcasesOptionalDefaults" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.TagsAndTestcasesOptionalDefaults" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.TagsAndTestcasesOptionalDefaults
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.TagsAndTestcasesOptionalDefaults
+[       OK ] ParseProblemInputTest.TagsAndTestcasesOptionalDefaults (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.TagsAndTestcasesOptionalDefaults" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.TagsAndTestcasesOptionalDefaults" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/138 Testing: ParseProblemInputTest.RejectsMissingTitle
+43/138 Test: ParseProblemInputTest.RejectsMissingTitle
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.RejectsMissingTitle" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.RejectsMissingTitle" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.RejectsMissingTitle
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.RejectsMissingTitle
+[       OK ] ParseProblemInputTest.RejectsMissingTitle (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.RejectsMissingTitle" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.RejectsMissingTitle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/138 Testing: ParseProblemInputTest.RejectsEmptyTitle
+44/138 Test: ParseProblemInputTest.RejectsEmptyTitle
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.RejectsEmptyTitle" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.RejectsEmptyTitle" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.RejectsEmptyTitle
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.RejectsEmptyTitle
+[       OK ] ParseProblemInputTest.RejectsEmptyTitle (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.RejectsEmptyTitle" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.RejectsEmptyTitle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/138 Testing: ParseProblemInputTest.RejectsInvalidDifficulty
+45/138 Test: ParseProblemInputTest.RejectsInvalidDifficulty
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.RejectsInvalidDifficulty" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.RejectsInvalidDifficulty" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.RejectsInvalidDifficulty
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.RejectsInvalidDifficulty
+[       OK ] ParseProblemInputTest.RejectsInvalidDifficulty (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.RejectsInvalidDifficulty" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.RejectsInvalidDifficulty" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/138 Testing: ParseProblemInputTest.RejectsZeroTimeLimit
+46/138 Test: ParseProblemInputTest.RejectsZeroTimeLimit
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.RejectsZeroTimeLimit" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.RejectsZeroTimeLimit" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.RejectsZeroTimeLimit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.RejectsZeroTimeLimit
+[       OK ] ParseProblemInputTest.RejectsZeroTimeLimit (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.RejectsZeroTimeLimit" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.RejectsZeroTimeLimit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/138 Testing: ParseProblemInputTest.RejectsWrongType
+47/138 Test: ParseProblemInputTest.RejectsWrongType
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.RejectsWrongType" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.RejectsWrongType" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.RejectsWrongType
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.RejectsWrongType
+[       OK ] ParseProblemInputTest.RejectsWrongType (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.RejectsWrongType" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.RejectsWrongType" time elapsed: 00:00:00
+----------------------------------------------------------
+
+48/138 Testing: ParseProblemInputTest.RejectsTagsNotArray
+48/138 Test: ParseProblemInputTest.RejectsTagsNotArray
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.RejectsTagsNotArray" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.RejectsTagsNotArray" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.RejectsTagsNotArray
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.RejectsTagsNotArray
+[       OK ] ParseProblemInputTest.RejectsTagsNotArray (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.RejectsTagsNotArray" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.RejectsTagsNotArray" time elapsed: 00:00:00
+----------------------------------------------------------
+
+49/138 Testing: ParseProblemInputTest.RejectsEmptyTestcases
+49/138 Test: ParseProblemInputTest.RejectsEmptyTestcases
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.RejectsEmptyTestcases" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.RejectsEmptyTestcases" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.RejectsEmptyTestcases
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.RejectsEmptyTestcases
+[       OK ] ParseProblemInputTest.RejectsEmptyTestcases (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.RejectsEmptyTestcases" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.RejectsEmptyTestcases" time elapsed: 00:00:00
+----------------------------------------------------------
+
+50/138 Testing: ParseProblemInputTest.RejectsTooLongTitle
+50/138 Test: ParseProblemInputTest.RejectsTooLongTitle
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseProblemInputTest.RejectsTooLongTitle" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseProblemInputTest.RejectsTooLongTitle" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseProblemInputTest.RejectsTooLongTitle
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseProblemInputTest
+[ RUN      ] ParseProblemInputTest.RejectsTooLongTitle
+[       OK ] ParseProblemInputTest.RejectsTooLongTitle (0 ms)
+[----------] 1 test from ParseProblemInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ParseProblemInputTest.RejectsTooLongTitle" end time: Jul 25 17:51 CST
+"ParseProblemInputTest.RejectsTooLongTitle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+51/138 Testing: ParseTestCaseInputTest.AcceptsMinimalPayload
+51/138 Test: ParseTestCaseInputTest.AcceptsMinimalPayload
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseTestCaseInputTest.AcceptsMinimalPayload" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseTestCaseInputTest.AcceptsMinimalPayload" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseTestCaseInputTest.AcceptsMinimalPayload
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseTestCaseInputTest
+[ RUN      ] ParseTestCaseInputTest.AcceptsMinimalPayload
+[       OK ] ParseTestCaseInputTest.AcceptsMinimalPayload (0 ms)
+[----------] 1 test from ParseTestCaseInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseTestCaseInputTest.AcceptsMinimalPayload" end time: Jul 25 17:51 CST
+"ParseTestCaseInputTest.AcceptsMinimalPayload" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/138 Testing: ParseTestCaseInputTest.AcceptsIdForUpdate
+52/138 Test: ParseTestCaseInputTest.AcceptsIdForUpdate
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseTestCaseInputTest.AcceptsIdForUpdate" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseTestCaseInputTest.AcceptsIdForUpdate" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseTestCaseInputTest.AcceptsIdForUpdate
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseTestCaseInputTest
+[ RUN      ] ParseTestCaseInputTest.AcceptsIdForUpdate
+[       OK ] ParseTestCaseInputTest.AcceptsIdForUpdate (0 ms)
+[----------] 1 test from ParseTestCaseInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseTestCaseInputTest.AcceptsIdForUpdate" end time: Jul 25 17:51 CST
+"ParseTestCaseInputTest.AcceptsIdForUpdate" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/138 Testing: ParseTestCaseInputTest.RejectsNegativeId
+53/138 Test: ParseTestCaseInputTest.RejectsNegativeId
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseTestCaseInputTest.RejectsNegativeId" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseTestCaseInputTest.RejectsNegativeId" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseTestCaseInputTest.RejectsNegativeId
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseTestCaseInputTest
+[ RUN      ] ParseTestCaseInputTest.RejectsNegativeId
+[       OK ] ParseTestCaseInputTest.RejectsNegativeId (0 ms)
+[----------] 1 test from ParseTestCaseInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseTestCaseInputTest.RejectsNegativeId" end time: Jul 25 17:51 CST
+"ParseTestCaseInputTest.RejectsNegativeId" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/138 Testing: ParseTestCaseInputTest.RejectsMissingInput
+54/138 Test: ParseTestCaseInputTest.RejectsMissingInput
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request" "--gtest_filter=ParseTestCaseInputTest.RejectsMissingInput" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseTestCaseInputTest.RejectsMissingInput" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseTestCaseInputTest.RejectsMissingInput
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseTestCaseInputTest
+[ RUN      ] ParseTestCaseInputTest.RejectsMissingInput
+[       OK ] ParseTestCaseInputTest.RejectsMissingInput (0 ms)
+[----------] 1 test from ParseTestCaseInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseTestCaseInputTest.RejectsMissingInput" end time: Jul 25 17:51 CST
+"ParseTestCaseInputTest.RejectsMissingInput" time elapsed: 00:00:00
+----------------------------------------------------------
+
+55/138 Testing: DiffTest.IdenticalStringsMatch
+55/138 Test: DiffTest.IdenticalStringsMatch
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.IdenticalStringsMatch" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.IdenticalStringsMatch" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.IdenticalStringsMatch
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.IdenticalStringsMatch
+[       OK ] DiffTest.IdenticalStringsMatch (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.IdenticalStringsMatch" end time: Jul 25 17:51 CST
+"DiffTest.IdenticalStringsMatch" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/138 Testing: DiffTest.IgnoresTrailingNewline
+56/138 Test: DiffTest.IgnoresTrailingNewline
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.IgnoresTrailingNewline" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.IgnoresTrailingNewline" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.IgnoresTrailingNewline
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.IgnoresTrailingNewline
+[       OK ] DiffTest.IgnoresTrailingNewline (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.IgnoresTrailingNewline" end time: Jul 25 17:51 CST
+"DiffTest.IgnoresTrailingNewline" time elapsed: 00:00:00
+----------------------------------------------------------
+
+57/138 Testing: DiffTest.IgnoresTrailingSpacesAndTabs
+57/138 Test: DiffTest.IgnoresTrailingSpacesAndTabs
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.IgnoresTrailingSpacesAndTabs" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.IgnoresTrailingSpacesAndTabs" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.IgnoresTrailingSpacesAndTabs
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.IgnoresTrailingSpacesAndTabs
+[       OK ] DiffTest.IgnoresTrailingSpacesAndTabs (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.IgnoresTrailingSpacesAndTabs" end time: Jul 25 17:51 CST
+"DiffTest.IgnoresTrailingSpacesAndTabs" time elapsed: 00:00:00
+----------------------------------------------------------
+
+58/138 Testing: DiffTest.IgnoresTrailingCarriageReturn
+58/138 Test: DiffTest.IgnoresTrailingCarriageReturn
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.IgnoresTrailingCarriageReturn" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.IgnoresTrailingCarriageReturn" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.IgnoresTrailingCarriageReturn
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.IgnoresTrailingCarriageReturn
+[       OK ] DiffTest.IgnoresTrailingCarriageReturn (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.IgnoresTrailingCarriageReturn" end time: Jul 25 17:51 CST
+"DiffTest.IgnoresTrailingCarriageReturn" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/138 Testing: DiffTest.MultilineTrailingWhitespaceTolerant
+59/138 Test: DiffTest.MultilineTrailingWhitespaceTolerant
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.MultilineTrailingWhitespaceTolerant" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.MultilineTrailingWhitespaceTolerant" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.MultilineTrailingWhitespaceTolerant
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.MultilineTrailingWhitespaceTolerant
+[       OK ] DiffTest.MultilineTrailingWhitespaceTolerant (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.MultilineTrailingWhitespaceTolerant" end time: Jul 25 17:51 CST
+"DiffTest.MultilineTrailingWhitespaceTolerant" time elapsed: 00:00:00
+----------------------------------------------------------
+
+60/138 Testing: DiffTest.InternalWhitespaceMustMatch
+60/138 Test: DiffTest.InternalWhitespaceMustMatch
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.InternalWhitespaceMustMatch" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.InternalWhitespaceMustMatch" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.InternalWhitespaceMustMatch
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.InternalWhitespaceMustMatch
+[       OK ] DiffTest.InternalWhitespaceMustMatch (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.InternalWhitespaceMustMatch" end time: Jul 25 17:51 CST
+"DiffTest.InternalWhitespaceMustMatch" time elapsed: 00:00:00
+----------------------------------------------------------
+
+61/138 Testing: DiffTest.ContentDifferenceDetected
+61/138 Test: DiffTest.ContentDifferenceDetected
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.ContentDifferenceDetected" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.ContentDifferenceDetected" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.ContentDifferenceDetected
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.ContentDifferenceDetected
+[       OK ] DiffTest.ContentDifferenceDetected (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.ContentDifferenceDetected" end time: Jul 25 17:51 CST
+"DiffTest.ContentDifferenceDetected" time elapsed: 00:00:00
+----------------------------------------------------------
+
+62/138 Testing: DiffTest.EmptyStringsMatch
+62/138 Test: DiffTest.EmptyStringsMatch
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.EmptyStringsMatch" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.EmptyStringsMatch" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.EmptyStringsMatch
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.EmptyStringsMatch
+[       OK ] DiffTest.EmptyStringsMatch (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.EmptyStringsMatch" end time: Jul 25 17:51 CST
+"DiffTest.EmptyStringsMatch" time elapsed: 00:00:00
+----------------------------------------------------------
+
+63/138 Testing: DiffTest.CaseSensitive
+63/138 Test: DiffTest.CaseSensitive
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.CaseSensitive" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.CaseSensitive" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.CaseSensitive
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.CaseSensitive
+[       OK ] DiffTest.CaseSensitive (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.CaseSensitive" end time: Jul 25 17:51 CST
+"DiffTest.CaseSensitive" time elapsed: 00:00:00
+----------------------------------------------------------
+
+64/138 Testing: DiffTest.PrefixMatchIsNotFullMatch
+64/138 Test: DiffTest.PrefixMatchIsNotFullMatch
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_diff" "--gtest_filter=DiffTest.PrefixMatchIsNotFullMatch" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"DiffTest.PrefixMatchIsNotFullMatch" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = DiffTest.PrefixMatchIsNotFullMatch
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DiffTest
+[ RUN      ] DiffTest.PrefixMatchIsNotFullMatch
+[       OK ] DiffTest.PrefixMatchIsNotFullMatch (0 ms)
+[----------] 1 test from DiffTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"DiffTest.PrefixMatchIsNotFullMatch" end time: Jul 25 17:51 CST
+"DiffTest.PrefixMatchIsNotFullMatch" time elapsed: 00:00:00
+----------------------------------------------------------
+
+65/138 Testing: WorkerPoolTest.ConstructsWithGivenSize
+65/138 Test: WorkerPoolTest.ConstructsWithGivenSize
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool" "--gtest_filter=WorkerPoolTest.ConstructsWithGivenSize" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"WorkerPoolTest.ConstructsWithGivenSize" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = WorkerPoolTest.ConstructsWithGivenSize
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WorkerPoolTest
+[ RUN      ] WorkerPoolTest.ConstructsWithGivenSize
+[       OK ] WorkerPoolTest.ConstructsWithGivenSize (0 ms)
+[----------] 1 test from WorkerPoolTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"WorkerPoolTest.ConstructsWithGivenSize" end time: Jul 25 17:51 CST
+"WorkerPoolTest.ConstructsWithGivenSize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+66/138 Testing: WorkerPoolTest.RejectsZeroSize
+66/138 Test: WorkerPoolTest.RejectsZeroSize
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool" "--gtest_filter=WorkerPoolTest.RejectsZeroSize" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"WorkerPoolTest.RejectsZeroSize" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = WorkerPoolTest.RejectsZeroSize
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WorkerPoolTest
+[ RUN      ] WorkerPoolTest.RejectsZeroSize
+[       OK ] WorkerPoolTest.RejectsZeroSize (0 ms)
+[----------] 1 test from WorkerPoolTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"WorkerPoolTest.RejectsZeroSize" end time: Jul 25 17:51 CST
+"WorkerPoolTest.RejectsZeroSize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+67/138 Testing: WorkerPoolTest.SubmitReturnsResult
+67/138 Test: WorkerPoolTest.SubmitReturnsResult
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool" "--gtest_filter=WorkerPoolTest.SubmitReturnsResult" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"WorkerPoolTest.SubmitReturnsResult" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = WorkerPoolTest.SubmitReturnsResult
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WorkerPoolTest
+[ RUN      ] WorkerPoolTest.SubmitReturnsResult
+[       OK ] WorkerPoolTest.SubmitReturnsResult (0 ms)
+[----------] 1 test from WorkerPoolTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"WorkerPoolTest.SubmitReturnsResult" end time: Jul 25 17:51 CST
+"WorkerPoolTest.SubmitReturnsResult" time elapsed: 00:00:00
+----------------------------------------------------------
+
+68/138 Testing: WorkerPoolTest.SubmitAfterShutdownThrows
+68/138 Test: WorkerPoolTest.SubmitAfterShutdownThrows
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool" "--gtest_filter=WorkerPoolTest.SubmitAfterShutdownThrows" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"WorkerPoolTest.SubmitAfterShutdownThrows" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = WorkerPoolTest.SubmitAfterShutdownThrows
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WorkerPoolTest
+[ RUN      ] WorkerPoolTest.SubmitAfterShutdownThrows
+[       OK ] WorkerPoolTest.SubmitAfterShutdownThrows (0 ms)
+[----------] 1 test from WorkerPoolTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"WorkerPoolTest.SubmitAfterShutdownThrows" end time: Jul 25 17:51 CST
+"WorkerPoolTest.SubmitAfterShutdownThrows" time elapsed: 00:00:00
+----------------------------------------------------------
+
+69/138 Testing: WorkerPoolTest.FifoOrderingWithSingleWorker
+69/138 Test: WorkerPoolTest.FifoOrderingWithSingleWorker
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool" "--gtest_filter=WorkerPoolTest.FifoOrderingWithSingleWorker" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"WorkerPoolTest.FifoOrderingWithSingleWorker" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = WorkerPoolTest.FifoOrderingWithSingleWorker
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WorkerPoolTest
+[ RUN      ] WorkerPoolTest.FifoOrderingWithSingleWorker
+[       OK ] WorkerPoolTest.FifoOrderingWithSingleWorker (0 ms)
+[----------] 1 test from WorkerPoolTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"WorkerPoolTest.FifoOrderingWithSingleWorker" end time: Jul 25 17:51 CST
+"WorkerPoolTest.FifoOrderingWithSingleWorker" time elapsed: 00:00:00
+----------------------------------------------------------
+
+70/138 Testing: WorkerPoolTest.ConcurrentlySubmitManyTasks
+70/138 Test: WorkerPoolTest.ConcurrentlySubmitManyTasks
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool" "--gtest_filter=WorkerPoolTest.ConcurrentlySubmitManyTasks" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"WorkerPoolTest.ConcurrentlySubmitManyTasks" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = WorkerPoolTest.ConcurrentlySubmitManyTasks
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WorkerPoolTest
+[ RUN      ] WorkerPoolTest.ConcurrentlySubmitManyTasks
+[       OK ] WorkerPoolTest.ConcurrentlySubmitManyTasks (9 ms)
+[----------] 1 test from WorkerPoolTest (9 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (9 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"WorkerPoolTest.ConcurrentlySubmitManyTasks" end time: Jul 25 17:51 CST
+"WorkerPoolTest.ConcurrentlySubmitManyTasks" time elapsed: 00:00:00
+----------------------------------------------------------
+
+71/138 Testing: WorkerPoolTest.PendingReflectsQueuedTasks
+71/138 Test: WorkerPoolTest.PendingReflectsQueuedTasks
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool" "--gtest_filter=WorkerPoolTest.PendingReflectsQueuedTasks" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"WorkerPoolTest.PendingReflectsQueuedTasks" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = WorkerPoolTest.PendingReflectsQueuedTasks
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WorkerPoolTest
+[ RUN      ] WorkerPoolTest.PendingReflectsQueuedTasks
+[       OK ] WorkerPoolTest.PendingReflectsQueuedTasks (21 ms)
+[----------] 1 test from WorkerPoolTest (21 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (21 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"WorkerPoolTest.PendingReflectsQueuedTasks" end time: Jul 25 17:51 CST
+"WorkerPoolTest.PendingReflectsQueuedTasks" time elapsed: 00:00:00
+----------------------------------------------------------
+
+72/138 Testing: WorkerPoolTest.DestructorShutsDownCleanly
+72/138 Test: WorkerPoolTest.DestructorShutsDownCleanly
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool" "--gtest_filter=WorkerPoolTest.DestructorShutsDownCleanly" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"WorkerPoolTest.DestructorShutsDownCleanly" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = WorkerPoolTest.DestructorShutsDownCleanly
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WorkerPoolTest
+[ RUN      ] WorkerPoolTest.DestructorShutsDownCleanly
+[       OK ] WorkerPoolTest.DestructorShutsDownCleanly (0 ms)
+[----------] 1 test from WorkerPoolTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"WorkerPoolTest.DestructorShutsDownCleanly" end time: Jul 25 17:51 CST
+"WorkerPoolTest.DestructorShutsDownCleanly" time elapsed: 00:00:00
+----------------------------------------------------------
+
+73/138 Testing: WorkerPoolTest.CapturesExceptionsFromTasks
+73/138 Test: WorkerPoolTest.CapturesExceptionsFromTasks
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool" "--gtest_filter=WorkerPoolTest.CapturesExceptionsFromTasks" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"WorkerPoolTest.CapturesExceptionsFromTasks" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = WorkerPoolTest.CapturesExceptionsFromTasks
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from WorkerPoolTest
+[ RUN      ] WorkerPoolTest.CapturesExceptionsFromTasks
+[       OK ] WorkerPoolTest.CapturesExceptionsFromTasks (0 ms)
+[----------] 1 test from WorkerPoolTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"WorkerPoolTest.CapturesExceptionsFromTasks" end time: Jul 25 17:51 CST
+"WorkerPoolTest.CapturesExceptionsFromTasks" time elapsed: 00:00:00
+----------------------------------------------------------
+
+74/138 Testing: CompilerTest.RejectsEmptyWorkingDirectory
+74/138 Test: CompilerTest.RejectsEmptyWorkingDirectory
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_compiler" "--gtest_filter=CompilerTest.RejectsEmptyWorkingDirectory" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"CompilerTest.RejectsEmptyWorkingDirectory" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = CompilerTest.RejectsEmptyWorkingDirectory
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CompilerTest
+[ RUN      ] CompilerTest.RejectsEmptyWorkingDirectory
+[       OK ] CompilerTest.RejectsEmptyWorkingDirectory (0 ms)
+[----------] 1 test from CompilerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"CompilerTest.RejectsEmptyWorkingDirectory" end time: Jul 25 17:51 CST
+"CompilerTest.RejectsEmptyWorkingDirectory" time elapsed: 00:00:00
+----------------------------------------------------------
+
+75/138 Testing: CompilerTest.CompilesHelloWorld
+75/138 Test: CompilerTest.CompilesHelloWorld
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_compiler" "--gtest_filter=CompilerTest.CompilesHelloWorld" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"CompilerTest.CompilesHelloWorld" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = CompilerTest.CompilesHelloWorld
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CompilerTest
+[ RUN      ] CompilerTest.CompilesHelloWorld
+[       OK ] CompilerTest.CompilesHelloWorld (409 ms)
+[----------] 1 test from CompilerTest (409 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (409 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.41 sec
+----------------------------------------------------------
+Test Passed.
+"CompilerTest.CompilesHelloWorld" end time: Jul 25 17:51 CST
+"CompilerTest.CompilesHelloWorld" time elapsed: 00:00:00
+----------------------------------------------------------
+
+76/138 Testing: CompilerTest.CapturesSyntaxError
+76/138 Test: CompilerTest.CapturesSyntaxError
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_compiler" "--gtest_filter=CompilerTest.CapturesSyntaxError" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"CompilerTest.CapturesSyntaxError" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = CompilerTest.CapturesSyntaxError
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CompilerTest
+[ RUN      ] CompilerTest.CapturesSyntaxError
+[       OK ] CompilerTest.CapturesSyntaxError (11 ms)
+[----------] 1 test from CompilerTest (11 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (11 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"CompilerTest.CapturesSyntaxError" end time: Jul 25 17:51 CST
+"CompilerTest.CapturesSyntaxError" time elapsed: 00:00:00
+----------------------------------------------------------
+
+77/138 Testing: CompilerTest.DoesNotLeaveSourceOnFailure
+77/138 Test: CompilerTest.DoesNotLeaveSourceOnFailure
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_compiler" "--gtest_filter=CompilerTest.DoesNotLeaveSourceOnFailure" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"CompilerTest.DoesNotLeaveSourceOnFailure" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = CompilerTest.DoesNotLeaveSourceOnFailure
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CompilerTest
+[ RUN      ] CompilerTest.DoesNotLeaveSourceOnFailure
+[       OK ] CompilerTest.DoesNotLeaveSourceOnFailure (16 ms)
+[----------] 1 test from CompilerTest (16 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (16 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"CompilerTest.DoesNotLeaveSourceOnFailure" end time: Jul 25 17:51 CST
+"CompilerTest.DoesNotLeaveSourceOnFailure" time elapsed: 00:00:00
+----------------------------------------------------------
+
+78/138 Testing: CompilerTest.HonorsCustomSourceAndBinaryNames
+78/138 Test: CompilerTest.HonorsCustomSourceAndBinaryNames
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_compiler" "--gtest_filter=CompilerTest.HonorsCustomSourceAndBinaryNames" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"CompilerTest.HonorsCustomSourceAndBinaryNames" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = CompilerTest.HonorsCustomSourceAndBinaryNames
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CompilerTest
+[ RUN      ] CompilerTest.HonorsCustomSourceAndBinaryNames
+[       OK ] CompilerTest.HonorsCustomSourceAndBinaryNames (64 ms)
+[----------] 1 test from CompilerTest (64 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (64 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"CompilerTest.HonorsCustomSourceAndBinaryNames" end time: Jul 25 17:51 CST
+"CompilerTest.HonorsCustomSourceAndBinaryNames" time elapsed: 00:00:00
+----------------------------------------------------------
+
+79/138 Testing: RunnerTest.EchoesStdinToStdout
+79/138 Test: RunnerTest.EchoesStdinToStdout
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_runner" "--gtest_filter=RunnerTest.EchoesStdinToStdout" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"RunnerTest.EchoesStdinToStdout" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = RunnerTest.EchoesStdinToStdout
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RunnerTest
+[ RUN      ] RunnerTest.EchoesStdinToStdout
+[       OK ] RunnerTest.EchoesStdinToStdout (78 ms)
+[----------] 1 test from RunnerTest (78 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (78 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"RunnerTest.EchoesStdinToStdout" end time: Jul 25 17:51 CST
+"RunnerTest.EchoesStdinToStdout" time elapsed: 00:00:00
+----------------------------------------------------------
+
+80/138 Testing: RunnerTest.CapturesExitCodeAsRuntimeError
+80/138 Test: RunnerTest.CapturesExitCodeAsRuntimeError
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_runner" "--gtest_filter=RunnerTest.CapturesExitCodeAsRuntimeError" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"RunnerTest.CapturesExitCodeAsRuntimeError" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = RunnerTest.CapturesExitCodeAsRuntimeError
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RunnerTest
+[ RUN      ] RunnerTest.CapturesExitCodeAsRuntimeError
+[       OK ] RunnerTest.CapturesExitCodeAsRuntimeError (89 ms)
+[----------] 1 test from RunnerTest (89 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (89 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"RunnerTest.CapturesExitCodeAsRuntimeError" end time: Jul 25 17:51 CST
+"RunnerTest.CapturesExitCodeAsRuntimeError" time elapsed: 00:00:00
+----------------------------------------------------------
+
+81/138 Testing: RunnerTest.TimesOutInfiniteLoop
+81/138 Test: RunnerTest.TimesOutInfiniteLoop
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_runner" "--gtest_filter=RunnerTest.TimesOutInfiniteLoop" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"RunnerTest.TimesOutInfiniteLoop" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = RunnerTest.TimesOutInfiniteLoop
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RunnerTest
+[ RUN      ] RunnerTest.TimesOutInfiniteLoop
+[       OK ] RunnerTest.TimesOutInfiniteLoop (566 ms)
+[----------] 1 test from RunnerTest (566 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (566 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.57 sec
+----------------------------------------------------------
+Test Passed.
+"RunnerTest.TimesOutInfiniteLoop" end time: Jul 25 17:51 CST
+"RunnerTest.TimesOutInfiniteLoop" time elapsed: 00:00:00
+----------------------------------------------------------
+
+82/138 Testing: RunnerTest.TriggersMemoryLimit
+82/138 Test: RunnerTest.TriggersMemoryLimit
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_runner" "--gtest_filter=RunnerTest.TriggersMemoryLimit" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"RunnerTest.TriggersMemoryLimit" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = RunnerTest.TriggersMemoryLimit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RunnerTest
+[ RUN      ] RunnerTest.TriggersMemoryLimit
+/root/project/oj-vibe_coding/backend/tests/test_runner.cpp:124: Failure
+Failed
+expected MemoryLimit, got status=3 signal=-1 exit=99 mem_mb=26
+
+/root/project/oj-vibe_coding/backend/tests/test_runner.cpp:129: Failure
+Expected equality of these values:
+  result.status
+    Which is: 4-byte object <03-00 00-00>
+  RunStatus::MemoryLimit
+    Which is: 4-byte object <02-00 00-00>
+
+[  FAILED  ] RunnerTest.TriggersMemoryLimit (89 ms)
+[----------] 1 test from RunnerTest (89 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (89 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] RunnerTest.TriggersMemoryLimit
+
+ 1 FAILED TEST
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Failed.
+"RunnerTest.TriggersMemoryLimit" end time: Jul 25 17:51 CST
+"RunnerTest.TriggersMemoryLimit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+83/138 Testing: RunnerTest.CapturesSegfaultAsRuntimeError
+83/138 Test: RunnerTest.CapturesSegfaultAsRuntimeError
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_runner" "--gtest_filter=RunnerTest.CapturesSegfaultAsRuntimeError" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"RunnerTest.CapturesSegfaultAsRuntimeError" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = RunnerTest.CapturesSegfaultAsRuntimeError
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RunnerTest
+[ RUN      ] RunnerTest.CapturesSegfaultAsRuntimeError
+[       OK ] RunnerTest.CapturesSegfaultAsRuntimeError (221 ms)
+[----------] 1 test from RunnerTest (221 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (222 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.23 sec
+----------------------------------------------------------
+Test Passed.
+"RunnerTest.CapturesSegfaultAsRuntimeError" end time: Jul 25 17:51 CST
+"RunnerTest.CapturesSegfaultAsRuntimeError" time elapsed: 00:00:00
+----------------------------------------------------------
+
+84/138 Testing: RunnerTest.ReportsSpawnErrorForMissingBinary
+84/138 Test: RunnerTest.ReportsSpawnErrorForMissingBinary
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_runner" "--gtest_filter=RunnerTest.ReportsSpawnErrorForMissingBinary" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"RunnerTest.ReportsSpawnErrorForMissingBinary" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = RunnerTest.ReportsSpawnErrorForMissingBinary
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RunnerTest
+[ RUN      ] RunnerTest.ReportsSpawnErrorForMissingBinary
+[       OK ] RunnerTest.ReportsSpawnErrorForMissingBinary (0 ms)
+[----------] 1 test from RunnerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"RunnerTest.ReportsSpawnErrorForMissingBinary" end time: Jul 25 17:51 CST
+"RunnerTest.ReportsSpawnErrorForMissingBinary" time elapsed: 00:00:00
+----------------------------------------------------------
+
+85/138 Testing: RunnerTest.ReportsSpawnErrorForEmptyPath
+85/138 Test: RunnerTest.ReportsSpawnErrorForEmptyPath
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_runner" "--gtest_filter=RunnerTest.ReportsSpawnErrorForEmptyPath" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"RunnerTest.ReportsSpawnErrorForEmptyPath" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = RunnerTest.ReportsSpawnErrorForEmptyPath
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RunnerTest
+[ RUN      ] RunnerTest.ReportsSpawnErrorForEmptyPath
+[       OK ] RunnerTest.ReportsSpawnErrorForEmptyPath (0 ms)
+[----------] 1 test from RunnerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"RunnerTest.ReportsSpawnErrorForEmptyPath" end time: Jul 25 17:51 CST
+"RunnerTest.ReportsSpawnErrorForEmptyPath" time elapsed: 00:00:00
+----------------------------------------------------------
+
+86/138 Testing: CaseResultDtoTest.AcceptedHasMinimalFields
+86/138 Test: CaseResultDtoTest.AcceptedHasMinimalFields
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_dto" "--gtest_filter=CaseResultDtoTest.AcceptedHasMinimalFields" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"CaseResultDtoTest.AcceptedHasMinimalFields" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = CaseResultDtoTest.AcceptedHasMinimalFields
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CaseResultDtoTest
+[ RUN      ] CaseResultDtoTest.AcceptedHasMinimalFields
+[       OK ] CaseResultDtoTest.AcceptedHasMinimalFields (0 ms)
+[----------] 1 test from CaseResultDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"CaseResultDtoTest.AcceptedHasMinimalFields" end time: Jul 25 17:51 CST
+"CaseResultDtoTest.AcceptedHasMinimalFields" time elapsed: 00:00:00
+----------------------------------------------------------
+
+87/138 Testing: CaseResultDtoTest.WrongAnswerIncludesExpectedAndActual
+87/138 Test: CaseResultDtoTest.WrongAnswerIncludesExpectedAndActual
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_dto" "--gtest_filter=CaseResultDtoTest.WrongAnswerIncludesExpectedAndActual" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"CaseResultDtoTest.WrongAnswerIncludesExpectedAndActual" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = CaseResultDtoTest.WrongAnswerIncludesExpectedAndActual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CaseResultDtoTest
+[ RUN      ] CaseResultDtoTest.WrongAnswerIncludesExpectedAndActual
+[       OK ] CaseResultDtoTest.WrongAnswerIncludesExpectedAndActual (0 ms)
+[----------] 1 test from CaseResultDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"CaseResultDtoTest.WrongAnswerIncludesExpectedAndActual" end time: Jul 25 17:51 CST
+"CaseResultDtoTest.WrongAnswerIncludesExpectedAndActual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+88/138 Testing: CaseResultDtoTest.NonWaOmitsExpectedAndActual
+88/138 Test: CaseResultDtoTest.NonWaOmitsExpectedAndActual
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_dto" "--gtest_filter=CaseResultDtoTest.NonWaOmitsExpectedAndActual" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"CaseResultDtoTest.NonWaOmitsExpectedAndActual" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = CaseResultDtoTest.NonWaOmitsExpectedAndActual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from CaseResultDtoTest
+[ RUN      ] CaseResultDtoTest.NonWaOmitsExpectedAndActual
+[       OK ] CaseResultDtoTest.NonWaOmitsExpectedAndActual (0 ms)
+[----------] 1 test from CaseResultDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"CaseResultDtoTest.NonWaOmitsExpectedAndActual" end time: Jul 25 17:51 CST
+"CaseResultDtoTest.NonWaOmitsExpectedAndActual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+89/138 Testing: SubmissionResultDtoTest.WrapsAllFieldsAndCases
+89/138 Test: SubmissionResultDtoTest.WrapsAllFieldsAndCases
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_dto" "--gtest_filter=SubmissionResultDtoTest.WrapsAllFieldsAndCases" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SubmissionResultDtoTest.WrapsAllFieldsAndCases" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SubmissionResultDtoTest.WrapsAllFieldsAndCases
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SubmissionResultDtoTest
+[ RUN      ] SubmissionResultDtoTest.WrapsAllFieldsAndCases
+[       OK ] SubmissionResultDtoTest.WrapsAllFieldsAndCases (0 ms)
+[----------] 1 test from SubmissionResultDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SubmissionResultDtoTest.WrapsAllFieldsAndCases" end time: Jul 25 17:51 CST
+"SubmissionResultDtoTest.WrapsAllFieldsAndCases" time elapsed: 00:00:00
+----------------------------------------------------------
+
+90/138 Testing: SubmissionResultDtoTest.CompileErrorIncludesStderr
+90/138 Test: SubmissionResultDtoTest.CompileErrorIncludesStderr
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_dto" "--gtest_filter=SubmissionResultDtoTest.CompileErrorIncludesStderr" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SubmissionResultDtoTest.CompileErrorIncludesStderr" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SubmissionResultDtoTest.CompileErrorIncludesStderr
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SubmissionResultDtoTest
+[ RUN      ] SubmissionResultDtoTest.CompileErrorIncludesStderr
+[       OK ] SubmissionResultDtoTest.CompileErrorIncludesStderr (0 ms)
+[----------] 1 test from SubmissionResultDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SubmissionResultDtoTest.CompileErrorIncludesStderr" end time: Jul 25 17:51 CST
+"SubmissionResultDtoTest.CompileErrorIncludesStderr" time elapsed: 00:00:00
+----------------------------------------------------------
+
+91/138 Testing: SubmissionResultDtoTest.EmptyPerCaseArray
+91/138 Test: SubmissionResultDtoTest.EmptyPerCaseArray
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_dto" "--gtest_filter=SubmissionResultDtoTest.EmptyPerCaseArray" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SubmissionResultDtoTest.EmptyPerCaseArray" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SubmissionResultDtoTest.EmptyPerCaseArray
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SubmissionResultDtoTest
+[ RUN      ] SubmissionResultDtoTest.EmptyPerCaseArray
+[       OK ] SubmissionResultDtoTest.EmptyPerCaseArray (0 ms)
+[----------] 1 test from SubmissionResultDtoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SubmissionResultDtoTest.EmptyPerCaseArray" end time: Jul 25 17:51 CST
+"SubmissionResultDtoTest.EmptyPerCaseArray" time elapsed: 00:00:00
+----------------------------------------------------------
+
+92/138 Testing: PipelineTest.AcceptedAcrossAllCases
+92/138 Test: PipelineTest.AcceptedAcrossAllCases
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_pipeline" "--gtest_filter=PipelineTest.AcceptedAcrossAllCases" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"PipelineTest.AcceptedAcrossAllCases" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = PipelineTest.AcceptedAcrossAllCases
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PipelineTest
+[ RUN      ] PipelineTest.AcceptedAcrossAllCases
+[       OK ] PipelineTest.AcceptedAcrossAllCases (105 ms)
+[----------] 1 test from PipelineTest (106 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (106 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"PipelineTest.AcceptedAcrossAllCases" end time: Jul 25 17:51 CST
+"PipelineTest.AcceptedAcrossAllCases" time elapsed: 00:00:00
+----------------------------------------------------------
+
+93/138 Testing: PipelineTest.WrongAnswerOnSecondCase
+93/138 Test: PipelineTest.WrongAnswerOnSecondCase
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_pipeline" "--gtest_filter=PipelineTest.WrongAnswerOnSecondCase" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"PipelineTest.WrongAnswerOnSecondCase" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = PipelineTest.WrongAnswerOnSecondCase
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PipelineTest
+[ RUN      ] PipelineTest.WrongAnswerOnSecondCase
+[       OK ] PipelineTest.WrongAnswerOnSecondCase (86 ms)
+[----------] 1 test from PipelineTest (86 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (86 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"PipelineTest.WrongAnswerOnSecondCase" end time: Jul 25 17:51 CST
+"PipelineTest.WrongAnswerOnSecondCase" time elapsed: 00:00:00
+----------------------------------------------------------
+
+94/138 Testing: PipelineTest.CompileErrorShortCircuits
+94/138 Test: PipelineTest.CompileErrorShortCircuits
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_pipeline" "--gtest_filter=PipelineTest.CompileErrorShortCircuits" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"PipelineTest.CompileErrorShortCircuits" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = PipelineTest.CompileErrorShortCircuits
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PipelineTest
+[ RUN      ] PipelineTest.CompileErrorShortCircuits
+[       OK ] PipelineTest.CompileErrorShortCircuits (17 ms)
+[----------] 1 test from PipelineTest (17 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (17 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"PipelineTest.CompileErrorShortCircuits" end time: Jul 25 17:51 CST
+"PipelineTest.CompileErrorShortCircuits" time elapsed: 00:00:00
+----------------------------------------------------------
+
+95/138 Testing: PipelineTest.TimeLimitOnFirstCase
+95/138 Test: PipelineTest.TimeLimitOnFirstCase
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_pipeline" "--gtest_filter=PipelineTest.TimeLimitOnFirstCase" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"PipelineTest.TimeLimitOnFirstCase" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = PipelineTest.TimeLimitOnFirstCase
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PipelineTest
+[ RUN      ] PipelineTest.TimeLimitOnFirstCase
+[       OK ] PipelineTest.TimeLimitOnFirstCase (357 ms)
+[----------] 1 test from PipelineTest (357 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (357 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"PipelineTest.TimeLimitOnFirstCase" end time: Jul 25 17:51 CST
+"PipelineTest.TimeLimitOnFirstCase" time elapsed: 00:00:00
+----------------------------------------------------------
+
+96/138 Testing: PipelineTest.EmptyTestcasesIsRuntimeError
+96/138 Test: PipelineTest.EmptyTestcasesIsRuntimeError
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_pipeline" "--gtest_filter=PipelineTest.EmptyTestcasesIsRuntimeError" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"PipelineTest.EmptyTestcasesIsRuntimeError" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = PipelineTest.EmptyTestcasesIsRuntimeError
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from PipelineTest
+[ RUN      ] PipelineTest.EmptyTestcasesIsRuntimeError
+[       OK ] PipelineTest.EmptyTestcasesIsRuntimeError (72 ms)
+[----------] 1 test from PipelineTest (72 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (72 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"PipelineTest.EmptyTestcasesIsRuntimeError" end time: Jul 25 17:51 CST
+"PipelineTest.EmptyTestcasesIsRuntimeError" time elapsed: 00:00:00
+----------------------------------------------------------
+
+97/138 Testing: ParseSubmissionInputTest.AcceptsValidPayload
+97/138 Test: ParseSubmissionInputTest.AcceptsValidPayload
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request" "--gtest_filter=ParseSubmissionInputTest.AcceptsValidPayload" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseSubmissionInputTest.AcceptsValidPayload" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseSubmissionInputTest.AcceptsValidPayload
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseSubmissionInputTest
+[ RUN      ] ParseSubmissionInputTest.AcceptsValidPayload
+[       OK ] ParseSubmissionInputTest.AcceptsValidPayload (0 ms)
+[----------] 1 test from ParseSubmissionInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ParseSubmissionInputTest.AcceptsValidPayload" end time: Jul 25 17:51 CST
+"ParseSubmissionInputTest.AcceptsValidPayload" time elapsed: 00:00:00
+----------------------------------------------------------
+
+98/138 Testing: ParseSubmissionInputTest.AcceptsCLang
+98/138 Test: ParseSubmissionInputTest.AcceptsCLang
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request" "--gtest_filter=ParseSubmissionInputTest.AcceptsCLang" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseSubmissionInputTest.AcceptsCLang" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseSubmissionInputTest.AcceptsCLang
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseSubmissionInputTest
+[ RUN      ] ParseSubmissionInputTest.AcceptsCLang
+[       OK ] ParseSubmissionInputTest.AcceptsCLang (0 ms)
+[----------] 1 test from ParseSubmissionInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ParseSubmissionInputTest.AcceptsCLang" end time: Jul 25 17:51 CST
+"ParseSubmissionInputTest.AcceptsCLang" time elapsed: 00:00:00
+----------------------------------------------------------
+
+99/138 Testing: ParseSubmissionInputTest.RejectsUnknownLanguage
+99/138 Test: ParseSubmissionInputTest.RejectsUnknownLanguage
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request" "--gtest_filter=ParseSubmissionInputTest.RejectsUnknownLanguage" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseSubmissionInputTest.RejectsUnknownLanguage" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseSubmissionInputTest.RejectsUnknownLanguage
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseSubmissionInputTest
+[ RUN      ] ParseSubmissionInputTest.RejectsUnknownLanguage
+[       OK ] ParseSubmissionInputTest.RejectsUnknownLanguage (0 ms)
+[----------] 1 test from ParseSubmissionInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ParseSubmissionInputTest.RejectsUnknownLanguage" end time: Jul 25 17:51 CST
+"ParseSubmissionInputTest.RejectsUnknownLanguage" time elapsed: 00:00:00
+----------------------------------------------------------
+
+100/138 Testing: ParseSubmissionInputTest.RejectsMissingProblemId
+100/138 Test: ParseSubmissionInputTest.RejectsMissingProblemId
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request" "--gtest_filter=ParseSubmissionInputTest.RejectsMissingProblemId" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseSubmissionInputTest.RejectsMissingProblemId" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseSubmissionInputTest.RejectsMissingProblemId
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseSubmissionInputTest
+[ RUN      ] ParseSubmissionInputTest.RejectsMissingProblemId
+[       OK ] ParseSubmissionInputTest.RejectsMissingProblemId (0 ms)
+[----------] 1 test from ParseSubmissionInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ParseSubmissionInputTest.RejectsMissingProblemId" end time: Jul 25 17:51 CST
+"ParseSubmissionInputTest.RejectsMissingProblemId" time elapsed: 00:00:00
+----------------------------------------------------------
+
+101/138 Testing: ParseSubmissionInputTest.RejectsNonPositiveProblemId
+101/138 Test: ParseSubmissionInputTest.RejectsNonPositiveProblemId
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request" "--gtest_filter=ParseSubmissionInputTest.RejectsNonPositiveProblemId" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseSubmissionInputTest.RejectsNonPositiveProblemId" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseSubmissionInputTest.RejectsNonPositiveProblemId
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseSubmissionInputTest
+[ RUN      ] ParseSubmissionInputTest.RejectsNonPositiveProblemId
+[       OK ] ParseSubmissionInputTest.RejectsNonPositiveProblemId (0 ms)
+[----------] 1 test from ParseSubmissionInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseSubmissionInputTest.RejectsNonPositiveProblemId" end time: Jul 25 17:51 CST
+"ParseSubmissionInputTest.RejectsNonPositiveProblemId" time elapsed: 00:00:00
+----------------------------------------------------------
+
+102/138 Testing: ParseSubmissionInputTest.RejectsEmptyCode
+102/138 Test: ParseSubmissionInputTest.RejectsEmptyCode
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request" "--gtest_filter=ParseSubmissionInputTest.RejectsEmptyCode" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseSubmissionInputTest.RejectsEmptyCode" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseSubmissionInputTest.RejectsEmptyCode
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseSubmissionInputTest
+[ RUN      ] ParseSubmissionInputTest.RejectsEmptyCode
+[       OK ] ParseSubmissionInputTest.RejectsEmptyCode (0 ms)
+[----------] 1 test from ParseSubmissionInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ParseSubmissionInputTest.RejectsEmptyCode" end time: Jul 25 17:51 CST
+"ParseSubmissionInputTest.RejectsEmptyCode" time elapsed: 00:00:00
+----------------------------------------------------------
+
+103/138 Testing: ParseSubmissionInputTest.RejectsMissingFields
+103/138 Test: ParseSubmissionInputTest.RejectsMissingFields
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request" "--gtest_filter=ParseSubmissionInputTest.RejectsMissingFields" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseSubmissionInputTest.RejectsMissingFields" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseSubmissionInputTest.RejectsMissingFields
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseSubmissionInputTest
+[ RUN      ] ParseSubmissionInputTest.RejectsMissingFields
+[       OK ] ParseSubmissionInputTest.RejectsMissingFields (0 ms)
+[----------] 1 test from ParseSubmissionInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseSubmissionInputTest.RejectsMissingFields" end time: Jul 25 17:51 CST
+"ParseSubmissionInputTest.RejectsMissingFields" time elapsed: 00:00:00
+----------------------------------------------------------
+
+104/138 Testing: ParseSubmissionInputTest.RejectsOversizedCode
+104/138 Test: ParseSubmissionInputTest.RejectsOversizedCode
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request" "--gtest_filter=ParseSubmissionInputTest.RejectsOversizedCode" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseSubmissionInputTest.RejectsOversizedCode" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseSubmissionInputTest.RejectsOversizedCode
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseSubmissionInputTest
+[ RUN      ] ParseSubmissionInputTest.RejectsOversizedCode
+[       OK ] ParseSubmissionInputTest.RejectsOversizedCode (2 ms)
+[----------] 1 test from ParseSubmissionInputTest (2 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (2 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ParseSubmissionInputTest.RejectsOversizedCode" end time: Jul 25 17:51 CST
+"ParseSubmissionInputTest.RejectsOversizedCode" time elapsed: 00:00:00
+----------------------------------------------------------
+
+105/138 Testing: ParseSubmissionInputTest.RejectsInvalidJson
+105/138 Test: ParseSubmissionInputTest.RejectsInvalidJson
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request" "--gtest_filter=ParseSubmissionInputTest.RejectsInvalidJson" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ParseSubmissionInputTest.RejectsInvalidJson" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ParseSubmissionInputTest.RejectsInvalidJson
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ParseSubmissionInputTest
+[ RUN      ] ParseSubmissionInputTest.RejectsInvalidJson
+[       OK ] ParseSubmissionInputTest.RejectsInvalidJson (0 ms)
+[----------] 1 test from ParseSubmissionInputTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ParseSubmissionInputTest.RejectsInvalidJson" end time: Jul 25 17:51 CST
+"ParseSubmissionInputTest.RejectsInvalidJson" time elapsed: 00:00:00
+----------------------------------------------------------
+
+106/138 Testing: SessionIdTest.HasExpectedLength
+106/138 Test: SessionIdTest.HasExpectedLength
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_session" "--gtest_filter=SessionIdTest.HasExpectedLength" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SessionIdTest.HasExpectedLength" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SessionIdTest.HasExpectedLength
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SessionIdTest
+[ RUN      ] SessionIdTest.HasExpectedLength
+[       OK ] SessionIdTest.HasExpectedLength (0 ms)
+[----------] 1 test from SessionIdTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"SessionIdTest.HasExpectedLength" end time: Jul 25 17:51 CST
+"SessionIdTest.HasExpectedLength" time elapsed: 00:00:00
+----------------------------------------------------------
+
+107/138 Testing: SessionIdTest.IsLowerHex
+107/138 Test: SessionIdTest.IsLowerHex
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_session" "--gtest_filter=SessionIdTest.IsLowerHex" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SessionIdTest.IsLowerHex" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SessionIdTest.IsLowerHex
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SessionIdTest
+[ RUN      ] SessionIdTest.IsLowerHex
+[       OK ] SessionIdTest.IsLowerHex (0 ms)
+[----------] 1 test from SessionIdTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SessionIdTest.IsLowerHex" end time: Jul 25 17:51 CST
+"SessionIdTest.IsLowerHex" time elapsed: 00:00:00
+----------------------------------------------------------
+
+108/138 Testing: SessionIdTest.IsUniqueAcrossCalls
+108/138 Test: SessionIdTest.IsUniqueAcrossCalls
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_session" "--gtest_filter=SessionIdTest.IsUniqueAcrossCalls" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SessionIdTest.IsUniqueAcrossCalls" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SessionIdTest.IsUniqueAcrossCalls
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SessionIdTest
+[ RUN      ] SessionIdTest.IsUniqueAcrossCalls
+[       OK ] SessionIdTest.IsUniqueAcrossCalls (0 ms)
+[----------] 1 test from SessionIdTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SessionIdTest.IsUniqueAcrossCalls" end time: Jul 25 17:51 CST
+"SessionIdTest.IsUniqueAcrossCalls" time elapsed: 00:00:00
+----------------------------------------------------------
+
+109/138 Testing: SessionIdShape.AcceptsValidHex
+109/138 Test: SessionIdShape.AcceptsValidHex
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_session" "--gtest_filter=SessionIdShape.AcceptsValidHex" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SessionIdShape.AcceptsValidHex" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SessionIdShape.AcceptsValidHex
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SessionIdShape
+[ RUN      ] SessionIdShape.AcceptsValidHex
+[       OK ] SessionIdShape.AcceptsValidHex (0 ms)
+[----------] 1 test from SessionIdShape (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SessionIdShape.AcceptsValidHex" end time: Jul 25 17:51 CST
+"SessionIdShape.AcceptsValidHex" time elapsed: 00:00:00
+----------------------------------------------------------
+
+110/138 Testing: SessionIdShape.RejectsWrongLength
+110/138 Test: SessionIdShape.RejectsWrongLength
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_session" "--gtest_filter=SessionIdShape.RejectsWrongLength" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SessionIdShape.RejectsWrongLength" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SessionIdShape.RejectsWrongLength
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SessionIdShape
+[ RUN      ] SessionIdShape.RejectsWrongLength
+[       OK ] SessionIdShape.RejectsWrongLength (0 ms)
+[----------] 1 test from SessionIdShape (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SessionIdShape.RejectsWrongLength" end time: Jul 25 17:51 CST
+"SessionIdShape.RejectsWrongLength" time elapsed: 00:00:00
+----------------------------------------------------------
+
+111/138 Testing: SessionIdShape.RejectsNonHex
+111/138 Test: SessionIdShape.RejectsNonHex
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_session" "--gtest_filter=SessionIdShape.RejectsNonHex" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SessionIdShape.RejectsNonHex" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SessionIdShape.RejectsNonHex
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SessionIdShape
+[ RUN      ] SessionIdShape.RejectsNonHex
+[       OK ] SessionIdShape.RejectsNonHex (0 ms)
+[----------] 1 test from SessionIdShape (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SessionIdShape.RejectsNonHex" end time: Jul 25 17:51 CST
+"SessionIdShape.RejectsNonHex" time elapsed: 00:00:00
+----------------------------------------------------------
+
+112/138 Testing: SessionCookie.IncludesNameAndValue
+112/138 Test: SessionCookie.IncludesNameAndValue
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_session" "--gtest_filter=SessionCookie.IncludesNameAndValue" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SessionCookie.IncludesNameAndValue" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SessionCookie.IncludesNameAndValue
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SessionCookie
+[ RUN      ] SessionCookie.IncludesNameAndValue
+[       OK ] SessionCookie.IncludesNameAndValue (0 ms)
+[----------] 1 test from SessionCookie (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SessionCookie.IncludesNameAndValue" end time: Jul 25 17:51 CST
+"SessionCookie.IncludesNameAndValue" time elapsed: 00:00:00
+----------------------------------------------------------
+
+113/138 Testing: SessionCookie.IncludesSecureWhenRequested
+113/138 Test: SessionCookie.IncludesSecureWhenRequested
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_session" "--gtest_filter=SessionCookie.IncludesSecureWhenRequested" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"SessionCookie.IncludesSecureWhenRequested" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = SessionCookie.IncludesSecureWhenRequested
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from SessionCookie
+[ RUN      ] SessionCookie.IncludesSecureWhenRequested
+[       OK ] SessionCookie.IncludesSecureWhenRequested (0 ms)
+[----------] 1 test from SessionCookie (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SessionCookie.IncludesSecureWhenRequested" end time: Jul 25 17:51 CST
+"SessionCookie.IncludesSecureWhenRequested" time elapsed: 00:00:00
+----------------------------------------------------------
+
+114/138 Testing: ClearCookie.EmptiesValueAndZeroMaxAge
+114/138 Test: ClearCookie.EmptiesValueAndZeroMaxAge
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_session" "--gtest_filter=ClearCookie.EmptiesValueAndZeroMaxAge" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"ClearCookie.EmptiesValueAndZeroMaxAge" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = ClearCookie.EmptiesValueAndZeroMaxAge
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ClearCookie
+[ RUN      ] ClearCookie.EmptiesValueAndZeroMaxAge
+[       OK ] ClearCookie.EmptiesValueAndZeroMaxAge (0 ms)
+[----------] 1 test from ClearCookie (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ClearCookie.EmptiesValueAndZeroMaxAge" end time: Jul 25 17:51 CST
+"ClearCookie.EmptiesValueAndZeroMaxAge" time elapsed: 00:00:00
+----------------------------------------------------------
+
+115/138 Testing: UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown
+115/138 Test: UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoFindTest
+[ RUN      ] UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:114: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown (0 ms)
+[----------] 1 test from UserDaoFindTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown" end time: Jul 25 17:51 CST
+"UserDaoFindTest.FindByUsernameReturnsNulloptForUnknown" time elapsed: 00:00:00
+----------------------------------------------------------
+
+116/138 Testing: UserDaoFindTest.FindByUsernameReturnsInsertedUser
+116/138 Test: UserDaoFindTest.FindByUsernameReturnsInsertedUser
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoFindTest.FindByUsernameReturnsInsertedUser" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoFindTest.FindByUsernameReturnsInsertedUser" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoFindTest.FindByUsernameReturnsInsertedUser
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoFindTest
+[ RUN      ] UserDaoFindTest.FindByUsernameReturnsInsertedUser
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:120: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoFindTest.FindByUsernameReturnsInsertedUser (0 ms)
+[----------] 1 test from UserDaoFindTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoFindTest.FindByUsernameReturnsInsertedUser
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoFindTest.FindByUsernameReturnsInsertedUser" end time: Jul 25 17:51 CST
+"UserDaoFindTest.FindByUsernameReturnsInsertedUser" time elapsed: 00:00:00
+----------------------------------------------------------
+
+117/138 Testing: UserDaoFindTest.FindByIdReturnsNulloptForUnknown
+117/138 Test: UserDaoFindTest.FindByIdReturnsNulloptForUnknown
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoFindTest.FindByIdReturnsNulloptForUnknown" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoFindTest.FindByIdReturnsNulloptForUnknown" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoFindTest.FindByIdReturnsNulloptForUnknown
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoFindTest
+[ RUN      ] UserDaoFindTest.FindByIdReturnsNulloptForUnknown
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:138: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoFindTest.FindByIdReturnsNulloptForUnknown (0 ms)
+[----------] 1 test from UserDaoFindTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoFindTest.FindByIdReturnsNulloptForUnknown
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoFindTest.FindByIdReturnsNulloptForUnknown" end time: Jul 25 17:51 CST
+"UserDaoFindTest.FindByIdReturnsNulloptForUnknown" time elapsed: 00:00:00
+----------------------------------------------------------
+
+118/138 Testing: UserDaoFindTest.FindByIdHonorsAdminRole
+118/138 Test: UserDaoFindTest.FindByIdHonorsAdminRole
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoFindTest.FindByIdHonorsAdminRole" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoFindTest.FindByIdHonorsAdminRole" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoFindTest.FindByIdHonorsAdminRole
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoFindTest
+[ RUN      ] UserDaoFindTest.FindByIdHonorsAdminRole
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:144: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoFindTest.FindByIdHonorsAdminRole (0 ms)
+[----------] 1 test from UserDaoFindTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoFindTest.FindByIdHonorsAdminRole
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoFindTest.FindByIdHonorsAdminRole" end time: Jul 25 17:51 CST
+"UserDaoFindTest.FindByIdHonorsAdminRole" time elapsed: 00:00:00
+----------------------------------------------------------
+
+119/138 Testing: UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry
+119/138 Test: UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoSessionTest
+[ RUN      ] UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:177: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry (0 ms)
+[----------] 1 test from UserDaoSessionTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry" end time: Jul 25 17:51 CST
+"UserDaoSessionTest.CreateSessionPersistsRowWithFutureExpiry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+120/138 Testing: UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh
+120/138 Test: UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoSessionTest
+[ RUN      ] UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:208: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh (0 ms)
+[----------] 1 test from UserDaoSessionTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh" end time: Jul 25 17:51 CST
+"UserDaoSessionTest.FindByValidSessionReturnsUserWhenSessionFresh" time elapsed: 00:00:00
+----------------------------------------------------------
+
+121/138 Testing: UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired
+121/138 Test: UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoSessionTest
+[ RUN      ] UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:228: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired (0 ms)
+[----------] 1 test from UserDaoSessionTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired" end time: Jul 25 17:51 CST
+"UserDaoSessionTest.FindByValidSessionReturnsNulloptForExpired" time elapsed: 00:00:00
+----------------------------------------------------------
+
+122/138 Testing: UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId
+122/138 Test: UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoSessionTest
+[ RUN      ] UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:251: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId (0 ms)
+[----------] 1 test from UserDaoSessionTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId" end time: Jul 25 17:51 CST
+"UserDaoSessionTest.FindByValidSessionReturnsNulloptForUnknownId" time elapsed: 00:00:00
+----------------------------------------------------------
+
+123/138 Testing: UserDaoSessionTest.FindByValidSessionRejectsMalformedId
+123/138 Test: UserDaoSessionTest.FindByValidSessionRejectsMalformedId
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoSessionTest.FindByValidSessionRejectsMalformedId" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoSessionTest.FindByValidSessionRejectsMalformedId" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoSessionTest.FindByValidSessionRejectsMalformedId
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoSessionTest
+[ RUN      ] UserDaoSessionTest.FindByValidSessionRejectsMalformedId
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:257: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoSessionTest.FindByValidSessionRejectsMalformedId (0 ms)
+[----------] 1 test from UserDaoSessionTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoSessionTest.FindByValidSessionRejectsMalformedId
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoSessionTest.FindByValidSessionRejectsMalformedId" end time: Jul 25 17:51 CST
+"UserDaoSessionTest.FindByValidSessionRejectsMalformedId" time elapsed: 00:00:00
+----------------------------------------------------------
+
+124/138 Testing: UserDaoSessionTest.DeleteSessionRemovesExistingRow
+124/138 Test: UserDaoSessionTest.DeleteSessionRemovesExistingRow
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoSessionTest.DeleteSessionRemovesExistingRow" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoSessionTest.DeleteSessionRemovesExistingRow" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoSessionTest.DeleteSessionRemovesExistingRow
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoSessionTest
+[ RUN      ] UserDaoSessionTest.DeleteSessionRemovesExistingRow
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:264: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoSessionTest.DeleteSessionRemovesExistingRow (0 ms)
+[----------] 1 test from UserDaoSessionTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoSessionTest.DeleteSessionRemovesExistingRow
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoSessionTest.DeleteSessionRemovesExistingRow" end time: Jul 25 17:51 CST
+"UserDaoSessionTest.DeleteSessionRemovesExistingRow" time elapsed: 00:00:00
+----------------------------------------------------------
+
+125/138 Testing: UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown
+125/138 Test: UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UserDaoSessionTest
+[ RUN      ] UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown
+/root/project/oj-vibe_coding/backend/tests/test_user_dao.cpp:277: Skipped
+MySQL not available (set DB_PASSWORD)
+
+[  SKIPPED ] UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown (0 ms)
+[----------] 1 test from UserDaoSessionTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  SKIPPED ] 1 test, listed below:
+[  SKIPPED ] UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Pass Reason:
+Skip regular expression found in output. Regex=[\[  SKIPPED \]]
+"UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown" end time: Jul 25 17:51 CST
+"UserDaoSessionTest.DeleteSessionReturnsFalseForUnknown" time elapsed: 00:00:00
+----------------------------------------------------------
+
+126/138 Testing: MiddlewareParseTest.ReturnsNulloptWhenNoCookieHeader
+126/138 Test: MiddlewareParseTest.ReturnsNulloptWhenNoCookieHeader
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareParseTest.ReturnsNulloptWhenNoCookieHeader" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareParseTest.ReturnsNulloptWhenNoCookieHeader" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareParseTest.ReturnsNulloptWhenNoCookieHeader
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareParseTest
+[ RUN      ] MiddlewareParseTest.ReturnsNulloptWhenNoCookieHeader
+[       OK ] MiddlewareParseTest.ReturnsNulloptWhenNoCookieHeader (0 ms)
+[----------] 1 test from MiddlewareParseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareParseTest.ReturnsNulloptWhenNoCookieHeader" end time: Jul 25 17:51 CST
+"MiddlewareParseTest.ReturnsNulloptWhenNoCookieHeader" time elapsed: 00:00:00
+----------------------------------------------------------
+
+127/138 Testing: MiddlewareParseTest.ReturnsNulloptWhenCookieHeaderHasNoSessionCookie
+127/138 Test: MiddlewareParseTest.ReturnsNulloptWhenCookieHeaderHasNoSessionCookie
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareParseTest.ReturnsNulloptWhenCookieHeaderHasNoSessionCookie" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareParseTest.ReturnsNulloptWhenCookieHeaderHasNoSessionCookie" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareParseTest.ReturnsNulloptWhenCookieHeaderHasNoSessionCookie
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareParseTest
+[ RUN      ] MiddlewareParseTest.ReturnsNulloptWhenCookieHeaderHasNoSessionCookie
+[       OK ] MiddlewareParseTest.ReturnsNulloptWhenCookieHeaderHasNoSessionCookie (0 ms)
+[----------] 1 test from MiddlewareParseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareParseTest.ReturnsNulloptWhenCookieHeaderHasNoSessionCookie" end time: Jul 25 17:51 CST
+"MiddlewareParseTest.ReturnsNulloptWhenCookieHeaderHasNoSessionCookie" time elapsed: 00:00:00
+----------------------------------------------------------
+
+128/138 Testing: MiddlewareParseTest.ReturnsNulloptWhenSessionIdHasWrongShape
+128/138 Test: MiddlewareParseTest.ReturnsNulloptWhenSessionIdHasWrongShape
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareParseTest.ReturnsNulloptWhenSessionIdHasWrongShape" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareParseTest.ReturnsNulloptWhenSessionIdHasWrongShape" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareParseTest.ReturnsNulloptWhenSessionIdHasWrongShape
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareParseTest
+[ RUN      ] MiddlewareParseTest.ReturnsNulloptWhenSessionIdHasWrongShape
+[       OK ] MiddlewareParseTest.ReturnsNulloptWhenSessionIdHasWrongShape (0 ms)
+[----------] 1 test from MiddlewareParseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareParseTest.ReturnsNulloptWhenSessionIdHasWrongShape" end time: Jul 25 17:51 CST
+"MiddlewareParseTest.ReturnsNulloptWhenSessionIdHasWrongShape" time elapsed: 00:00:00
+----------------------------------------------------------
+
+129/138 Testing: MiddlewareParseTest.ParseSessionCookieDoesNotEnforceShape
+129/138 Test: MiddlewareParseTest.ParseSessionCookieDoesNotEnforceShape
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareParseTest.ParseSessionCookieDoesNotEnforceShape" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareParseTest.ParseSessionCookieDoesNotEnforceShape" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareParseTest.ParseSessionCookieDoesNotEnforceShape
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareParseTest
+[ RUN      ] MiddlewareParseTest.ParseSessionCookieDoesNotEnforceShape
+[       OK ] MiddlewareParseTest.ParseSessionCookieDoesNotEnforceShape (0 ms)
+[----------] 1 test from MiddlewareParseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareParseTest.ParseSessionCookieDoesNotEnforceShape" end time: Jul 25 17:51 CST
+"MiddlewareParseTest.ParseSessionCookieDoesNotEnforceShape" time elapsed: 00:00:00
+----------------------------------------------------------
+
+130/138 Testing: MiddlewareParseTest.ReturnsSessionIdWhenValidHexCookiePresent
+130/138 Test: MiddlewareParseTest.ReturnsSessionIdWhenValidHexCookiePresent
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareParseTest.ReturnsSessionIdWhenValidHexCookiePresent" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareParseTest.ReturnsSessionIdWhenValidHexCookiePresent" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareParseTest.ReturnsSessionIdWhenValidHexCookiePresent
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareParseTest
+[ RUN      ] MiddlewareParseTest.ReturnsSessionIdWhenValidHexCookiePresent
+[       OK ] MiddlewareParseTest.ReturnsSessionIdWhenValidHexCookiePresent (0 ms)
+[----------] 1 test from MiddlewareParseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareParseTest.ReturnsSessionIdWhenValidHexCookiePresent" end time: Jul 25 17:51 CST
+"MiddlewareParseTest.ReturnsSessionIdWhenValidHexCookiePresent" time elapsed: 00:00:00
+----------------------------------------------------------
+
+131/138 Testing: MiddlewareParseTest.PicksSessionCookieFromMixedHeader
+131/138 Test: MiddlewareParseTest.PicksSessionCookieFromMixedHeader
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareParseTest.PicksSessionCookieFromMixedHeader" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareParseTest.PicksSessionCookieFromMixedHeader" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareParseTest.PicksSessionCookieFromMixedHeader
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareParseTest
+[ RUN      ] MiddlewareParseTest.PicksSessionCookieFromMixedHeader
+[       OK ] MiddlewareParseTest.PicksSessionCookieFromMixedHeader (0 ms)
+[----------] 1 test from MiddlewareParseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareParseTest.PicksSessionCookieFromMixedHeader" end time: Jul 25 17:51 CST
+"MiddlewareParseTest.PicksSessionCookieFromMixedHeader" time elapsed: 00:00:00
+----------------------------------------------------------
+
+132/138 Testing: MiddlewareParseTest.CookieNameComparisonIsCaseInsensitive
+132/138 Test: MiddlewareParseTest.CookieNameComparisonIsCaseInsensitive
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareParseTest.CookieNameComparisonIsCaseInsensitive" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareParseTest.CookieNameComparisonIsCaseInsensitive" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareParseTest.CookieNameComparisonIsCaseInsensitive
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareParseTest
+[ RUN      ] MiddlewareParseTest.CookieNameComparisonIsCaseInsensitive
+[       OK ] MiddlewareParseTest.CookieNameComparisonIsCaseInsensitive (0 ms)
+[----------] 1 test from MiddlewareParseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareParseTest.CookieNameComparisonIsCaseInsensitive" end time: Jul 25 17:51 CST
+"MiddlewareParseTest.CookieNameComparisonIsCaseInsensitive" time elapsed: 00:00:00
+----------------------------------------------------------
+
+133/138 Testing: MiddlewareWriteTest.WriteJsonSetsContentTypeAndStatus
+133/138 Test: MiddlewareWriteTest.WriteJsonSetsContentTypeAndStatus
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareWriteTest.WriteJsonSetsContentTypeAndStatus" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareWriteTest.WriteJsonSetsContentTypeAndStatus" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareWriteTest.WriteJsonSetsContentTypeAndStatus
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareWriteTest
+[ RUN      ] MiddlewareWriteTest.WriteJsonSetsContentTypeAndStatus
+[       OK ] MiddlewareWriteTest.WriteJsonSetsContentTypeAndStatus (0 ms)
+[----------] 1 test from MiddlewareWriteTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareWriteTest.WriteJsonSetsContentTypeAndStatus" end time: Jul 25 17:51 CST
+"MiddlewareWriteTest.WriteJsonSetsContentTypeAndStatus" time elapsed: 00:00:00
+----------------------------------------------------------
+
+134/138 Testing: MiddlewareWriteTest.WriteErrorIncludesErrorField
+134/138 Test: MiddlewareWriteTest.WriteErrorIncludesErrorField
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareWriteTest.WriteErrorIncludesErrorField" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareWriteTest.WriteErrorIncludesErrorField" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareWriteTest.WriteErrorIncludesErrorField
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareWriteTest
+[ RUN      ] MiddlewareWriteTest.WriteErrorIncludesErrorField
+[       OK ] MiddlewareWriteTest.WriteErrorIncludesErrorField (0 ms)
+[----------] 1 test from MiddlewareWriteTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareWriteTest.WriteErrorIncludesErrorField" end time: Jul 25 17:51 CST
+"MiddlewareWriteTest.WriteErrorIncludesErrorField" time elapsed: 00:00:00
+----------------------------------------------------------
+
+135/138 Testing: MiddlewareCookieTest.AttachSessionCookieWritesExpectedHeader
+135/138 Test: MiddlewareCookieTest.AttachSessionCookieWritesExpectedHeader
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareCookieTest.AttachSessionCookieWritesExpectedHeader" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareCookieTest.AttachSessionCookieWritesExpectedHeader" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareCookieTest.AttachSessionCookieWritesExpectedHeader
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareCookieTest
+[ RUN      ] MiddlewareCookieTest.AttachSessionCookieWritesExpectedHeader
+[       OK ] MiddlewareCookieTest.AttachSessionCookieWritesExpectedHeader (0 ms)
+[----------] 1 test from MiddlewareCookieTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareCookieTest.AttachSessionCookieWritesExpectedHeader" end time: Jul 25 17:51 CST
+"MiddlewareCookieTest.AttachSessionCookieWritesExpectedHeader" time elapsed: 00:00:00
+----------------------------------------------------------
+
+136/138 Testing: MiddlewareCookieTest.AttachSessionCookieOmitsSecureWhenDisabled
+136/138 Test: MiddlewareCookieTest.AttachSessionCookieOmitsSecureWhenDisabled
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareCookieTest.AttachSessionCookieOmitsSecureWhenDisabled" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareCookieTest.AttachSessionCookieOmitsSecureWhenDisabled" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareCookieTest.AttachSessionCookieOmitsSecureWhenDisabled
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareCookieTest
+[ RUN      ] MiddlewareCookieTest.AttachSessionCookieOmitsSecureWhenDisabled
+[       OK ] MiddlewareCookieTest.AttachSessionCookieOmitsSecureWhenDisabled (0 ms)
+[----------] 1 test from MiddlewareCookieTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareCookieTest.AttachSessionCookieOmitsSecureWhenDisabled" end time: Jul 25 17:51 CST
+"MiddlewareCookieTest.AttachSessionCookieOmitsSecureWhenDisabled" time elapsed: 00:00:00
+----------------------------------------------------------
+
+137/138 Testing: MiddlewareCookieTest.AttachSessionCookieIncludesSecureWhenEnabled
+137/138 Test: MiddlewareCookieTest.AttachSessionCookieIncludesSecureWhenEnabled
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareCookieTest.AttachSessionCookieIncludesSecureWhenEnabled" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareCookieTest.AttachSessionCookieIncludesSecureWhenEnabled" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareCookieTest.AttachSessionCookieIncludesSecureWhenEnabled
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareCookieTest
+[ RUN      ] MiddlewareCookieTest.AttachSessionCookieIncludesSecureWhenEnabled
+[       OK ] MiddlewareCookieTest.AttachSessionCookieIncludesSecureWhenEnabled (0 ms)
+[----------] 1 test from MiddlewareCookieTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareCookieTest.AttachSessionCookieIncludesSecureWhenEnabled" end time: Jul 25 17:51 CST
+"MiddlewareCookieTest.AttachSessionCookieIncludesSecureWhenEnabled" time elapsed: 00:00:00
+----------------------------------------------------------
+
+138/138 Testing: MiddlewareCookieTest.ClearSessionCookieZeroesMaxAge
+138/138 Test: MiddlewareCookieTest.ClearSessionCookieZeroesMaxAge
+Command: "/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao" "--gtest_filter=MiddlewareCookieTest.ClearSessionCookieZeroesMaxAge" "--gtest_also_run_disabled_tests"
+Directory: /root/project/oj-vibe_coding/backend/build
+"MiddlewareCookieTest.ClearSessionCookieZeroesMaxAge" start time: Jul 25 17:51 CST
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+Note: Google Test filter = MiddlewareCookieTest.ClearSessionCookieZeroesMaxAge
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MiddlewareCookieTest
+[ RUN      ] MiddlewareCookieTest.ClearSessionCookieZeroesMaxAge
+[       OK ] MiddlewareCookieTest.ClearSessionCookieZeroesMaxAge (0 ms)
+[----------] 1 test from MiddlewareCookieTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MiddlewareCookieTest.ClearSessionCookieZeroesMaxAge" end time: Jul 25 17:51 CST
+"MiddlewareCookieTest.ClearSessionCookieZeroesMaxAge" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 25 17:51 CST

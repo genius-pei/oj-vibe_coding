@@ -884,6 +884,7 @@ EOF
 - [x] 后端 `http/router`：`registerAllRoutes` 总入口，集中接入 auth/public/admin 三组
 - [x] 后端：`GET /api/auth/me`（无/无效/过期 → 401；有效 → 200 + `{id, username, role}`）
 - [x] 单元测试 `test_session`（9 例）：id 长度/小写 hex/唯一性、shape 接受/拒绝、Set-Cookie/Clear-Cookie 字段
+- [x] 单元测试 `test_user_dao`（24 例）：`UserDaoFindTest` ×4 + `UserDaoSessionTest` ×8 + `MiddlewareParseTest` ×7 + `MiddlewareWriteTest` ×2 + `MiddlewareCookieTest` ×4；DAO 用例依赖真实 MySQL（`DB_PASSWORD` 未设置时 `GTEST_SKIP`），并发现并修复 `expires_at > NOW()` 在 UTC 写入/服务器本地时区下误判过期的 bug
 - [ ] 后端：`POST /api/auth/register`（阶段 B：参数校验 + 唯一性 + bcrypt 落库 + 自动登录）
 - [ ] 后端：`POST /api/auth/login`（阶段 B：bcrypt 校验 + Session 写入 + Set-Cookie）
 - [ ] 后端：`POST /api/auth/logout`（阶段 B：清除 Session）
