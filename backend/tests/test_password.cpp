@@ -46,3 +46,14 @@ TEST(VerifyPasswordTest, RejectsMalformedHash) {
     EXPECT_FALSE(minioj::auth::verifyPassword("p4ssw0rd!", ""));
     EXPECT_FALSE(minioj::auth::verifyPassword("p4ssw0rd!", "$2b$12$"));
 }
+
+TEST(VerifyPasswordTest, RejectsOversizedHash) {
+    const std::string huge(512, 'a');
+    EXPECT_FALSE(minioj::auth::verifyPassword("p4ssw0rd!", huge));
+}
+
+TEST(VerifyPasswordTest, ConstantTimeEqualsHandlesDifferentLengths) {
+    const auto hash = minioj::auth::hashPassword("p4ssw0rd!");
+    EXPECT_FALSE(minioj::auth::verifyPassword("p4ssw0rd!", hash + "x"));
+    EXPECT_FALSE(minioj::auth::verifyPassword("p4ssw0rd!", hash.substr(0, hash.size() - 1)));
+}
