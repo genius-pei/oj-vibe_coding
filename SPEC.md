@@ -873,14 +873,24 @@ EOF
 - [x] 前端：题目详情 Markdown 渲染（marked.js CDN）
 
 ### Phase 2：用户账号体系（注册 / 登录 / 注销）
-- [ ] 后端：`POST /api/auth/register`（参数校验 + 唯一性 + bcrypt 落库 + 自动登录）
-- [ ] 后端：`POST /api/auth/login`（bcrypt 校验 + Session 写入 + Set-Cookie）
-- [ ] 后端：`POST /api/auth/logout`（清除 Session）
-- [ ] 后端：`GET /api/auth/me`（返回当前登录用户）
-- [ ] 前端：注册页 `register.html`（表单 + 实时校验 + 内联错误提示）
-- [ ] 前端：登录页 `login.html`（与注册页互链）
-- [ ] 前端：Header 登录态切换（未登录显登录/注册；已登录显用户名+退出）
-- [ ] `users` 表索引：username 唯一索引
+
+> **拆分落地**：Phase 2-A 会话管理基础（已完成）/ Phase 2-B 登录注册流程（待续）。
+> 阶段 A 落地以下三项：session 工具、`GET /api/auth/me`、`users.username` 唯一索引。
+> register/login/logout 与前端注册登录页保留为阶段 B。
+
+- [x] 后端 session 工具：`auth::session`（64 hex 随机 id / `isSessionIdShape` / `formatSessionCookie` 写 / `formatClearSessionCookie` 清除），Cookie 名 `minioj_sid`、`HttpOnly; SameSite=Lax; Max-Age=ttl[; Secure]`
+- [x] 后端 `db/user_dao`：`findUserByUsername` / `findUserById` / `createSession` / `findUserByValidSessionId`（带 `expires_at > NOW()` 过滤）/ `deleteSession`
+- [x] 后端 `http/middleware`：解析 `Cookie` 头 → `parseSessionId`；写 `Set-Cookie` → `attachSessionCookie` / `clearSessionCookie`；共享 `writeJson` / `writeError`
+- [x] 后端 `http/router`：`registerAllRoutes` 总入口，集中接入 auth/public/admin 三组
+- [x] 后端：`GET /api/auth/me`（无/无效/过期 → 401；有效 → 200 + `{id, username, role}`）
+- [x] 单元测试 `test_session`（9 例）：id 长度/小写 hex/唯一性、shape 接受/拒绝、Set-Cookie/Clear-Cookie 字段
+- [ ] 后端：`POST /api/auth/register`（阶段 B：参数校验 + 唯一性 + bcrypt 落库 + 自动登录）
+- [ ] 后端：`POST /api/auth/login`（阶段 B：bcrypt 校验 + Session 写入 + Set-Cookie）
+- [ ] 后端：`POST /api/auth/logout`（阶段 B：清除 Session）
+- [ ] 前端：注册页 `register.html`（阶段 B：表单 + 实时校验 + 内联错误提示）
+- [ ] 前端：登录页 `login.html`（阶段 B：与注册页互链）
+- [ ] 前端：Header 登录态切换（阶段 B：未登录显登录/注册；已登录显用户名+退出）
+- [x] `users` 表索引：username 唯一索引（schema 已带 `UNIQUE KEY uk_users_username`）
 
 ### Phase 3：判题核心
 - [x] worker 池（信号量，8 并发，FIFO 队列，std::future 同步等待）

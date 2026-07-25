@@ -23,18 +23,23 @@ add_library(minioj_core
     src/util/types.cpp
     src/db/pool.cpp
     src/db/problem_dao.cpp
+    src/db/user_dao.cpp
     src/judge/diff.cpp
     src/judge/worker_pool.cpp
     src/judge/compiler.cpp
     src/judge/runner.cpp
     src/judge/pipeline.cpp
+    src/auth/session.cpp
     src/http/problem_dto.cpp
     src/http/admin_dto.cpp
     src/http/admin_request.cpp
     src/http/submission_dto.cpp
     src/http/submission_request.cpp
+    src/http/middleware.cpp
     src/http/handlers_public.cpp
     src/http/handlers_admin.cpp
+    src/http/handlers_auth.cpp
+    src/http/router.cpp
 )
 
 target_include_directories(minioj_core PUBLIC
@@ -106,4 +111,8 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_submission_request tests/test_submission_request.cpp)
     target_link_libraries(minioj_test_submission_request PRIVATE minioj_core GTest::gtest GTest::gtest_main)
     gtest_discover_tests(minioj_test_submission_request)
+
+    add_executable(minioj_test_session tests/test_session.cpp)
+    target_link_libraries(minioj_test_session PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_session)
 endif()

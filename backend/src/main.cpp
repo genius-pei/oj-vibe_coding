@@ -1,7 +1,6 @@
 #include "config.hpp"
 #include "db/pool.hpp"
-#include "http/handlers_admin.hpp"
-#include "http/handlers_public.hpp"
+#include "http/router.hpp"
 #include "judge/worker_pool.hpp"
 #include "logger.hpp"
 
@@ -26,8 +25,7 @@ int main() {
         server.set_read_timeout(5, 0);
         server.set_write_timeout(5, 0);
 
-        minioj::http::registerPublicRoutes(server, pool, judge_pool);
-        minioj::http::registerAdminRoutes(server, pool);
+        minioj::http::registerAllRoutes(server, pool, judge_pool, config.session);
 
         const std::string host = config.http.host;
         const int port = static_cast<int>(config.http.port);
