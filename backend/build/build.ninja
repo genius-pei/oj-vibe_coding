@@ -126,8 +126,22 @@ build CMakeFiles/minioj_core.dir/src/judge/pipeline.cpp.o: CXX_COMPILER__minioj_
   OBJECT_DIR = CMakeFiles/minioj_core.dir
   OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/judge
 
+build CMakeFiles/minioj_core.dir/src/auth/password.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/auth/password.cpp || cmake_object_order_depends_target_minioj_core
+  DEP_FILE = CMakeFiles/minioj_core.dir/src/auth/password.cpp.o.d
+  FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_core.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/auth
+
 build CMakeFiles/minioj_core.dir/src/auth/session.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/auth/session.cpp || cmake_object_order_depends_target_minioj_core
   DEP_FILE = CMakeFiles/minioj_core.dir/src/auth/session.cpp.o.d
+  FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_core.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/auth
+
+build CMakeFiles/minioj_core.dir/src/auth/validator.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/src/auth/validator.cpp || cmake_object_order_depends_target_minioj_core
+  DEP_FILE = CMakeFiles/minioj_core.dir/src/auth/validator.cpp.o.d
   FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
   INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
   OBJECT_DIR = CMakeFiles/minioj_core.dir
@@ -203,6 +217,13 @@ build CMakeFiles/minioj_core.dir/src/http/router.cpp.o: CXX_COMPILER__minioj_cor
   OBJECT_DIR = CMakeFiles/minioj_core.dir
   OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/src/http
 
+build CMakeFiles/minioj_core.dir/third_party/bcrypt.cpp.o: CXX_COMPILER__minioj_core_unscanned_Debug /root/project/oj-vibe_coding/backend/third_party/bcrypt.cpp || cmake_object_order_depends_target_minioj_core
+  DEP_FILE = CMakeFiles/minioj_core.dir/third_party/bcrypt.cpp.o.d
+  FLAGS = -g -std=c++17 -Wall -Wextra -Wpedantic
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_core.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_core.dir/third_party
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target minioj_core
@@ -211,7 +232,7 @@ build CMakeFiles/minioj_core.dir/src/http/router.cpp.o: CXX_COMPILER__minioj_cor
 #############################################
 # Link the static library libminioj_core.a
 
-build libminioj_core.a: CXX_STATIC_LIBRARY_LINKER__minioj_core_Debug CMakeFiles/minioj_core.dir/src/util/config.cpp.o CMakeFiles/minioj_core.dir/src/util/logger.cpp.o CMakeFiles/minioj_core.dir/src/util/types.cpp.o CMakeFiles/minioj_core.dir/src/db/pool.cpp.o CMakeFiles/minioj_core.dir/src/db/problem_dao.cpp.o CMakeFiles/minioj_core.dir/src/db/user_dao.cpp.o CMakeFiles/minioj_core.dir/src/judge/diff.cpp.o CMakeFiles/minioj_core.dir/src/judge/worker_pool.cpp.o CMakeFiles/minioj_core.dir/src/judge/compiler.cpp.o CMakeFiles/minioj_core.dir/src/judge/runner.cpp.o CMakeFiles/minioj_core.dir/src/judge/pipeline.cpp.o CMakeFiles/minioj_core.dir/src/auth/session.cpp.o CMakeFiles/minioj_core.dir/src/http/problem_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/admin_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/admin_request.cpp.o CMakeFiles/minioj_core.dir/src/http/submission_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/submission_request.cpp.o CMakeFiles/minioj_core.dir/src/http/middleware.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_public.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_admin.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_auth.cpp.o CMakeFiles/minioj_core.dir/src/http/router.cpp.o
+build libminioj_core.a: CXX_STATIC_LIBRARY_LINKER__minioj_core_Debug CMakeFiles/minioj_core.dir/src/util/config.cpp.o CMakeFiles/minioj_core.dir/src/util/logger.cpp.o CMakeFiles/minioj_core.dir/src/util/types.cpp.o CMakeFiles/minioj_core.dir/src/db/pool.cpp.o CMakeFiles/minioj_core.dir/src/db/problem_dao.cpp.o CMakeFiles/minioj_core.dir/src/db/user_dao.cpp.o CMakeFiles/minioj_core.dir/src/judge/diff.cpp.o CMakeFiles/minioj_core.dir/src/judge/worker_pool.cpp.o CMakeFiles/minioj_core.dir/src/judge/compiler.cpp.o CMakeFiles/minioj_core.dir/src/judge/runner.cpp.o CMakeFiles/minioj_core.dir/src/judge/pipeline.cpp.o CMakeFiles/minioj_core.dir/src/auth/password.cpp.o CMakeFiles/minioj_core.dir/src/auth/session.cpp.o CMakeFiles/minioj_core.dir/src/auth/validator.cpp.o CMakeFiles/minioj_core.dir/src/http/problem_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/admin_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/admin_request.cpp.o CMakeFiles/minioj_core.dir/src/http/submission_dto.cpp.o CMakeFiles/minioj_core.dir/src/http/submission_request.cpp.o CMakeFiles/minioj_core.dir/src/http/middleware.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_public.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_admin.cpp.o CMakeFiles/minioj_core.dir/src/http/handlers_auth.cpp.o CMakeFiles/minioj_core.dir/src/http/router.cpp.o CMakeFiles/minioj_core.dir/third_party/bcrypt.cpp.o
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/minioj_core.dir
   POST_BUILD = :
@@ -243,9 +264,9 @@ build CMakeFiles/minioj-backend.dir/src/main.cpp.o: CXX_COMPILER__minioj-backend
 #############################################
 # Link the executable minioj-backend
 
-build minioj-backend: CXX_EXECUTABLE_LINKER__minioj-backend_Debug CMakeFiles/minioj-backend.dir/src/main.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so || libminioj_core.a
+build minioj-backend: CXX_EXECUTABLE_LINKER__minioj-backend_Debug CMakeFiles/minioj-backend.dir/src/main.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so
   OBJECT_DIR = CMakeFiles/minioj-backend.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -276,9 +297,9 @@ build CMakeFiles/minioj_test_config.dir/tests/test_config.cpp.o: CXX_COMPILER__m
 #############################################
 # Link the executable minioj_test_config
 
-build minioj_test_config minioj_test_config[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_config[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_config_Debug CMakeFiles/minioj_test_config.dir/tests/test_config.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_config minioj_test_config[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_config[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_config_Debug CMakeFiles/minioj_test_config.dir/tests/test_config.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_config.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_config -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_config -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_config_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_config[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -310,9 +331,9 @@ build CMakeFiles/minioj_test_logger.dir/tests/test_logger.cpp.o: CXX_COMPILER__m
 #############################################
 # Link the executable minioj_test_logger
 
-build minioj_test_logger minioj_test_logger[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_logger[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_logger_Debug CMakeFiles/minioj_test_logger.dir/tests/test_logger.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_logger minioj_test_logger[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_logger[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_logger_Debug CMakeFiles/minioj_test_logger.dir/tests/test_logger.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_logger.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_logger -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_logger -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_logger_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_logger[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -344,9 +365,9 @@ build CMakeFiles/minioj_test_types.dir/tests/test_types.cpp.o: CXX_COMPILER__min
 #############################################
 # Link the executable minioj_test_types
 
-build minioj_test_types minioj_test_types[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_types[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_types_Debug CMakeFiles/minioj_test_types.dir/tests/test_types.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_types minioj_test_types[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_types[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_types_Debug CMakeFiles/minioj_test_types.dir/tests/test_types.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_types.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_types -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_types -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_types_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_types[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -378,9 +399,9 @@ build CMakeFiles/minioj_test_problem_dto.dir/tests/test_problem_dto.cpp.o: CXX_C
 #############################################
 # Link the executable minioj_test_problem_dto
 
-build minioj_test_problem_dto minioj_test_problem_dto[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_problem_dto[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_problem_dto_Debug CMakeFiles/minioj_test_problem_dto.dir/tests/test_problem_dto.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_problem_dto minioj_test_problem_dto[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_problem_dto[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_problem_dto_Debug CMakeFiles/minioj_test_problem_dto.dir/tests/test_problem_dto.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_problem_dto.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_problem_dto -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_problem_dto_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_problem_dto[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -412,9 +433,9 @@ build CMakeFiles/minioj_test_admin_request.dir/tests/test_admin_request.cpp.o: C
 #############################################
 # Link the executable minioj_test_admin_request
 
-build minioj_test_admin_request minioj_test_admin_request[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_admin_request[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_admin_request_Debug CMakeFiles/minioj_test_admin_request.dir/tests/test_admin_request.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_admin_request minioj_test_admin_request[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_admin_request[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_admin_request_Debug CMakeFiles/minioj_test_admin_request.dir/tests/test_admin_request.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_admin_request.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_admin_request -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_admin_request_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_admin_request[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -446,9 +467,9 @@ build CMakeFiles/minioj_test_diff.dir/tests/test_diff.cpp.o: CXX_COMPILER__minio
 #############################################
 # Link the executable minioj_test_diff
 
-build minioj_test_diff minioj_test_diff[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_diff[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_diff_Debug CMakeFiles/minioj_test_diff.dir/tests/test_diff.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_diff minioj_test_diff[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_diff[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_diff_Debug CMakeFiles/minioj_test_diff.dir/tests/test_diff.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_diff.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_diff -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_diff -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_diff_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_diff[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -480,9 +501,9 @@ build CMakeFiles/minioj_test_worker_pool.dir/tests/test_worker_pool.cpp.o: CXX_C
 #############################################
 # Link the executable minioj_test_worker_pool
 
-build minioj_test_worker_pool minioj_test_worker_pool[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_worker_pool[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_worker_pool_Debug CMakeFiles/minioj_test_worker_pool.dir/tests/test_worker_pool.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_worker_pool minioj_test_worker_pool[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_worker_pool[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_worker_pool_Debug CMakeFiles/minioj_test_worker_pool.dir/tests/test_worker_pool.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_worker_pool.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_worker_pool -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_worker_pool_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_worker_pool[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -514,9 +535,9 @@ build CMakeFiles/minioj_test_compiler.dir/tests/test_compiler.cpp.o: CXX_COMPILE
 #############################################
 # Link the executable minioj_test_compiler
 
-build minioj_test_compiler minioj_test_compiler[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_compiler[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_compiler_Debug CMakeFiles/minioj_test_compiler.dir/tests/test_compiler.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_compiler minioj_test_compiler[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_compiler[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_compiler_Debug CMakeFiles/minioj_test_compiler.dir/tests/test_compiler.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_compiler.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_compiler -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_compiler -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_compiler_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_compiler[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -548,9 +569,9 @@ build CMakeFiles/minioj_test_runner.dir/tests/test_runner.cpp.o: CXX_COMPILER__m
 #############################################
 # Link the executable minioj_test_runner
 
-build minioj_test_runner minioj_test_runner[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_runner[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_runner_Debug CMakeFiles/minioj_test_runner.dir/tests/test_runner.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_runner minioj_test_runner[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_runner[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_runner_Debug CMakeFiles/minioj_test_runner.dir/tests/test_runner.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_runner.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_runner -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_runner -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_runner_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_runner[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -582,9 +603,9 @@ build CMakeFiles/minioj_test_submission_dto.dir/tests/test_submission_dto.cpp.o:
 #############################################
 # Link the executable minioj_test_submission_dto
 
-build minioj_test_submission_dto minioj_test_submission_dto[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_submission_dto[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_submission_dto_Debug CMakeFiles/minioj_test_submission_dto.dir/tests/test_submission_dto.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_submission_dto minioj_test_submission_dto[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_submission_dto[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_submission_dto_Debug CMakeFiles/minioj_test_submission_dto.dir/tests/test_submission_dto.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_submission_dto.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_submission_dto -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_submission_dto -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_submission_dto_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_submission_dto[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -616,9 +637,9 @@ build CMakeFiles/minioj_test_pipeline.dir/tests/test_pipeline.cpp.o: CXX_COMPILE
 #############################################
 # Link the executable minioj_test_pipeline
 
-build minioj_test_pipeline minioj_test_pipeline[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_pipeline[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_pipeline_Debug CMakeFiles/minioj_test_pipeline.dir/tests/test_pipeline.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_pipeline minioj_test_pipeline[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_pipeline[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_pipeline_Debug CMakeFiles/minioj_test_pipeline.dir/tests/test_pipeline.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_pipeline.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_pipeline -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_pipeline -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_pipeline_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_pipeline[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -650,9 +671,9 @@ build CMakeFiles/minioj_test_submission_request.dir/tests/test_submission_reques
 #############################################
 # Link the executable minioj_test_submission_request
 
-build minioj_test_submission_request minioj_test_submission_request[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_submission_request[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_submission_request_Debug CMakeFiles/minioj_test_submission_request.dir/tests/test_submission_request.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_submission_request minioj_test_submission_request[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_submission_request[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_submission_request_Debug CMakeFiles/minioj_test_submission_request.dir/tests/test_submission_request.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_submission_request.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_submission_request -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_submission_request_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_submission_request[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -684,9 +705,9 @@ build CMakeFiles/minioj_test_session.dir/tests/test_session.cpp.o: CXX_COMPILER_
 #############################################
 # Link the executable minioj_test_session
 
-build minioj_test_session minioj_test_session[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_session[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_session_Debug CMakeFiles/minioj_test_session.dir/tests/test_session.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_session minioj_test_session[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_session[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_session_Debug CMakeFiles/minioj_test_session.dir/tests/test_session.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_session.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_session -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_session -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_session_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_session[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -718,15 +739,83 @@ build CMakeFiles/minioj_test_user_dao.dir/tests/test_user_dao.cpp.o: CXX_COMPILE
 #############################################
 # Link the executable minioj_test_user_dao
 
-build minioj_test_user_dao minioj_test_user_dao[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_user_dao[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_user_dao_Debug CMakeFiles/minioj_test_user_dao.dir/tests/test_user_dao.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+build minioj_test_user_dao minioj_test_user_dao[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_user_dao[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_user_dao_Debug CMakeFiles/minioj_test_user_dao.dir/tests/test_user_dao.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
   FLAGS = -g
-  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
   OBJECT_DIR = CMakeFiles/minioj_test_user_dao.dir
   POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_user_dao -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_user_dao_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_user_dao[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
   RESTAT = 1
   TARGET_FILE = minioj_test_user_dao
   TARGET_PDB = minioj_test_user_dao.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target minioj_test_validator
+
+
+#############################################
+# Order-only phony target for minioj_test_validator
+
+build cmake_object_order_depends_target_minioj_test_validator: phony || cmake_object_order_depends_target_minioj_core
+
+build CMakeFiles/minioj_test_validator.dir/tests/test_validator.cpp.o: CXX_COMPILER__minioj_test_validator_unscanned_Debug /root/project/oj-vibe_coding/backend/tests/test_validator.cpp || cmake_object_order_depends_target_minioj_test_validator
+  DEP_FILE = CMakeFiles/minioj_test_validator.dir/tests/test_validator.cpp.o.d
+  FLAGS = -g -std=c++17 -DGTEST_HAS_PTHREAD=1
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_test_validator.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_test_validator.dir/tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target minioj_test_validator
+
+
+#############################################
+# Link the executable minioj_test_validator
+
+build minioj_test_validator minioj_test_validator[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_validator[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_validator_Debug CMakeFiles/minioj_test_validator.dir/tests/test_validator.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+  FLAGS = -g
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  OBJECT_DIR = CMakeFiles/minioj_test_validator.dir
+  POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_validator -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_validator -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_validator_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_validator[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
+  PRE_LINK = :
+  RESTAT = 1
+  TARGET_FILE = minioj_test_validator
+  TARGET_PDB = minioj_test_validator.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target minioj_test_password
+
+
+#############################################
+# Order-only phony target for minioj_test_password
+
+build cmake_object_order_depends_target_minioj_test_password: phony || cmake_object_order_depends_target_minioj_core
+
+build CMakeFiles/minioj_test_password.dir/tests/test_password.cpp.o: CXX_COMPILER__minioj_test_password_unscanned_Debug /root/project/oj-vibe_coding/backend/tests/test_password.cpp || cmake_object_order_depends_target_minioj_test_password
+  DEP_FILE = CMakeFiles/minioj_test_password.dir/tests/test_password.cpp.o.d
+  FLAGS = -g -std=c++17 -DGTEST_HAS_PTHREAD=1
+  INCLUDES = -I/root/project/oj-vibe_coding/backend/include -I/root/project/oj-vibe_coding/backend/src -I/root/project/oj-vibe_coding/backend/third_party -isystem /usr/include/mysql -isystem /usr/include/jsoncpp
+  OBJECT_DIR = CMakeFiles/minioj_test_password.dir
+  OBJECT_FILE_DIR = CMakeFiles/minioj_test_password.dir/tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target minioj_test_password
+
+
+#############################################
+# Link the executable minioj_test_password
+
+build minioj_test_password minioj_test_password[1]_tests.cmake | ${cmake_ninja_workdir}minioj_test_password[1]_tests.cmake: CXX_EXECUTABLE_LINKER__minioj_test_password_Debug CMakeFiles/minioj_test_password.dir/tests/test_password.cpp.o | libminioj_core.a /usr/lib/x86_64-linux-gnu/libgtest.a /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libmysqlclient.so /usr/lib/x86_64-linux-gnu/libjsoncpp.so /usr/lib/x86_64-linux-gnu/libcrypt.so /usr/lib/x86_64-linux-gnu/libgtest.a || libminioj_core.a
+  FLAGS = -g
+  LINK_LIBRARIES = libminioj_core.a  /usr/lib/x86_64-linux-gnu/libgtest.a  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libmysqlclient.so  /usr/lib/x86_64-linux-gnu/libjsoncpp.so  /usr/lib/x86_64-linux-gnu/libcrypt.so  /usr/lib/x86_64-linux-gnu/libgtest.a
+  OBJECT_DIR = CMakeFiles/minioj_test_password.dir
+  POST_BUILD = cd /root/project/oj-vibe_coding/backend/build && /usr/bin/cmake -D TEST_TARGET=minioj_test_password -D TEST_EXECUTABLE=/root/project/oj-vibe_coding/backend/build/minioj_test_password -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/root/project/oj-vibe_coding/backend/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=minioj_test_password_TESTS -D CTEST_FILE=/root/project/oj-vibe_coding/backend/build/minioj_test_password[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
+  PRE_LINK = :
+  RESTAT = 1
+  TARGET_FILE = minioj_test_password
+  TARGET_PDB = minioj_test_password.dbg
 
 
 #############################################
@@ -776,7 +865,7 @@ build minioj_core: phony libminioj_core.a
 #############################################
 # Folder: /root/project/oj-vibe_coding/backend/build
 
-build all: phony libminioj_core.a minioj-backend minioj_test_config minioj_test_logger minioj_test_types minioj_test_problem_dto minioj_test_admin_request minioj_test_diff minioj_test_worker_pool minioj_test_compiler minioj_test_runner minioj_test_submission_dto minioj_test_pipeline minioj_test_submission_request minioj_test_session minioj_test_user_dao
+build all: phony libminioj_core.a minioj-backend minioj_test_config minioj_test_logger minioj_test_types minioj_test_problem_dto minioj_test_admin_request minioj_test_diff minioj_test_worker_pool minioj_test_compiler minioj_test_runner minioj_test_submission_dto minioj_test_pipeline minioj_test_submission_request minioj_test_session minioj_test_user_dao minioj_test_validator minioj_test_password
 
 # =============================================================================
 # Built-in targets
