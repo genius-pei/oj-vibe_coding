@@ -15,16 +15,15 @@
 | MySQL Client Library | 21.2.46 | 后端 MySQL C API |
 | OpenSSL | 3.0.13 | HTTPS 与加密能力 |
 | Nginx | 1.24.0 | 静态前端与 API 反向代理 |
-| libcrypt | 系统版本 | bcrypt 哈希底层实现 |
+| libcrypt-dev (apt) | 1:4.4.36-4build1 | 系统 crypt(3) — bcrypt `$2b$` 算法；通过 `<crypt.h>` 调用 |
 
 ## 后端 Vendored 依赖
 
 | 依赖 | 版本或实现 | 文件路径 | 用途 |
 |---|---|---|---|
 | cpp-httplib | 0.18.3 | `backend/third_party/httplib.h` | HTTP 服务 |
-| bcrypt 封装 | 基于系统 `crypt(3)` 的 bcrypt `$2b$` | `backend/third_party/bcrypt.h`, `backend/third_party/bcrypt.cpp` | 密码生成与验证 |
 
-使用 bcrypt 封装时，链接参数需要包含 `-lcrypt`，多线程程序应同时包含 `-pthread`。
+密码哈希使用 apt 安装的 `libcrypt-dev`，由 `auth/password.cpp` 直接通过 `<crypt.h>` 调用 `crypt(3)`（bcrypt `$2b$`）。CMake 通过 `find_library(CRYPT_LIB NAMES crypt libcrypt REQUIRED)` 链接，多线程场景下串行化由 `cryptMutex()` 保证。
 
 ## 后端系统依赖（pkg-config 链接，不 vendored）
 

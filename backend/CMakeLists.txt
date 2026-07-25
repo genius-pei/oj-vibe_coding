@@ -44,7 +44,6 @@ add_library(minioj_core
     src/http/handlers_admin.cpp
     src/http/handlers_auth.cpp
     src/http/router.cpp
-    third_party/bcrypt.cpp
 )
 
 target_include_directories(minioj_core PUBLIC

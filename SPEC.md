@@ -500,7 +500,7 @@ minioj/
 │   ├── Dockerfile                  # 多阶段构建：基础镜像含 g++ / mysql-client
 │   ├── third_party/
 │   │   ├── httplib.h               # cpp-httplib 单头
-│   │   └── bcrypt.h / bcrypt.cpp   # 密码哈希（如使用 libbcrypt）
+│   │   └── *(已删除：bcrypt 改用 apt `libcrypt-dev`)*
 │   ├── include/                    # 公共头文件
 │   │   ├── common.hpp
 │   │   ├── config.hpp
@@ -599,7 +599,7 @@ minioj/
 | **libmysqlclient-dev** | MySQL C API | 与服务端版本匹配 | 后端连库必需 | 容器 / 宿主机 |
 | **libjsoncpp-dev** | JSON 解析与序列化 | ≥ 1.9（pkg-config 提供 `jsoncpp`） | 后端 API 必需 | 容器 / 宿主机 |
 | **libssl-dev** | cpp-httplib HTTPS 可选 | OpenSSL ≥ 1.1 | 可选（HTTPS 部署时） | 宿主机 |
-| **bcrypt 实现** | 用户密码哈希 | libbcrypt 或 vendored 单头 | 注册/登录必需 | 后端 third_party |
+| **bcrypt 实现** | 用户密码哈希 | apt `libcrypt-dev`（glibc `crypt(3)` 提供 bcrypt `$2b$`） | 注册/登录必需 | 后端系统依赖 |
 | **cpp-httplib** | HTTP 服务 | 最新单头 | 后端必需 | 后端 third_party（vendored） |
 | **marked.js** | 前端 Markdown 渲染 | ≥ 12 | 前端必需 | 前端 vendor |
 | **CodeMirror 6** | 代码编辑器 | ≥ 6.x | 前端必需 | 前端 vendor |
@@ -695,7 +695,7 @@ brew install mysql && brew services start mysql
 
 后端 C++ 依赖采用「**Vendored 单头 + 系统 pkg-config**」混合策略：
 
-- 单头库（`cpp-httplib`、`bcrypt`）随仓库 `third_party/` 交付，零网络依赖
+- 单头库（`cpp-httplib`）随仓库 `third_party/` 交付，零网络依赖；bcrypt 改由 apt `libcrypt-dev` 提供
 - JSON 解析使用 **jsoncpp**，通过系统包提供，由 CMake 的 `pkg_check_modules(JSONCPP REQUIRED ...)` 链接（详见 §9.4.1 / §9.4.3 中 `libjsoncpp-dev` / `jsoncpp-devel` 安装方式）
 
 **(a) Vendored 单头（默认，零网络）**
@@ -705,7 +705,7 @@ brew install mysql && brew services start mysql
 | 库 | 路径 | 说明 |
 |----|------|------|
 | cpp-httplib | `third_party/httplib.h` | 单头 |
-| bcrypt | `third_party/bcrypt.{h,cpp}` | 单源实现 |
+| bcrypt | apt `libcrypt-dev`（glibc `crypt(3)` `$2b$`） | 系统 C 标准库；`<crypt.h>` |
 
 `CMakeLists.txt` 已通过 `target_include_directories(... third_party)` 直接引用，**离线即可编译**。
 
@@ -885,7 +885,7 @@ EOF
 - [x] 后端：`GET /api/auth/me`（无/无效/过期 → 401；有效 → 200 + `{id, username, role}`）
 - [x] 单元测试 `test_session`（9 例）：id 长度/小写 hex/唯一性、shape 接受/拒绝、Set-Cookie/Clear-Cookie 字段
 - [x] 单元测试 `test_user_dao`（24 例）：`UserDaoFindTest` ×4 + `UserDaoSessionTest` ×8 + `MiddlewareParseTest` ×7 + `MiddlewareWriteTest` ×2 + `MiddlewareCookieTest` ×4；DAO 用例依赖真实 MySQL（`DB_PASSWORD` 未设置时 `GTEST_SKIP`），并发现并修复 `expires_at > NOW()` 在 UTC 写入/服务器本地时区下误判过期的 bug
-- [x] 后端 `auth/password`：bcrypt-12 包装（`hashPassword` / `verifyPassword`），CMake 加 `third_party/bcrypt.cpp` 与 `${CRYPT_LIB}`
+- [x] 后端 `auth/password`：bcrypt-12 包装（`hashPassword` / `verifyPassword`）；通过 apt `libcrypt-dev` 提供的 `<crypt.h>` `crypt(3)`，CMake 链 `${CRYPT_LIB}`；**已删 vendored `third_party/bcrypt.{h,cpp}`**
 - [x] 后端 `auth/validator`：`validateUsername` 3-20 `[A-Za-z0-9_]` + `validatePassword` 8-64 含字母与数字，错误统一抛 `invalid_argument`
 - [x] 后端：`POST /api/auth/register`：parse JSON → validate → bcrypt → `db::createUser`（捕获 `mysql_errno 1062` 转 `UsernameExistsError`） → `createSession` + `Set-Cookie` → 201；失败 400 / 409
 - [x] 后端：`POST /api/auth/logout`：解析 cookie → `db::deleteSession` → `clearSessionCookie` → 200（cookie 不存在也返回 200）
