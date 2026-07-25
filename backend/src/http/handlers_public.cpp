@@ -164,7 +164,7 @@ void registerPublicRoutes(httplib::Server& server, db::ConnectionPool& pool, jud
     server.Get("/api/problems", [&pool](const httplib::Request& req, httplib::Response& res) {
         listProblemsHandler(pool, req, res);
     });
-    server.Get(R"(/api/problems/(\d+))", [&pool](const httplib::Request& req, httplib::Response& res) {
+    server.Get("/api/problems/:id", [&pool](const httplib::Request& req, httplib::Response& res) {
         getProblemHandler(pool, req, res);
     });
     server.Post("/api/submissions", [&pool, &judge_pool](const httplib::Request& req, httplib::Response& res) {

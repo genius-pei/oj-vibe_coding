@@ -141,13 +141,13 @@ void registerAdminRoutes(httplib::Server& server, db::ConnectionPool& pool) {
     server.Post("/api/admin/problems", [&pool](const httplib::Request& req, httplib::Response& res) {
         createProblemHandler(pool, req, res);
     });
-    server.Get(R"(/api/admin/problems/(\d+))", [&pool](const httplib::Request& req, httplib::Response& res) {
+    server.Get("/api/admin/problems/:id", [&pool](const httplib::Request& req, httplib::Response& res) {
         getAdminProblemHandler(pool, req, res);
     });
-    server.Put(R"(/api/admin/problems/(\d+))", [&pool](const httplib::Request& req, httplib::Response& res) {
+    server.Put("/api/admin/problems/:id", [&pool](const httplib::Request& req, httplib::Response& res) {
         updateProblemHandler(pool, req, res);
     });
-    server.Delete(R"(/api/admin/problems/(\d+))", [&pool](const httplib::Request& req, httplib::Response& res) {
+    server.Delete("/api/admin/problems/:id", [&pool](const httplib::Request& req, httplib::Response& res) {
         deleteProblemHandler(pool, req, res);
     });
 }
