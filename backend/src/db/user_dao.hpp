@@ -30,6 +30,7 @@ struct UserSummary {
     std::uint64_t id{0};
     std::string username;
     UserRole role{UserRole::user};
+    std::string password_hash;
 };
 
 std::optional<UserSummary> findUserByUsername(ConnectionPool& pool, std::string_view username);

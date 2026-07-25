@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>登录 — MiniOJ</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">MiniOJ</a>
+    <nav class="nav">
+      <a href="/">题单</a>
+      <span id="auth-area">
+        <a href="/login.html">登录</a>
+        <a href="/register.html">注册</a>
+      </span>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <form id="login-form" class="auth-card" novalidate>
+      <h1>登 录</h1>
+
+      <div class="field">
+        <label for="login-username">用户名</label>
+        <input id="login-username" name="username" type="text" autocomplete="username" required>
+      </div>
+
+      <div class="field">
+        <label for="login-password">密码</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+
+      <div class="submit-row">
+        <button id="submit-btn" class="button" type="submit">登 录</button>
+      </div>
+
+      <p class="form-error" id="form-error" role="alert"></p>
+
+      <p class="alt-link">
+        还没有账号？<a href="/register.html">立即注册</a>
+      </p>
+      <p class="admin-link">
+        <a href="/admin/login.html">管理员入口 →</a>
+      </p>
+    </form>
+  </main>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/login.js"></script>
+</body>
+</html>

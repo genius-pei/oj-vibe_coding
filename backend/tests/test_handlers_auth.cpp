@@ -348,3 +348,195 @@ TEST_F(HandlersAuthFixture, RegisterTwiceDifferentPasswordsStill409) {
     EXPECT_EQ(first->status, 201);
     EXPECT_EQ(second->status, 409);
 }
+
+// ----- Login -----
+
+namespace {
+
+std::string createUserViaApi(httplib::Client& client, const std::string& username,
+                              const std::string& password) {
+    const std::string body = R"({"username":")" + username + R"(","password":")" + password + R"("})";
+    auto res = client.Post("/api/auth/register", body, "application/json");
+    if (!res || res->status != 201) {
+        return "";
+    }
+    return extractSetCookie(res->get_header_value("Set-Cookie"));
+}
+
+bool loginSucceedsAndReturnsCookie(httplib::Client& client, const std::string& username,
+                                   const std::string& password, std::string* cookie_out,
+                                   int* status_out) {
+    const std::string body = R"({"username":")" + username + R"(","password":")" + password + R"("})";
+    auto res = client.Post("/api/auth/login", body, "application/json");
+    if (!res) {
+        return false;
+    }
+    if (status_out) {
+        *status_out = res->status;
+    }
+    if (res->status == 200 && cookie_out) {
+        *cookie_out = extractSetCookie(res->get_header_value("Set-Cookie"));
+    }
+    return res->status == 200;
+}
+
+}
+
+TEST_F(HandlersAuthFixture, LoginValidUserReturns200WithCookie) {
+    auto client = makeClient(server_->port);
+    const auto username = randomUsername();
+    registerUsername(username);
+    ASSERT_FALSE(createUserViaApi(client, username, "P4ssword!").empty());
+
+    const std::string body = R"({"username":")" + username + R"(","password":"P4ssword!"})";
+    auto res = client.Post("/api/auth/login", body, "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 200);
+
+    const auto set_cookie = res->get_header_value("Set-Cookie");
+    EXPECT_NE(set_cookie.find("minioj_sid="), std::string::npos);
+    EXPECT_NE(set_cookie.find("HttpOnly"), std::string::npos);
+    EXPECT_NE(set_cookie.find("Max-Age=3600"), std::string::npos);
+}
+
+TEST_F(HandlersAuthFixture, LoginReturnsUserJsonOnSuccess) {
+    auto client = makeClient(server_->port);
+    const auto username = randomUsername();
+    registerUsername(username);
+    ASSERT_FALSE(createUserViaApi(client, username, "P4ssword!").empty());
+
+    auto res = client.Post("/api/auth/login",
+                            R"({"username":")" + username + R"(","password":"P4ssword!"})",
+                            "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->body.find("\"username\":\"" + username + "\""), std::string::npos);
+    EXPECT_NE(res->body.find("\"role\":\"user\""), std::string::npos);
+    EXPECT_NE(res->body.find("\"id\":"), std::string::npos);
+}
+
+TEST_F(HandlersAuthFixture, LoginWrongPasswordReturns401) {
+    auto client = makeClient(server_->port);
+    const auto username = randomUsername();
+    registerUsername(username);
+    ASSERT_FALSE(createUserViaApi(client, username, "P4ssword!").empty());
+
+    auto res = client.Post("/api/auth/login",
+                            R"({"username":")" + username + R"(","password":"WrongPass1"})",
+                            "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 401);
+    EXPECT_NE(res->body.find("\"error\":"), std::string::npos);
+}
+
+TEST_F(HandlersAuthFixture, LoginUnknownUserReturns401) {
+    auto client = makeClient(server_->port);
+    auto res = client.Post("/api/auth/login",
+                            R"({"username":"nonexistent_xyz","password":"P4ssword!"})",
+                            "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 401);
+    EXPECT_NE(res->body.find("\"error\":"), std::string::npos);
+}
+
+TEST_F(HandlersAuthFixture, LoginErrorMessageIsUniformForUnknownAndWrong) {
+    auto client = makeClient(server_->port);
+    const auto username = randomUsername();
+    registerUsername(username);
+    ASSERT_FALSE(createUserViaApi(client, username, "P4ssword!").empty());
+
+    auto wrong = client.Post("/api/auth/login",
+                              R"({"username":")" + username + R"(","password":"WrongPass1"})",
+                              "application/json");
+    auto unknown = client.Post("/api/auth/login",
+                                R"({"username":"nonexistent_xyz","password":"P4ssword!"})",
+                                "application/json");
+    ASSERT_TRUE(wrong);
+    ASSERT_TRUE(unknown);
+    EXPECT_EQ(wrong->status, 401);
+    EXPECT_EQ(unknown->status, 401);
+    EXPECT_EQ(wrong->body, unknown->body);
+}
+
+TEST_F(HandlersAuthFixture, LoginMissingUsernameReturns400) {
+    auto client = makeClient(server_->port);
+    auto res = client.Post("/api/auth/login", R"({"password":"P4ssword!"})", "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 400);
+}
+
+TEST_F(HandlersAuthFixture, LoginMissingPasswordReturns400) {
+    auto client = makeClient(server_->port);
+    auto res = client.Post("/api/auth/login", R"({"username":"alice"})", "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 400);
+}
+
+TEST_F(HandlersAuthFixture, LoginEmptyStringPasswordReturns400) {
+    auto client = makeClient(server_->port);
+    auto res = client.Post("/api/auth/login",
+                            R"({"username":"alice","password":""})",
+                            "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 400);
+}
+
+TEST_F(HandlersAuthFixture, LoginInvalidJsonReturns400) {
+    auto client = makeClient(server_->port);
+    auto res = client.Post("/api/auth/login", "not json", "application/json");
+    ASSERT_TRUE(res);
+    EXPECT_EQ(res->status, 400);
+}
+
+TEST_F(HandlersAuthFixture, LoginTwiceYieldsDifferentCookies) {
+    auto client = makeClient(server_->port);
+    const auto username = randomUsername();
+    registerUsername(username);
+    ASSERT_FALSE(createUserViaApi(client, username, "P4ssword!").empty());
+
+    std::string cookie1;
+    std::string cookie2;
+    int status1 = 0;
+    int status2 = 0;
+    ASSERT_TRUE(loginSucceedsAndReturnsCookie(client, username, "P4ssword!", &cookie1, &status1));
+    ASSERT_TRUE(loginSucceedsAndReturnsCookie(client, username, "P4ssword!", &cookie2, &status2));
+    EXPECT_EQ(status1, 200);
+    EXPECT_EQ(status2, 200);
+    EXPECT_NE(cookie1, cookie2);
+}
+
+TEST_F(HandlersAuthFixture, RegisterThenLogoutThenLoginThenMe) {
+    auto client = makeClient(server_->port);
+    const auto username = randomUsername();
+    registerUsername(username);
+
+    const std::string reg_cookie = createUserViaApi(client, username, "P4ssword!");
+    ASSERT_FALSE(reg_cookie.empty());
+
+    httplib::Headers headers;
+    headers.emplace("Cookie", reg_cookie);
+    auto me_initial = client.Get("/api/auth/me", headers);
+    ASSERT_TRUE(me_initial);
+    ASSERT_EQ(me_initial->status, 200);
+
+    auto logout = client.Post("/api/auth/logout", headers, "", "application/json");
+    ASSERT_TRUE(logout);
+    EXPECT_EQ(logout->status, 200);
+
+    auto me_after_logout = client.Get("/api/auth/me", headers);
+    ASSERT_TRUE(me_after_logout);
+    EXPECT_EQ(me_after_logout->status, 401);
+
+    std::string login_cookie;
+    int login_status = 0;
+    ASSERT_TRUE(loginSucceedsAndReturnsCookie(client, username, "P4ssword!", &login_cookie, &login_status));
+    EXPECT_EQ(login_status, 200);
+
+    httplib::Headers login_headers;
+    login_headers.emplace("Cookie", login_cookie);
+    auto me_after_login = client.Get("/api/auth/me", login_headers);
+    ASSERT_TRUE(me_after_login);
+    EXPECT_EQ(me_after_login->status, 200);
+    EXPECT_NE(me_after_login->body.find("\"username\":\"" + username + "\""), std::string::npos);
+}
+

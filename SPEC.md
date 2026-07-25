@@ -889,7 +889,10 @@ EOF
 - [x] 后端 `auth/validator`：`validateUsername` 3-20 `[A-Za-z0-9_]` + `validatePassword` 8-64 含字母与数字，错误统一抛 `invalid_argument`
 - [x] 后端：`POST /api/auth/register`：parse JSON → validate → bcrypt → `db::createUser`（捕获 `mysql_errno 1062` 转 `UsernameExistsError`） → `createSession` + `Set-Cookie` → 201；失败 400 / 409
 - [x] 后端：`POST /api/auth/logout`：解析 cookie → `db::deleteSession` → `clearSessionCookie` → 200（cookie 不存在也返回 200）
-- [ ] 后端：`POST /api/auth/login`（阶段 C：bcrypt 校验 + Session 写入 + Set-Cookie）
+- [x] 后端：`POST /api/auth/login`（阶段 C：parse JSON → findUserByUsername → `verifyPassword` → createSession → Set-Cookie → 200；401 用统一文案 `invalid username or password` 避免用户名枚举；TODO 注释：未做"用户不存在时跑假 bcrypt"的时序对齐）
+- [x] 后端 `UserSummary` 增加 `password_hash` 字段（`findUserByUsername` / `findUserById` 一并 SELECT），供 loginHandler 校验密码；前端 /me 不返回 hash（DTO 层只序列 id/username/role）
+- [x] `parseAuthPayload` 注册/登录共用，避免重复 JSON 解析
+- [x] 前端：登录页 `login.html` + `js/login.js`（API 调用 `POST /api/auth/login`，401 内联错误显示后端文案，loading 防重复，提交成功 window.location.href='/'）；与 register.html / admin/login.html 互链已埋点
 - [x] 前端：注册页 `register.html` + `register.js`（含用户名/密码/确认密码三字段，实时校验显示绿色 ✓ / 红色 ✗，loading 防重复，409 标到 username hint，提交成功跳首页）
 - [ ] 前端：登录页 `login.html`（阶段 C：与注册页互链）
 - [x] 前端：`css/theme.css` + `css/common.css` + `css/auth.css`（暗色 `#1a1a1a`/`#ffa116`，Header、`.button`、`.user-chip`、`.auth-card` 表单布局）
@@ -899,7 +902,7 @@ EOF
 - [x] 单元测试 `test_validator`（10 例）：用户名接受/长度边界/字符集拒绝；密码接受/长度边界/缺字母/缺数字
 - [x] 单元测试 `test_password`（8 例）：bcrypt 头、明文泄漏、不同 salt、空密码、正确/错误密码、畸形 hash
 - [x] 单元测试 `test_user_dao::UserDaoCreateUserTest`（7 例）：insert id / 存储 hash+role / admin role / dup 抛 `UsernameExistsError` / 错误含 username / 与 findByUsername/Id roundtrip / 删除后可复用
-- [x] 单元测试 `test_handlers_auth::HandlersAuthFixture`（13 例，httplib::Server+Client 集成）：注册成功 201+Set-Cookie / dup 409 / 缺 username / 缺 password / 短 username / 短 password / 缺字母 / 非 JSON / 匿名 /me 401 / 注册→/me 200 / logout 清 cookie→/me 401 / 无 cookie logout 幂等 / 不同密码仍 409
+- [x] 单元测试 `test_handlers_auth::HandlersAuthFixture`（24 例，httplib::Server+Client 集成）：13 例 register/me/logout + 11 例 login（含：合法 200+Cookie / 错密 401 / 未知用户 401 / 缺字段 400 / 非 JSON 400 / 注册→logout→登录→/me 全路径 / 错密码与未知用户统一文案 / 两次登录各得不同 cookie）
 - [x] 前端抽出 `frontend/public/js/validation.js`（纯函数）；`register.js` 调用并 DOM 化；`frontend/tests/validation.test.mjs` 用 `node:test` 19 例（全过）
 - [x] 集成验证：nginx 反代下注册成功 201 + Set-Cookie、/me 200、logout 清 Cookie、dup 409、匿名 /me 401
 - [x] `users` 表索引：username 唯一索引（schema 已带 `UNIQUE KEY uk_users_username`）

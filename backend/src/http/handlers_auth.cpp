@@ -12,6 +12,7 @@
 
 #include <exception>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 
@@ -19,12 +20,12 @@ namespace minioj::http {
 
 namespace {
 
-struct RegisterPayload {
+struct AuthPayload {
     std::string username;
     std::string password;
 };
 
-RegisterPayload parseRegisterPayload(const std::string& body) {
+AuthPayload parseAuthPayload(const std::string& body) {
     Json::Value root;
     Json::CharReaderBuilder builder;
     const std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
@@ -43,7 +44,7 @@ RegisterPayload parseRegisterPayload(const std::string& body) {
     if (!root.isMember("password") || !root["password"].isString()) {
         throw std::invalid_argument("missing or invalid 'password'");
     }
-    RegisterPayload payload;
+    AuthPayload payload;
     payload.username = root["username"].asString();
     payload.password = root["password"].asString();
     return payload;
@@ -77,9 +78,9 @@ void registerHandler(db::ConnectionPool& pool,
                      const SessionConfig& session_config,
                      const httplib::Request& req,
                      httplib::Response& res) {
-    RegisterPayload payload;
+    AuthPayload payload;
     try {
-        payload = parseRegisterPayload(req.body);
+        payload = parseAuthPayload(req.body);
         auth::validateUsername(payload.username);
         auth::validatePassword(payload.password);
     } catch (const std::invalid_argument& error) {
@@ -123,6 +124,56 @@ void registerHandler(db::ConnectionPool& pool,
     writeJson(res, 201, body);
 }
 
+void loginHandler(db::ConnectionPool& pool,
+                  const SessionConfig& session_config,
+                  const httplib::Request& req,
+                  httplib::Response& res) {
+    AuthPayload payload;
+    try {
+        payload = parseAuthPayload(req.body);
+    } catch (const std::invalid_argument& error) {
+        writeError(res, 400, error.what());
+        return;
+    }
+    if (payload.username.empty() || payload.password.empty()) {
+        writeError(res, 400, "username and password are required");
+        return;
+    }
+
+    constexpr const char* kInvalidCredentialsMessage = "invalid username or password";
+
+    std::optional<db::UserSummary> user;
+    try {
+        user = db::findUserByUsername(pool, payload.username);
+    } catch (const std::exception& error) {
+        writeError(res, 500, std::string("database error: ") + error.what());
+        return;
+    }
+
+    // TODO(phase2-hardening): run a dummy verifyPassword when user not found, to mask timing
+    // between "user not found" and "wrong password" responses.
+    if (!user.has_value() || !auth::verifyPassword(payload.password, user->password_hash)) {
+        writeError(res, 401, kInvalidCredentialsMessage);
+        return;
+    }
+
+    const auto session_id = auth::generateSessionId();
+    try {
+        db::createSession(pool, user->id, session_id, session_config.ttl);
+    } catch (const std::exception& error) {
+        writeError(res, 500, std::string("session error: ") + error.what());
+        return;
+    }
+
+    Json::Value body(Json::objectValue);
+    body["id"] = static_cast<Json::UInt64>(user->id);
+    body["username"] = user->username;
+    body["role"] = user->role == db::UserRole::admin ? kRoleAdmin : kRoleUser;
+
+    attachSessionCookie(res, session_id, session_config);
+    writeJson(res, 200, body);
+}
+
 void logoutHandler(db::ConnectionPool& pool,
                    const SessionConfig& session_config,
                    const httplib::Request& req,
@@ -141,8 +192,6 @@ void logoutHandler(db::ConnectionPool& pool,
     writeJson(res, 200, body);
 }
 
-// TODO(phase2-B): POST /api/auth/login    — bcrypt 校验 + Session 写入 + Set-Cookie
-
 }
 
 void registerAuthRoutes(httplib::Server& server,
@@ -153,6 +202,9 @@ void registerAuthRoutes(httplib::Server& server,
     });
     server.Post("/api/auth/register", [&pool, &session_config](const httplib::Request& req, httplib::Response& res) {
         registerHandler(pool, session_config, req, res);
+    });
+    server.Post("/api/auth/login", [&pool, &session_config](const httplib::Request& req, httplib::Response& res) {
+        loginHandler(pool, session_config, req, res);
     });
     server.Post("/api/auth/logout", [&pool, &session_config](const httplib::Request& req, httplib::Response& res) {
         logoutHandler(pool, session_config, req, res);

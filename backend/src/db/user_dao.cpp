@@ -84,7 +84,7 @@ std::optional<UserSummary> findUserByUsername(ConnectionPool& pool, std::string_
 
     const std::string username_esc = escape(connection, username);
     const std::string sql =
-        "SELECT id, username, role FROM users WHERE username = '" + username_esc + "' LIMIT 1";
+        "SELECT id, username, role, password_hash FROM users WHERE username = '" + username_esc + "' LIMIT 1";
 
     if (mysql_query(connection, sql.c_str()) != 0) {
         throw std::runtime_error(std::string("user lookup failed: ") + mysql_error(connection));
@@ -102,6 +102,7 @@ std::optional<UserSummary> findUserByUsername(ConnectionPool& pool, std::string_
         user.id = std::stoull(column(row, lengths[0], 0));
         user.username = column(row, lengths[1], 1);
         user.role = parseRoleOrThrow(column(row, lengths[2], 2));
+        user.password_hash = column(row, lengths[3], 3);
         found = std::move(user);
     }
     mysql_free_result(result);
@@ -113,7 +114,7 @@ std::optional<UserSummary> findUserById(ConnectionPool& pool, std::uint64_t user
     MYSQL* connection = lease.get();
 
     const std::string sql =
-        "SELECT id, username, role FROM users WHERE id = " + std::to_string(user_id) + " LIMIT 1";
+        "SELECT id, username, role, password_hash FROM users WHERE id = " + std::to_string(user_id) + " LIMIT 1";
 
     if (mysql_query(connection, sql.c_str()) != 0) {
         throw std::runtime_error(std::string("user id lookup failed: ") + mysql_error(connection));
@@ -131,6 +132,7 @@ std::optional<UserSummary> findUserById(ConnectionPool& pool, std::uint64_t user
         user.id = std::stoull(column(row, lengths[0], 0));
         user.username = column(row, lengths[1], 1);
         user.role = parseRoleOrThrow(column(row, lengths[2], 2));
+        user.password_hash = column(row, lengths[3], 3);
         found = std::move(user);
     }
     mysql_free_result(result);
