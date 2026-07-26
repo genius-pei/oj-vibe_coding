@@ -3,15 +3,18 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-3) var(--space-5);
-  background-color: var(--bg-card);
+  background-color: rgba(11, 15, 23, 0.85);
   border-bottom: 1px solid var(--border-soft);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .site-header .brand {
   color: var(--accent);
-  font-size: 20px;
+  font-family: var(--font-mono);
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .site-header .brand:hover {
@@ -27,7 +30,9 @@
 
 .site-header .nav a {
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  transition: color 160ms ease;
 }
 
 .site-header .nav a:hover {
@@ -36,7 +41,7 @@
 }
 
 .site-header .nav a.active {
-  color: var(--text-primary);
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -109,11 +114,12 @@ input:not([type]) {
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-sm);
   outline: none;
-  transition: border-color 120ms ease;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 
 input:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 161, 22, 0.15);
 }
 
 input.invalid {

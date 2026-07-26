@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MiniOJ — 题单</title>
+  <title>题单 — MiniOJ</title>
+  <meta name="description" content="MiniOJ 在线判题题单">
   <link rel="stylesheet" href="/css/theme.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/problem.css">
@@ -12,7 +13,7 @@
   <header class="site-header">
     <a class="brand" href="/">MiniOJ</a>
     <nav class="nav">
-      <a href="/">题单</a>
+      <a href="/" class="active">题单</a>
       <span id="auth-area">
         <a href="/login.html">登录</a>
         <a href="/register.html">注册</a>
@@ -21,8 +22,14 @@
   </header>
 
   <main class="container">
+    <div class="page-head">
+      <h1 class="page-title">题单</h1>
+      <span class="count" id="problem-count"></span>
+    </div>
+
     <section class="filters">
-      <label>难度：
+      <label class="filter-field">
+        <span class="filter-label">难度</span>
         <select id="filter-difficulty">
           <option value="">全部</option>
           <option value="easy">简单</option>
@@ -30,7 +37,8 @@
           <option value="hard">困难</option>
         </select>
       </label>
-      <label>标签：
+      <label class="filter-field">
+        <span class="filter-label">标签</span>
         <select id="filter-tag">
           <option value="">全部</option>
         </select>

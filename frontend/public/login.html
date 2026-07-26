@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>登录 — MiniOJ</title>
+  <meta name="description" content="登录 MiniOJ 在线判题系统">
   <link rel="stylesheet" href="/css/theme.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/auth.css">
@@ -22,30 +23,58 @@
 
   <main class="auth-page">
     <form id="login-form" class="auth-card" novalidate>
-      <h1>登 录</h1>
+      <h1>登录</h1>
 
       <div class="field">
         <label for="login-username">用户名</label>
-        <input id="login-username" name="username" type="text" autocomplete="username" required>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
+          <input id="login-username" name="username" type="text"
+                 autocomplete="username" spellcheck="false"
+                 autocapitalize="off" placeholder="请输入用户名" required>
+        </div>
       </div>
 
       <div class="field">
         <label for="login-password">密码</label>
-        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </span>
+          <input id="login-password" name="password" type="password"
+                 autocomplete="current-password" placeholder="请输入密码" required>
+          <button type="button" class="toggle-pw" data-target="login-password"
+                  aria-label="显示密码" title="显示密码">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div class="submit-row">
-        <button id="submit-btn" class="button" type="submit">登 录</button>
+        <button id="submit-btn" class="button" type="submit" disabled>登 录</button>
       </div>
 
       <p class="form-error" id="form-error" role="alert"></p>
 
-      <p class="alt-link">
-        还没有账号？<a href="/register.html">立即注册</a>
-      </p>
-      <p class="admin-link">
-        <a href="/admin/login.html">管理员入口 →</a>
-      </p>
+      <div class="auth-foot">
+        <p class="alt-link">
+          还没有账号？<a href="/register.html">立即注册</a>
+        </p>
+        <p class="admin-link">
+          <a href="/admin/login.html">管理员入口 →</a>
+        </p>
+      </div>
     </form>
   </main>
 

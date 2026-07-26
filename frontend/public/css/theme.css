@@ -1,28 +1,40 @@
 :root {
-  --bg-base: #1a1a1a;
-  --bg-card: #262626;
-  --bg-card-hover: #2d2d2d;
-  --bg-input: #1f1f1f;
+  /* ── 基础底色 ───────────────────────────────── */
+  --bg-base: #0b0f17;
+  --bg-base-2: #0f1521;
+  --bg-card: #131a26;
+  --bg-card-hover: #1a2333;
+  --bg-input: #0d131c;
   --bg-overlay: rgba(0, 0, 0, 0.6);
 
-  --text-primary: #f5f5f5;
-  --text-secondary: #a3a3a3;
-  --text-muted: #6b6b6b;
+  /* ── 文字 ────────────────────────────────────── */
+  --text-primary: #e6edf7;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
   --text-error: #ff6b6b;
+  --text-success: #22c55e;
 
-  --border-soft: #3a3a3a;
+  /* ── 边框 ────────────────────────────────────── */
+  --border-soft: #1f2a3a;
+  --border-mid: #2a3a52;
   --border-focus: #ffa116;
 
+  /* ── 品牌主色（仿 LeetCode 橙） ──────────────── */
   --accent: #ffa116;
   --accent-hover: #ffb84d;
   --accent-press: #e89000;
+  --accent-soft: rgba(255, 161, 22, 0.12);
 
+  /* ── 难度色（题目徽章用） ─────────────────────── */
   --easy: #00b8a3;
   --medium: #ffc01e;
   --hard: #ef4743;
 
+  /* ── 阴影 ────────────────────────────────────── */
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 24px rgba(255, 161, 22, 0.18);
 
+  /* ── 间距 ────────────────────────────────────── */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -31,9 +43,17 @@
   --space-6: 32px;
   --space-8: 48px;
 
+  /* ── 圆角 ────────────────────────────────────── */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* ── 字体 ────────────────────────────────────── */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Fira Code',
+    Menlo, Consolas, 'Courier New', monospace;
 }
 
 * {
@@ -46,11 +66,12 @@ body {
   padding: 0;
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
-    'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.5;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -69,4 +90,9 @@ select,
 textarea {
   font: inherit;
   color: inherit;
+}
+
+::selection {
+  background-color: var(--accent-soft);
+  color: var(--accent-hover);
 }

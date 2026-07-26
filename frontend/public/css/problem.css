@@ -1,0 +1,294 @@
+/* ============================================================
+   题单页 —— 深色科技风（极简卡片网格）
+   ============================================================ */
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5) var(--space-8);
+}
+
+/* ── 页面标题 ────────────────────────────────────── */
+.page-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.page-title {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.count::before {
+  content: '·';
+  margin-right: var(--space-2);
+  color: var(--accent);
+}
+
+/* ── 筛选器 ──────────────────────────────────────── */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.filter-field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+.filter-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.filter-field select {
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+  min-width: 120px;
+}
+
+.filter-field select:hover {
+  border-color: var(--border-mid);
+}
+
+.filter-field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 161, 22, 0.15);
+}
+
+/* ── 卡片网格 ────────────────────────────────────── */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+/* ── 空状态 ──────────────────────────────────────── */
+.empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: var(--space-6);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  background-color: rgba(19, 26, 38, 0.4);
+  border: 1px dashed var(--border-soft);
+  border-radius: var(--radius-md);
+}
+
+.empty.is-error {
+  color: var(--text-error);
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+/* ── 题目卡片 ────────────────────────────────────── */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: var(--space-3);
+  bottom: var(--space-3);
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background-color: var(--border-mid);
+  transition: background-color 160ms ease;
+}
+
+.card:hover {
+  border-color: var(--accent);
+  background-color: var(--bg-card-hover);
+  text-decoration: none;
+}
+
+.card:hover::before {
+  background-color: var(--accent);
+}
+
+/* 难度色卡 */
+.card.diff-easy::before { background-color: var(--easy); }
+.card.diff-medium::before { background-color: var(--medium); }
+.card.diff-hard::before { background-color: var(--hard); }
+
+.card.diff-easy:hover { border-color: var(--easy); }
+.card.diff-medium:hover { border-color: var(--medium); }
+.card.diff-hard:hover { border-color: var(--hard); }
+
+/* 卡片顶部：徽章 + id */
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.card .badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-soft);
+  color: var(--text-secondary);
+  background-color: rgba(13, 19, 28, 0.6);
+}
+
+.card.diff-easy .badge {
+  color: var(--easy);
+  border-color: rgba(0, 184, 163, 0.4);
+  background-color: rgba(0, 184, 163, 0.08);
+}
+
+.card.diff-medium .badge {
+  color: var(--medium);
+  border-color: rgba(255, 192, 30, 0.4);
+  background-color: rgba(255, 192, 30, 0.08);
+}
+
+.card.diff-hard .badge {
+  color: var(--hard);
+  border-color: rgba(239, 71, 67, 0.4);
+  background-color: rgba(239, 71, 67, 0.08);
+}
+
+.card .id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* 标题 */
+.card .title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 限制行：时间 + 内存 */
+.card .limits {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.card .limits .sep {
+  color: var(--border-mid);
+}
+
+.card .limits .limit-value {
+  color: var(--text-secondary);
+}
+
+/* 标签 */
+.card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+.card .tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  background-color: rgba(255, 161, 22, 0.06);
+  border: 1px solid rgba(255, 161, 22, 0.18);
+  border-radius: var(--radius-sm);
+}
+
+.card .tags.muted {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ── 小屏适配 ────────────────────────────────────── */
+@media (max-width: 640px) {
+  .container {
+    padding: var(--space-5) var(--space-4) var(--space-6);
+  }
+  .page-head {
+    flex-wrap: wrap;
+  }
+  .filters {
+    gap: var(--space-3);
+  }
+  .filter-field select {
+    min-width: 0;
+    flex: 1;
+  }
+  .problem-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── 减少动画偏好 ────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::before {
+    transition: none;
+  }
+}

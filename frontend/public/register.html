@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>注册 — MiniOJ</title>
+  <meta name="description" content="注册 MiniOJ 在线判题系统账号">
   <link rel="stylesheet" href="/css/theme.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/auth.css">
@@ -22,29 +23,71 @@
 
   <main class="auth-page">
     <form id="register-form" class="auth-card" novalidate>
-      <h1>注 册 账 号</h1>
+      <h1>注册</h1>
 
       <div class="field">
         <label for="reg-username">用户名</label>
-        <input id="reg-username" name="username" type="text" autocomplete="username"
-               minlength="3" maxlength="20"
-               pattern="[A-Za-z0-9_]{3,20}" required>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
+          <input id="reg-username" name="username" type="text"
+                 autocomplete="username" spellcheck="false"
+                 autocapitalize="off"
+                 minlength="3" maxlength="20"
+                 pattern="[A-Za-z0-9_]{3,20}" placeholder="3-20 位字母/数字/下划线" required>
+        </div>
         <p class="hint" id="hint-username">3-20 位字母、数字或下划线</p>
       </div>
 
       <div class="field">
         <label for="reg-password">密码</label>
-        <input id="reg-password" name="password" type="password"
-               autocomplete="new-password"
-               minlength="8" maxlength="64" required>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </span>
+          <input id="reg-password" name="password" type="password"
+                 autocomplete="new-password"
+                 minlength="8" maxlength="64"
+                 placeholder="8-64 位，含字母与数字" required>
+          <button type="button" class="toggle-pw" data-target="reg-password"
+                  aria-label="显示密码" title="显示密码">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
         <p class="hint" id="hint-password">8-64 位，至少包含一个字母与一个数字</p>
       </div>
 
       <div class="field">
         <label for="reg-confirm">确认密码</label>
-        <input id="reg-confirm" name="confirm" type="password"
-               autocomplete="new-password"
-               minlength="8" maxlength="64" required>
+        <div class="input-wrap">
+          <span class="input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </span>
+          <input id="reg-confirm" name="confirm" type="password"
+                 autocomplete="new-password"
+                 minlength="8" maxlength="64"
+                 placeholder="再次输入密码" required>
+          <button type="button" class="toggle-pw" data-target="reg-confirm"
+                  aria-label="显示密码" title="显示密码">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
         <p class="hint" id="hint-confirm">再次输入以确认</p>
       </div>
 
@@ -54,12 +97,14 @@
 
       <p class="form-error" id="form-error" role="alert"></p>
 
-      <p class="alt-link">
-        已有账号？<a href="/login.html">前往登录</a>
-      </p>
-      <p class="admin-link">
-        <a href="/admin/login.html">管理员入口 →</a>
-      </p>
+      <div class="auth-foot">
+        <p class="alt-link">
+          已有账号？<a href="/login.html">前往登录</a>
+        </p>
+        <p class="admin-link">
+          <a href="/admin/login.html">管理员入口 →</a>
+        </p>
+      </div>
     </form>
   </main>
 
