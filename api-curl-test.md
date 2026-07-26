@@ -269,15 +269,21 @@ curl -sS -i "$BASE_URL/auth/me"
 
 ## 3. 管理员接口（需要 Session + `role=admin`）
 
-> ⚠️ **当前实现状态**：
+> ✅ **当前实现状态**：
 > - 题目 CRUD 的 5 个端点 ✅
-> - 单独的用例 CRUD、admin 登录、重置 ❌ **尚未实现**（见 SPEC §10 Phase 5 剩余项）
-> - 路由层**未挂鉴权中间件**（`router.cpp:15` 直接传入 `pool`，无 role 校验），**生产前必须补**
+> - **role 中间件已挂载**（`backend/src/http/admin_auth.cpp::installAdminAuth`），`/api/admin/*` 路由强制校验
+> - 一键重置 `POST /api/admin/reset` ✅（配套 `backend/scripts/seed.cpp`，亦可走 seed 进程）
+> - 单独的用例 CRUD、admin 独立登录端点 ❌ **未实装**（按 SPEC §6.3「已收敛」项，不提供）
 
 ### 3.1 列出全部题目（管理视图）`GET /api/admin/problems`
 
 ```bash
+# admin 用户
 curl -sS "$BASE_URL/admin/problems" -b "$COOKIE_ADMIN"
+
+# 未登录 / 普通用户 → 401 / 403
+curl -sS -o /dev/null -w '%{http_code}\n' "$BASE_URL/admin/problems"                       # → 401
+curl -sS -o /dev/null -w '%{http_code}\n' "$BASE_URL/admin/problems" -b "$COOKIE_USER"   # → 403
 ```
 
 **响应**：200，结构同 1.1 题单，**额外包含** `description_md` 完整字段（前端管理页要用来编辑）。
@@ -303,6 +309,8 @@ curl -sS -X POST "$BASE_URL/admin/problems" \
     ]
   }'
 ```
+
+**响应实际文案**：`{"id": <new_id>, "message": "problem created"}` ← 旧文档占位，实际后端只返 `{"id": <new_id>}`。
 
 **请求字段**（`backend/src/http/admin_request.cpp`）：
 
@@ -401,9 +409,22 @@ DELETE /api/admin/testcases/:id    ❌
 
 > 与 3.7 同源问题：当前没有专属的管理员登出入口，admin 与普通用户共用 `/api/auth/logout`。该端点列在 SPEC §6.3 但 §10 Phase 5 TODO 漏写，**SPEC 内部口径不一致**（见 §8 偏差清单）。
 
-### 3.9 一键重置 `POST /api/admin/reset` `❌ 尚未实现`
+### 3.9 一键重置 `POST /api/admin/reset` ✅
 
-> 配套的 seed 进程（`backend/scripts/seed.cpp`）也尚未实现；现阶段只能手动清库后跑 `backend/sql/seed.sql`。
+```bash
+# 重新初始化题库为 backend/seed/problems.json 中的内置题
+# （清空 problem_tags / testcases / problems / tags 四张表后再灌入，users / sessions 保留）
+curl -sS -X POST "$BASE_URL/admin/reset" -b "$COOKIE_ADMIN"
+```
+
+**响应**：200
+
+```json
+{ "message": "problem bank reset to seed data", "seed": "<seed JSON 路径>" }
+```
+
+> 若想用本地 JSON 而非默认 `backend/seed/problems.json`，可设环境变量 `MINIOJ_SEED_JSON`。
+> 等价的容器化做法：`docker compose --profile seed run --rm seed --reset`。
 
 ---
 
@@ -416,15 +437,33 @@ curl -sS -X POST "$BASE_URL/auth/login" \
   -d '{"username":"alice01","password":"Passw0rd!"}' \
   -c "$COOKIE_USER"
 
-# 用普通用户 Cookie 访问管理接口
+# 三态断言：未登录 / 普通用户 / admin
+for case in 'no cookie' 'normal user' 'admin user'; do :; done
+
+# 1) 未登录访问 admin 列表
+echo "[未登录]  $(curl -sS -o /dev/null -w '%{http_code}' "$BASE_URL/admin/problems")"
+# 期望: 401
+
+# 2) 普通用户访问 admin 列表
+echo "[普通用户] $(curl -sS -o /dev/null -w '%{http_code}' "$BASE_URL/admin/problems" -b "$COOKIE_USER")"
+# 期望: 403
+
+# 3) admin 用户访问 admin 列表
+echo "[admin]    $(curl -sS -o /dev/null -w '%{http_code}' "$BASE_URL/admin/problems" -b "$COOKIE_ADMIN")"
+# 期望: 200
+
+# 4) 普通用户 POST 创建题目（应当被拦截）
 curl -sS -i -X POST "$BASE_URL/admin/problems" \
   -H "Content-Type: application/json" \
   -b "$COOKIE_USER" \
   -d '{"title":"hack","description_md":"x","difficulty":"easy","time_limit_ms":1,"memory_limit_mb":1,"testcases":[{"input":"","expected_output":""}]}'
+# 期望: 403，body 含 "admin role required"
 ```
 
-**当前行为**：返回 201（**未做鉴权**，生产前必修）。
-**预期行为**：401 / 403。
+**实际行为**：
+- 未登录 → `401 {"error":"not logged in"}`
+- 普通用户（已登录但 role≠admin） → `403 {"error":"admin role required"}`
+- admin → 正常 200 / 201 / 204 等业务码
 
 ---
 
@@ -449,7 +488,7 @@ curl -sS -i -X POST "$BASE_URL/admin/problems" \
 | 204 | 删除成功，无 body | `DELETE /api/admin/problems/:id` |
 | 400 | 请求参数错误 | 缺字段、JSON 非法、校验失败 |
 | 401 | 认证失败 | 未登录 / Session 过期 / 密码错 |
-| 403 | 权限不足 | （**当前 admin 路由未实装**，理论场景） |
+| 403 | 权限不足 | 已登录但非 admin 访问 `/api/admin/*`（`admin_auth.cpp:53`） |
 | 404 | 资源不存在 | 题目 ID 无效 |
 | 409 | 资源冲突 | 用户名重复 |
 | 500 | 服务器内部错误 | DB 故障、判题子系统异常 |
@@ -480,5 +519,7 @@ curl -sS -i -X POST "$BASE_URL/admin/problems" \
 | 5 | 登录失败统一返 401 同文案 | `handlers_auth.cpp:155` 防枚举 |
 | 6 | 错误响应**统一**是 `{"error": "..."}`，调用方直接读 `.error` | `writeError()` 封装 |
 | 7 | Cookie 名是 `minioj_sid` | `session.hpp:10` 常量 |
-| 8 | admin 路由无 role 校验 | `router.cpp:15` 未挂中间件 |
-| 9 | 单独用例 CRUD / admin 登录 / 重置未实装 | SPEC §10 Phase 5 剩余项 |
+| 8 | admin 路由无 role 校验 | ~~`router.cpp:15` 未挂中间件~~ → 已通过 `admin_auth.cpp::installAdminAuth` 在 pre-routing 阶段挂载 |
+| 9 | 单独的用例 CRUD / admin 独立登录端点 未实装 | SPEC §6.3「已收敛」项（明确不做） |
+| 10 | 一键重置 `POST /api/admin/reset` | ✅ 已实装，强制 role=admin，handler 调 `db::resetProblemBank` |
+| 11 | seed 进程 `backend/scripts/seed.cpp` | ✅ 已实装，支持 `--reset` + `--admin-password` + 环境变量 `MINIOJ_SEED_JSON` |

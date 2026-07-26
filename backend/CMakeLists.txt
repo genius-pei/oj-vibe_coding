@@ -25,6 +25,7 @@ add_library(minioj_core
     src/util/types.cpp
     src/db/pool.cpp
     src/db/problem_dao.cpp
+    src/db/seed_loader.cpp
     src/db/user_dao.cpp
     src/judge/diff.cpp
     src/judge/worker_pool.cpp
@@ -40,6 +41,7 @@ add_library(minioj_core
     src/http/submission_dto.cpp
     src/http/submission_request.cpp
     src/http/middleware.cpp
+    src/http/admin_auth.cpp
     src/http/handlers_public.cpp
     src/http/handlers_admin.cpp
     src/http/handlers_auth.cpp
@@ -67,6 +69,9 @@ target_compile_options(minioj_core PRIVATE
 
 add_executable(minioj-backend src/main.cpp)
 target_link_libraries(minioj-backend PRIVATE minioj_core)
+
+add_executable(minioj-seed scripts/seed.cpp)
+target_link_libraries(minioj-seed PRIVATE minioj_core)
 
 if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_config tests/test_config.cpp)
@@ -136,4 +141,16 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_handlers_auth tests/test_handlers_auth.cpp)
     target_link_libraries(minioj_test_handlers_auth PRIVATE minioj_core GTest::gtest GTest::gtest_main Threads::Threads)
     gtest_discover_tests(minioj_test_handlers_auth)
+
+    add_executable(minioj_test_admin_auth tests/test_admin_auth.cpp)
+    target_link_libraries(minioj_test_admin_auth PRIVATE minioj_core GTest::gtest GTest::gtest_main Threads::Threads)
+    gtest_discover_tests(minioj_test_admin_auth)
+
+    add_executable(minioj_test_problem_dao tests/test_problem_dao.cpp)
+    target_link_libraries(minioj_test_problem_dao PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_problem_dao)
+
+    add_executable(minioj_test_seed_loader tests/test_seed_loader.cpp)
+    target_link_libraries(minioj_test_seed_loader PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_seed_loader)
 endif()

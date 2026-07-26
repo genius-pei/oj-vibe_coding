@@ -1,6 +1,7 @@
 #include "http/handlers_admin.hpp"
 
 #include "db/problem_dao.hpp"
+#include "db/seed_loader.hpp"
 #include "http/admin_dto.hpp"
 #include "http/admin_request.hpp"
 #include "http/problem_dto.hpp"
@@ -11,15 +12,77 @@
 #include <json/json.h>
 
 #include <cstdint>
+#include <cstdlib>
+#include <fstream>
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <vector>
+#include <unistd.h>
 
 namespace minioj::http {
 
 namespace {
 
-// TODO(phase2): 注入 admin 角色鉴权（Session + Cookie），目前假设调用方已认证
+bool fileExists(const std::string& path) {
+    std::ifstream in{path};
+    return in.good();
+}
+
+std::string readSelfExeDir() {
+#if defined(__linux__)
+    std::vector<char> buffer(4096);
+    for (;;) {
+        const ssize_t len = ::readlink("/proc/self/exe", buffer.data(), buffer.size());
+        if (len < 0) {
+            return {};
+        }
+        if (static_cast<std::size_t>(len) < buffer.size()) {
+            std::string exe{buffer.data(), static_cast<std::size_t>(len)};
+            const auto slash = exe.find_last_of('/');
+            if (slash == std::string::npos) {
+                return {};
+            }
+            return exe.substr(0, slash);
+        }
+        buffer.resize(buffer.size() * 2);
+    }
+#else
+    return {};
+#endif
+}
+
+// Seed JSON 路径解析顺序：
+//   1) 环境变量 MINIOJ_SEED_JSON（指明就信任）
+//   2) <CWD>/backend/seed/problems.json
+//   3) <EXE_DIR>/../seed/problems.json       （build 目录运行：build/minioj-backend）
+//   4) <EXE_DIR>/../../seed/problems.json    （install 目录运行：bin/minioj-backend + repo_root/seed）
+//   5) <EXE_DIR>/seed/problems.json          （容器路径：/app/minioj-backend + /app/seed）
+//   6) 全部不存在时回落到默认字符串 "backend/seed/problems.json"，handler 报错时附原文。
+std::string resolveSeedJsonPath() {
+    if (const char* env = std::getenv("MINIOJ_SEED_JSON")) {
+        if (*env != '\0') {
+            return std::string{env};
+        }
+    }
+
+    std::vector<std::string> candidates;
+    candidates.emplace_back("backend/seed/problems.json");
+    const std::string self_dir = readSelfExeDir();
+    if (!self_dir.empty()) {
+        candidates.emplace_back(self_dir + "/../seed/problems.json");
+        candidates.emplace_back(self_dir + "/../../seed/problems.json");
+        candidates.emplace_back(self_dir + "/seed/problems.json");
+    }
+
+    for (const auto& c : candidates) {
+        if (fileExists(c)) {
+            return c;
+        }
+    }
+
+    return std::string{"backend/seed/problems.json"};
+}
 
 void writeJson(httplib::Response& res, int status, const Json::Value& body) {
     res.status = status;
@@ -132,6 +195,19 @@ void deleteProblemHandler(db::ConnectionPool& pool, const httplib::Request& req,
     }
 }
 
+void resetProblemBankHandler(db::ConnectionPool& pool, const httplib::Request& /*req*/, httplib::Response& res) {
+    const auto seed_path = resolveSeedJsonPath();
+    try {
+        db::resetProblemBank(pool, seed_path);
+        Json::Value body(Json::objectValue);
+        body["message"] = "problem bank reset to seed data";
+        body["seed"] = seed_path;
+        writeJson(res, 200, body);
+    } catch (const std::exception& error) {
+        writeError(res, 500, std::string("reset failed: ") + error.what());
+    }
+}
+
 }
 
 void registerAdminRoutes(httplib::Server& server, db::ConnectionPool& pool) {
@@ -149,6 +225,9 @@ void registerAdminRoutes(httplib::Server& server, db::ConnectionPool& pool) {
     });
     server.Delete("/api/admin/problems/:id", [&pool](const httplib::Request& req, httplib::Response& res) {
         deleteProblemHandler(pool, req, res);
+    });
+    server.Post("/api/admin/reset", [&pool](const httplib::Request& req, httplib::Response& res) {
+        resetProblemBankHandler(pool, req, res);
     });
 }
 

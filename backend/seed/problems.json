@@ -1,0 +1,68 @@
+[
+  {
+    "title": "A+B 问题",
+    "description_md": "## 题目描述\n\n给定两个整数 `a` 和 `b`，输出它们的和。\n\n## 输入格式\n\n一行两个整数，空格分隔。\n\n## 输出格式\n\n一个整数，表示 `a + b`。\n\n## 数据范围\n\n`-10^9 ≤ a, b ≤ 10^9`\n\n## 样例\n\n**输入**\n```\n1 2\n```\n\n**输出**\n```\n3\n```",
+    "difficulty": "easy",
+    "time_limit_ms": 500,
+    "memory_limit_mb": 256,
+    "tags": ["入门", "数学"],
+    "testcases": [
+      {"input": "1 2\n", "expected_output": "3\n", "is_sample": true, "score": 20},
+      {"input": "0 0\n", "expected_output": "0\n", "is_sample": false, "score": 20},
+      {"input": "-5 10\n", "expected_output": "5\n", "is_sample": true, "score": 20},
+      {"input": "1000000000 1000000000\n", "expected_output": "2000000000\n", "is_sample": false, "score": 40}
+    ]
+  },
+  {
+    "title": "两数之和",
+    "description_md": "## 题目描述\n\n给定一个整数数组 `nums` 和一个目标值 `target`，请找出数组中**和为目标值**的那两个整数，并返回它们的下标。\n\n假设每种输入只会对应一个答案，且同一个元素不能被重复利用。\n\n## 输入格式\n\n第一行两个整数 `n` 和 `target`（`2 ≤ n ≤ 10^4`）。\n第二行 `n` 个整数，表示数组。\n\n## 输出格式\n\n一行两个下标（从 0 开始），按升序输出。\n\n## 样例\n\n**输入**\n```\n4 9\n2 7 11 15\n```\n\n**输出**\n```\n0 1\n```",
+    "difficulty": "easy",
+    "time_limit_ms": 1000,
+    "memory_limit_mb": 256,
+    "tags": ["数组", "哈希表"],
+    "testcases": [
+      {"input": "4 9\n2 7 11 15\n", "expected_output": "0 1\n", "is_sample": true, "score": 50},
+      {"input": "3 6\n3 2 4\n", "expected_output": "1 2\n", "is_sample": true, "score": 50}
+    ]
+  },
+  {
+    "title": "斐波那契数列",
+    "description_md": "## 题目描述\n\n求斐波那契数列的第 `n` 项（`F(1) = 1, F(2) = 1`）。\n\n## 输入格式\n\n一个整数 `n`（`1 ≤ n ≤ 40`）。\n\n## 输出格式\n\n`F(n)`。\n\n## 样例\n\n**输入**\n```\n5\n```\n\n**输出**\n```\n5\n```",
+    "difficulty": "easy",
+    "time_limit_ms": 500,
+    "memory_limit_mb": 256,
+    "tags": ["数学", "动态规划"],
+    "testcases": [
+      {"input": "1\n", "expected_output": "1\n", "is_sample": true, "score": 20},
+      {"input": "2\n", "expected_output": "1\n", "is_sample": false, "score": 20},
+      {"input": "5\n", "expected_output": "5\n", "is_sample": true, "score": 20},
+      {"input": "10\n", "expected_output": "55\n", "is_sample": false, "score": 40}
+    ]
+  },
+  {
+    "title": "数组最大值",
+    "description_md": "## 题目描述\n\n给定一个整数数组，输出其中的最大值。\n\n## 输入格式\n\n第一行一个整数 `n`（`1 ≤ n ≤ 10^5`）。\n第二行 `n` 个整数。\n\n## 输出格式\n\n一个整数，表示数组中的最大值。\n\n## 样例\n\n**输入**\n```\n5\n3 1 4 1 5\n```\n\n**输出**\n```\n5\n```",
+    "difficulty": "easy",
+    "time_limit_ms": 500,
+    "memory_limit_mb": 256,
+    "tags": ["数组"],
+    "testcases": [
+      {"input": "1\n42\n", "expected_output": "42\n", "is_sample": true, "score": 25},
+      {"input": "5\n3 1 4 1 5\n", "expected_output": "5\n", "is_sample": true, "score": 25},
+      {"input": "4\n-1 -2 -3 -4\n", "expected_output": "-1\n", "is_sample": false, "score": 25},
+      {"input": "3\n100 100 100\n", "expected_output": "100\n", "is_sample": false, "score": 25}
+    ]
+  },
+  {
+    "title": "字符串反转",
+    "description_md": "## 题目描述\n\n给定一个不含空格的字符串，输出其反转结果。\n\n## 输入格式\n\n一行字符串（长度 `1 ≤ len ≤ 1000`）。\n\n## 输出格式\n\n反转后的字符串。\n\n## 样例\n\n**输入**\n```\nhello\n```\n\n**输出**\n```\nolleh\n```",
+    "difficulty": "easy",
+    "time_limit_ms": 500,
+    "memory_limit_mb": 256,
+    "tags": ["字符串"],
+    "testcases": [
+      {"input": "hello\n", "expected_output": "olleh\n", "is_sample": true, "score": 50},
+      {"input": "a\n", "expected_output": "a\n", "is_sample": false, "score": 50}
+    ]
+  }
+]

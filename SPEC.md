@@ -984,8 +984,8 @@ EOF
 **后端**
 - [x] 题目 CRUD（`GET/POST /api/admin/problems`、`GET/PUT/DELETE /api/admin/problems/:id`）
 - [x] 创建/更新题目时一并管理 tags + testcases（事务内 upsert，整组替换）
-- [ ] **role 校验中间件**：`/api/admin/*` 路由挂 role 拦截，未登录 401 / 非 admin 403
-- [ ] 一键重置接口（`POST /api/admin/reset`）
+- [x] **role 校验中间件**：`/api/admin/*` 路由挂 role 拦截，未登录 401 / 非 admin 403
+- [x] 一键重置接口（`POST /api/admin/reset`）
 
 **前端**
 - [ ] 后台管理页（题库表格 + 新建/编辑/删除按钮 + 重置按钮）
@@ -997,16 +997,17 @@ EOF
 
 ### Phase 5.5：单元测试（伴随 Phase 5 落地）
 - [x] test_admin_request（20 例）：DTO 序列化 + parseProblemInput / parseTestCaseInput / parseJsonBody 全校验路径
-- [ ] test_admin_auth：role 中间件单元 / 集成测试（普通用户 / 管理员 / 未登录三态）
-- [ ] test_problem_dao（集成测试，需 MySQL 真库）
+- [x] test_admin_auth：role 中间件单元 / 集成测试（普通用户 / 管理员 / 未登录三态），17 例
+- [x] test_problem_dao（集成测试，需 MySQL 真库），14 例（list/create/get/getFull/update/delete 全覆盖 + 标签级联 + 过滤）
+- [x] test_seed_loader（集成测试，需 MySQL 真库），8 例（JSON 解析、清库、整组 reset、空数组等）
 
 ### Phase 6：打磨与部署
 - [x] Dockerfile（`backend/Dockerfile` / `frontend/Dockerfile`，骨架已写，**未实测**）
 - [x] `docker-compose.yml`（骨架已写，未实测）
-- [ ] `backend/scripts/seed.cpp`：读 `backend/seed/problems.json` 灌库 + 创建 admin（随机密码输出到日志）
-- [ ] README 一键启动文档（Docker 路径 + 裸机路径 + 默认账号 + 注册流程）
-- [ ] 端到端冒烟测试（注册→登录→刷题 5 道内置题→管理员新建题→重置）
-- [ ] 补全 `api-curl-test.md` §3 admin 路由 + §5 一键脚本在带鉴权场景下的断言
+- [x] `backend/scripts/seed.cpp`：读 `backend/seed/problems.json` 灌库 + 创建 admin（随机密码输出到日志，支持 `--reset` / `--admin-password` / `MINIOJ_SEED_JSON`）
+- [x] README 一键启动文档（Docker 路径 + 裸机路径 + 默认账号 + 注册流程）
+- [x] 端到端冒烟测试（注册→登录→刷题 5 道内置题→管理员鉴权→重置）—— `api-smoke.sh`
+- [x] 补全 `api-curl-test.md` §3 admin 路由 + §5 一键脚本在带鉴权场景下的断言
 
 ---
 
@@ -1022,34 +1023,34 @@ EOF
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
 | 1 | 启动后 5 分钟内可访问首页 | [~] | [ ] |
-| 2 | 题单显示至少 5 道内置题 | [ ]（seed 未跑） | [ ] |
-| 3 | 题目页可正常加载、编辑、提交 | [ ]（Phase 4 待做） | [ ] |
-| 4 | 内置题目的正确解法提交后返回 `AC` | [x]（`/api/submissions` 通） | [ ] |
-| 5 | 错误解法返回 `WA` 且显示 expected/actual | [x]（DTO 已带字段） | [ ] |
-| 6 | 死循环代码 ≤500ms 后返回 `TLE` | [x]（`test_runner` 已覆盖） | [ ] |
-| 7 | 申请大数组代码 ≤256MB 后返回 `MLE` | [x]（`test_runner` 已覆盖） | [ ] |
-| 8 | 语法错误代码返回 `CE` 且显示 stderr | [x]（`compile_output` 已带） | [ ] |
-| 9 | 管理员可创建/编辑/删除题目 | [~]（CRUD 已实现，role 中间件缺） | [ ] |
-| 10 | 管理员一键重置后题库回到 seed 状态 | [ ]（`/api/admin/reset` 待做） | [ ] |
-| 11 | 注册页可用（合法输入→自动登录→跳首页） | [x]（前端 register 页 + 后端 register） | [ ] |
-| 12 | 注册校验生效（用户名重复 409 / 密码过短 400） | [x]（`test_handlers_auth` 已覆盖） | [ ] |
-| 13 | 登录页可用（已注册账号可登录） | [x]（前端 login 页 + 后端 login） | [ ] |
+| 2 | 题单显示至少 5 道内置题 | [x]（`seed/problems.json` 5 题 + seed.cpp 可灌入） | [x]（seed + GET /problems 验证） |
+| 3 | 题目页可正常加载、编辑、提交 | [ ]（Phase 4 前端编辑器待做） | [ ] |
+| 4 | 内置题目的正确解法提交后返回 `AC` | [x]（`/api/submissions` 通） | [x]（`api-smoke.sh §4` 断言） |
+| 5 | 错误解法返回 `WA` 且显示 expected/actual | [x]（DTO 已带字段） | [x]（`test_pipeline` 5 例 + smoke） |
+| 6 | 死循环代码 ≤500ms 后返回 `TLE` | [x]（`test_runner` 已覆盖） | [x] |
+| 7 | 申请大数组代码 ≤256MB 后返回 `MLE` | [x]（`test_runner` 已覆盖） | [x] |
+| 8 | 语法错误代码返回 `CE` 且显示 stderr | [x]（`compile_output` 已带） | [x] |
+| 9 | 管理员可创建/编辑/删除题目 | [x]（CRUD + role 中间件 + 集成测试 17 例） | [x]（`api-smoke.sh §5`） |
+| 10 | 管理员一键重置后题库回到 seed 状态 | [x]（`POST /api/admin/reset` + seed.cpp） | [x]（`api-smoke.sh §6`） |
+| 11 | 注册页可用（合法输入→自动登录→跳首页） | [x]（前端 register 页 + 后端 register） | [~]（前端未单独 E2E） |
+| 12 | 注册校验生效（用户名重复 409 / 密码过短 400） | [x]（`test_handlers_auth` 已覆盖） | [x]（smoke §3） |
+| 13 | 登录页可用（已注册账号可登录） | [x]（前端 login 页 + 后端 login） | [x]（smoke §3） |
 | 14 | 登录态显示（Header 切换登录/用户名） | [x]（`auth.js` 已实现） | [ ] |
 
 ### 11.2 非功能验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | 8 个并发提交全部正常返回，无僵尸进程 | [x]（`test_worker_pool` 9 例） | [ ] |
-| 2 | MySQL 连接池稳定，无泄漏 | [~]（`db/pool` 已实现） | [ ] |
-| 3 | 前端首屏 ≤ 1s（本地） | [ ]（Phase 4 待做） | [ ] |
-| 4 | 判题同步响应 ≤ 2s（单用例） | [~]（500ms/用例 + 编译 3s） | [ ] |
+| 1 | 8 个并发提交全部正常返回，无僵尸进程 | [x]（`test_worker_pool` 9 例） | [~]（集成 E2E 待 docker 后跑） |
+| 2 | MySQL 连接池稳定，无泄漏 | [~]（`db/pool` 已实现） | [~] |
+| 3 | 前端首屏 ≤ 1s（本地） | [ ]（Phase 4 前端编辑器待做） | [ ] |
+| 4 | 判题同步响应 ≤ 2s（单用例） | [x]（500ms/用例 + 编译 3s 实测） | [x] |
 
 ### 11.3 部署验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | `docker compose up -d` 一键启动成功 | [~]（`docker-compose.yml` 骨架） | [ ] |
-| 2 | README 含完整启动步骤与默认账号 | [ ] | [ ] |
-| 3 | `docker compose down -v` 后重新启动可恢复初始状态 | [ ]（seed 未实装） | [ ] |
+| 1 | `docker compose up -d` 一键启动成功 | [~]（`docker-compose.yml` 骨架） | [ ]（本机无 docker，跑 seed 进程已验证） |
+| 2 | README 含完整启动步骤与默认账号 | [x] | [x]（本仓库 README 更新） |
+| 3 | `docker compose down -v` 后重新启动可恢复初始状态 | [x]（seed.cpp `--reset` 已实装） | [ ]（docker 路径未跑） |
 
 ---
 

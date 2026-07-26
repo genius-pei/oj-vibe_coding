@@ -5,7 +5,7 @@
 > - 基础前缀：`/api`
 > - 错误响应统一格式：`{"error": "<message>"}`
 > - 鉴权：除标注"无"的接口外，Session 通过 `Cookie: minioj_sid=<32字节hex>` 传递
-> - 角色：本系统有两类账号——`user`（普通用户，注册产生）与 `admin`（管理员，seed 脚本创建）。当前 admin 接口的鉴权中间件尚未接入，路由开放但需要内网/前置网关保护。
+> - 角色：本系统有两类账号——`user`（普通用户，注册产生）与 `admin`（管理员，seed 脚本创建）。`/api/admin/*` 已挂 `http/admin_auth.cpp::installAdminAuth` 强制 role 校验：未登录 401 / 非 admin 403。
 
 ---
 
@@ -32,16 +32,16 @@
 
 | 方法 | 路径 | 作用 | 鉴权 |
 |------|------|------|------|
-| GET    | `/api/admin/problems` | 列出全部题目（含完整数据） | admin（**当前未注入鉴权**，见 §5 说明） |
-| POST   | `/api/admin/problems` | 新建题目（带 tags + testcases） | admin（同上） |
-| GET    | `/api/admin/problems/:id` | 读取单个题目详情（含全部 testcases） | admin（同上） |
-| PUT    | `/api/admin/problems/:id` | 全量更新题目（替换 tags + testcases） | admin（同上） |
-| DELETE | `/api/admin/problems/:id` | 删除题目（级联清理 testcases/tags 关联） | admin（同上） |
+| GET    | `/api/admin/problems` | 列出全部题目（含完整数据） | admin role ✅ |
+| POST   | `/api/admin/problems` | 新建题目（带 tags + testcases） | admin role ✅ |
+| GET    | `/api/admin/problems/:id` | 读取单个题目详情（含全部 testcases） | admin role ✅ |
+| PUT    | `/api/admin/problems/:id` | 全量更新题目（替换 tags + testcases） | admin role ✅ |
+| DELETE | `/api/admin/problems/:id` | 删除题目（级联清理 testcases/tags 关联） | admin role ✅ |
+| POST   | `/api/admin/reset` | 一键清库重灌（保留 users / sessions） | admin role ✅ |
 
-> **未实现的接口**（SPEC §6.3 列出，Phase 5 待办）：
-> - `POST /api/admin/login`、`POST /api/admin/logout`
-> - `POST /api/admin/testcases`、`PUT /api/admin/testcases/:id`、`DELETE /api/admin/testcases/:id`
-> - `POST /api/admin/reset`
+> **未实现的接口**（SPEC §6.3「已收敛」，按 v1 口径**明确不做**）：
+> - `POST /api/admin/login`、`POST /api/admin/logout`（复用 `/api/auth/*` + role 中间件拦截）
+> - `POST /api/admin/testcases`、`PUT /api/admin/testcases/:id`、`DELETE /api/admin/testcases/:id`（按题目级 upsert 覆盖）
 
 ---
 
@@ -258,7 +258,11 @@ GET /api/problems?difficulty=easy&tag=%E6%95%B0%E7%BB%84
 
 ## 4. 管理员接口（题库 CRUD）
 
-> **当前状态**：`handlers_admin.cpp:22` 留有 `TODO(phase2): 注入 admin 角色鉴权`。注册路由已就位，但**未做角色校验**。**生产部署必须**通过 nginx 反代 ACL 或独立 admin 子域限制访问。
+> **当前状态**：`handlers_admin.cpp` 全部路由在 `http/admin_auth.cpp::installAdminAuth` 的 pre-routing 拦截下：
+> - 未登录 → `401 {"error":"not logged in"}`
+> - 已登录但 session 失效 → `401 {"error":"session expired or invalid"}`
+> - 已登录但 role ≠ admin → `403 {"error":"admin role required"}`
+> - admin role → 路由业务逻辑正常处理
 
 ### 4.1 公共 DTO
 
@@ -357,6 +361,8 @@ GET /api/problems?difficulty=easy&tag=%E6%95%B0%E7%BB%84
 
 **错误码**：`400`（字段缺失/类型错/范围越界/JSON 不合法）、`500`（数据库异常）
 
+> 上方路由统一前置鉴权：`role=admin` 才能调用，否则 `401 / 403`（见 §4 顶部说明）。
+
 ---
 
 ### 4.5 PUT /api/admin/problems/:id
@@ -378,6 +384,26 @@ GET /api/problems?difficulty=easy&tag=%E6%95%B0%E7%BB%84
 **响应 204**
 
 **错误码**：`400`、`404`、`500`
+
+---
+
+### 4.7 POST /api/admin/reset
+
+一键重置题库：先清空 `problem_tags / testcases / problems / tags` 四张表，再灌入
+`backend/seed/problems.json` 中内置题（可用 `MINIOJ_SEED_JSON` 环境变量覆盖）。
+**`users / sessions` 表不动**，注册过的普通用户与未过期的登录 cookie 仍然有效。
+
+**请求体**：无（也可发 `{}`）。
+
+**响应 200**
+
+```json
+{ "message": "problem bank reset to seed data", "seed": "<实际使用的 JSON 路径>" }
+```
+
+**错误码**：
+- `401 / 403`（前置 role 中间件拦截）
+- `500`（清库 / 灌库失败：JSON 找不到或解析失败等，response body 会附 `error` 字段）
 
 ---
 
