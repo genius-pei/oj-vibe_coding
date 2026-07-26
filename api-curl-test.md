@@ -469,13 +469,65 @@ curl -sS -i -X POST "$BASE_URL/admin/problems" \
 
 ## 5. 一键冒烟脚本
 
-直接用仓库根目录的 `api-smoke.sh`，覆盖题单 / 详情 / 注册 / 登录 / 登出 / 提交 / 错误码等共 14 条断言。
+### 5.1 bash 版：`api-smoke.sh`（兼容 / 最小依赖）
+
+覆盖题单 / 详情 / 注册 / 登录 / 登出 / 提交 / 错误码等 21 条断言（与 SPEC §10 一致），依赖仅 `curl` + `jq`（可选）。
 
 ```bash
+BASE_URL=http://127.0.0.1:8080/api \
+ADMIN_USERNAME=admin ADMIN_PASSWORD=<seed 日志中的随机密码> \
 ./api-smoke.sh
 ```
 
-脚本需要的依赖：`curl` + `jq`（可选，仅用于打印 verdict）。
+### 5.2 Python 版：`test/python/test_minioj_api.py`（**与本表 1:1 对应**）
+
+基于 `unittest` + `requests`，覆盖本文档 §1-§3.9 全部「期望响应」表，**~132 条断言、每条都同时校验 HTTP 状态码 + 响应 body 关键文案**。与 `api-smoke.sh` 的差异：
+
+| 维度 | bash 版 | Python 版 |
+|------|---------|----------|
+| 依赖 | curl、jq（可选） | `pip install requests` |
+| 用例数 | 21 条 | ~132 条 |
+| session 隔离 | 多 cookie 文件，文件格式敏感 | `requests.Session()` 自带 jar |
+| 错误码 / body 同时断言 | 多数只校验 status | **100% 同时校验 status + body 关键文案**（对应本文档各表「响应体」一列） |
+| 退出码 | bash `exit 1` | `SystemExit(1)` 同样可被 CI 捕获 |
+| 报告 | stdout 流式 | stdout 流式 + 末尾 `汇总 PASS/FAIL` |
+
+```bash
+# 依赖：pip install requests
+python3 test/python/test_minioj_api.py
+# 末尾输出：
+#   Ran 9 tests in 8.5s
+#   OK
+#   ========== 汇总 ==========
+#     PASS: 132
+#     FAIL: 0
+#   ALL TESTS PASSED
+```
+
+环境变量：
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `BASE_URL` | `http://127.0.0.1:8081/api` | 后端根地址 |
+| `ADMIN_USER` | `admin` | 管理员账号（与 seed 写入一致） |
+| `ADMIN_PASS` | `AdminPass1` | 管理员密码（与 seed --admin-password 一致） |
+| `TEST_USER_PASSWORD` | `Passw0rdX` | 普通用户测试用密码（满足 8 位+含字母数字） |
+
+覆盖明细（每个 `rec.check(...)` 为一条断言）：
+
+| doc 章节 | 测试方法 | 断言点（含文案校验） |
+|----------|---------|----------|
+| §1.1 | `test_01_problem_list` | 题单 5 字段、tag 筛选、非法 difficulty → 400 |
+| §1.2 | `test_02_problem_detail` | 详情 sample_testcases；404 + `problem not found`；非法 id → 400 |
+| §1.3 | `test_03_submissions` | TLE/AC/WA（含 `expected`/`actual`）/CE（含 `compile_output`）；5 类错误码（lang/cpp、code 空、code 缺、code > 256 KiB、invalid JSON）+ 完整文案 |
+| §2.1 | `test_04_register` | 201 + 3 字段 + Cookie 3 属性；8 类校验失败 + 4 段完整错误文案；409 重名 |
+| §2.2 | `test_05_login` | 缺 username/password → 400；401 错密码与未知用户 + 防枚举文案一致 |
+| §2.3 | `test_06_logout` | 200 + `status:ok` + `Max-Age=0`；幂等 |
+| §2.4 | `test_07_me` | 登录 200；未登录 401 + `not logged in`；session 失效 401 + `session expired or invalid`；格式错 → 401 |
+| §3.1-§3.5 | `test_08_admin_crud` | CRUD 全部错误码（404/400/403/401/201/204）+ 三态鉴权 + PUT 整组替换验证 + 各错误文案（`title is required` / `invalid problem id` / `problem not found`） |
+| §3.9 | `test_09_admin_reset` | 三态权限；reset message + seed 字段；题数 5；旧 tag 清空；users/sessions 不受影响 |
+
+如果 backend 不在线或 `BASE_URL` 错，`setUpClass` 会输出 `ConnectionRefusedError` 并给 `ERRORS=1`，适合放进 CI pipeline。
 
 ---
 
