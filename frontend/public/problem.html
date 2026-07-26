@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>题目详情 — MiniOJ</title>
+  <meta name="description" content="MiniOJ 题目详情与判题">
   <link rel="stylesheet" href="/css/theme.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/problem.css">
@@ -20,37 +21,54 @@
     </nav>
   </header>
 
-  <main class="problem-layout">
-    <article class="description">
-      <h1 id="problem-title">加载中…</h1>
-      <div id="problem-meta" class="meta"></div>
-      <div id="problem-body" class="markdown"></div>
-      <section id="problem-samples"></section>
-    </article>
+  <main class="problem-page">
+    <a href="/" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      返回题单
+    </a>
 
-    <section class="editor-panel">
-      <div class="editor-toolbar">
-        <label>语言：
-          <select id="lang">
-            <option value="cpp" selected>C++</option>
-            <option value="c">C</option>
-          </select>
-        </label>
-        <button id="btn-template" type="button">加载模板</button>
-      </div>
-      <div id="editor" class="editor"></div>
-      <div class="editor-actions">
-        <button id="btn-submit" type="button">提交</button>
-        <button id="btn-reset" type="button">重置</button>
-      </div>
-      <section id="result" class="result"></section>
-    </section>
+    <header class="problem-head">
+      <span class="problem-id" id="problem-id">#—</span>
+      <h1 class="problem-title" id="problem-title">加载中…</h1>
+      <div class="problem-meta" id="problem-meta"></div>
+    </header>
+
+    <div class="problem-layout">
+      <!-- 左：题目描述 -->
+      <article class="description-pane">
+        <div id="problem-body" class="markdown"></div>
+        <section id="problem-samples"></section>
+      </article>
+
+      <!-- 右：编辑器 + 结果 -->
+      <section class="editor-pane">
+        <div class="editor-toolbar">
+          <label class="toolbar-field">
+            <span class="filter-label">语言</span>
+            <select id="lang">
+              <option value="cpp" selected>C++</option>
+              <option value="c">C</option>
+            </select>
+          </label>
+          <div class="toolbar-actions">
+            <button id="btn-template" type="button" class="ghost-btn" title="加载模板代码">模板</button>
+            <button id="btn-reset" type="button" class="ghost-btn" title="清空代码">重置</button>
+          </div>
+        </div>
+        <div id="editor" class="editor"></div>
+        <div class="submit-bar">
+          <button id="btn-submit" type="button" class="primary-btn" disabled>提 交</button>
+        </div>
+        <section id="result" class="result" hidden></section>
+      </section>
+    </div>
   </main>
 
   <script src="/vendor/marked.min.js"></script>
-  <script type="module" src="/vendor/codemirror/editor.js"></script>
+  <script src="/vendor/ace/ace.js"></script>
   <script type="module" src="/js/auth.js"></script>
   <script type="module" src="/js/problem_detail.js"></script>
-  <script type="module" src="/js/editor.js"></script>
 </body>
 </html>
