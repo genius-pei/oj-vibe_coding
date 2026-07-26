@@ -258,21 +258,26 @@ erDiagram
   "memory_mb": 3,
   "compile_output": "",
   "per_case": [
-    {"index": 1, "verdict": "AC", "time_ms": 2},
-    {"index": 2, "verdict": "WA", "time_ms": 5, "expected": "1 2", "actual": "1 3"}
+    {"index": 1, "verdict": "AC",  "time_ms": 2,  "memory_mb": 2},
+    {"index": 2, "verdict": "WA",  "time_ms": 5,  "memory_mb": 2,
+     "expected": "1 2", "actual": "1 3"}
   ]
 }
 ```
 verdict 取值：`AC | WA | TLE | CE | MLE | RE`
 
+> `per_case[]` 元素统一带 `time_ms` 与 `memory_mb`；**仅当 `verdict == "WA"` 时**附 `expected` / `actual` 两字段。
+
 ### 6.2 用户账号接口
 
 | 方法 | 路径 | 说明 | 鉴权 |
 |------|------|------|------|
-| POST | `/api/auth/register` | 普通用户注册 | 无 |
-| POST | `/api/auth/login` | 普通用户登录，返回 Set-Cookie | 无 |
-| POST | `/api/auth/logout` | 普通用户注销 | Session |
-| GET | `/api/auth/me` | 获取当前登录用户信息 | Session |
+| POST | `/api/auth/register` | 普通用户注册（自动登录） | 无 |
+| POST | `/api/auth/login` | 普通用户 / 管理员登录，返回 Set-Cookie | 无 |
+| POST | `/api/auth/logout` | 注销（普通用户、管理员共用） | Session |
+| GET | `/api/auth/me` | 获取当前登录用户信息（含 role） | Session |
+
+> Cookie 名：`minioj_sid`（见 `backend/src/auth/session.hpp`）。
 
 #### POST /api/auth/register
 请求：
@@ -282,7 +287,7 @@ verdict 取值：`AC | WA | TLE | CE | MLE | RE`
   "password": "Passw0rd!"
 }
 ```
-响应（成功）：
+响应（成功，201）：
 ```json
 {
   "id": 2,
@@ -291,30 +296,101 @@ verdict 取值：`AC | WA | TLE | CE | MLE | RE`
 }
 ```
 响应（失败）：
-- `400` 参数缺失 / 校验失败（用户名长度、密码强度）
+- `400` 参数缺失 / 校验失败（用户名长度、字符集、密码长度、密码强度）
 - `409` 用户名已存在
+副作用：成功后写入 `Set-Cookie: minioj_sid=...`，等价于已登录。
 
 **校验规则**：
 - `username`：3–20 位，仅允许字母/数字/下划线，唯一
 - `password`：8–64 位，至少包含字母与数字
 - 后端 bcrypt 加密后写入 `users` 表，`role='user'`
-- 注册成功自动建立 Session（等价于登录），返回 `Set-Cookie`
 
-### 6.3 管理员接口（Session + Cookie 鉴权）
+#### POST /api/auth/login
+请求：
+```json
+{
+  "username": "alice",
+  "password": "Passw0rd!"
+}
+```
+响应（成功，200）：
+```json
+{
+  "id": 2,
+  "username": "alice",
+  "role": "user"
+}
+```
+> `role` 取值 `user` 或 `admin`；管理员账号也走此端点登录，靠后续 role 中间件拦截非 admin 访问管理接口。
+
+响应（失败）：
+- `400` 缺 `username` / `password` 字段或非字符串
+- `401` 用户名或密码错误（**统一文案**，防账号枚举）
+
+#### POST /api/auth/logout
+请求体可为空。响应（200）：
+```json
+{ "status": "ok" }
+```
+副作用：清空 `minioj_sid` Cookie + 删除 DB session 行；幂等（未登录调用也返 200）。
+
+#### GET /api/auth/me
+响应（200，已登录）：
+```json
+{ "id": 2, "username": "alice", "role": "user" }
+```
+响应（401，未登录 / Session 过期）：
+```json
+{ "error": "not logged in" }
+```
+或
+```json
+{ "error": "session expired or invalid" }
+```
+
+### 6.3 管理员接口（Session + Cookie + role=admin 鉴权）
 
 | 方法 | 路径 | 说明 |
 |------|------|------|
-| POST | `/api/admin/login` | 登录，返回 Set-Cookie |
-| POST | `/api/admin/logout` | 注销 |
-| GET | `/api/admin/problems` | 题单（含完整数据） |
-| POST | `/api/admin/problems` | 新建题目 |
-| GET | `/api/admin/problems/:id` | 详情（含全部用例） |
-| PUT | `/api/admin/problems/:id` | 更新题目 |
-| DELETE | `/api/admin/problems/:id` | 删除题目 |
-| POST | `/api/admin/testcases` | 新增用例 |
-| PUT | `/api/admin/testcases/:id` | 更新用例 |
-| DELETE | `/api/admin/testcases/:id` | 删除用例 |
-| POST | `/api/admin/reset` | 重置题库为 seed 数据 |
+| GET | `/api/admin/problems` | 题单（含 description） |
+| POST | `/api/admin/problems` | 新建题目（含 tags + testcases 事务级 upsert） |
+| GET | `/api/admin/problems/:id` | 详情（含全部 testcases） |
+| PUT | `/api/admin/problems/:id` | 更新题目（testcases **整组替换**） |
+| DELETE | `/api/admin/problems/:id` | 删除题目（级联删除 testcases） |
+| POST | `/api/admin/reset` | 一键重置题库为 seed 数据 |
+
+#### 鉴权与口径（v1 收敛）
+
+- **登录复用**：`/api/admin/login` **不独立提供**。管理员账号通过 `POST /api/auth/login` 登录，`role='admin'` 由 seed 写入；注销也走 `/api/auth/logout`。
+- **role 中间件**：`/api/admin/*` 路由层挂 role 校验中间件，未登录返 `401`、非 admin 返 `403`。
+- **用例管理**：不提供单独的 `POST/PUT/DELETE /api/admin/testcases[/:id]` 端点——用例由 `POST/PUT /api/admin/problems` 在事务内**整组 upsert**（先删后插）覆盖。1NF 仍由 `testcases` 独立表承担（参见 § 5.1）。
+- **重置接口**：v1 必做，配套 seed 进程（参见 § 9.1 / § 10 Phase 6）。
+
+#### POST /api/admin/problems
+请求体：
+```json
+{
+  "title": "两数之和",
+  "description_md": "给定两个整数 a, b...",
+  "difficulty": "easy",
+  "time_limit_ms": 500,
+  "memory_limit_mb": 256,
+  "tags": ["数组", "哈希表"],
+  "testcases": [
+    {"input": "1 2\n",  "expected_output": "3\n", "is_sample": true,  "score": 50},
+    {"input": "5 7\n",  "expected_output": "12\n","is_sample": false, "score": 50}
+  ]
+}
+```
+- `difficulty` 取值：`easy | medium | hard`（**小写**）
+- `time_limit_ms` / `memory_limit_mb` 必须 > 0
+- `testcases` 1–1000 项，每项 `input` / `expected_output` 必填，`is_sample` / `score` 可选
+- 响应：`201 {"id": <new_id>, "message": "problem created"}`
+
+#### DELETE /api/admin/problems/:id
+- 删除成功：`204` 空 body
+- ID 非数字：`400 {"error":"invalid problem id"}`
+- 不存在：`404 {"error":"problem not found"}`
 
 ---
 
@@ -904,53 +980,76 @@ EOF
 - [ ] 用例详情（WA 时显示 expected/actual）
 
 ### Phase 5：管理员后台
-- [x] 后端：题目 CRUD（`GET/POST /api/admin/problems`、`GET/PUT/DELETE /api/admin/problems/:id`）
-- [x] 后端：创建/更新题目时一并管理 tags + testcases（在事务内 upsert）
-- [ ] 后端：单独的用例 CRUD（`POST/PUT/DELETE /api/admin/testcases[/:id]`）
-- [ ] 后端：登录接口（bcrypt + Session）— 鉴权留 `TODO(phase2)` 注释
-- [ ] 前端：后台登录页 / 后台管理页 / 题目编辑页（页面骨架尚未填充）
+
+**后端**
+- [x] 题目 CRUD（`GET/POST /api/admin/problems`、`GET/PUT/DELETE /api/admin/problems/:id`）
+- [x] 创建/更新题目时一并管理 tags + testcases（事务内 upsert，整组替换）
+- [ ] **role 校验中间件**：`/api/admin/*` 路由挂 role 拦截，未登录 401 / 非 admin 403
 - [ ] 一键重置接口（`POST /api/admin/reset`）
+
+**前端**
+- [ ] 后台管理页（题库表格 + 新建/编辑/删除按钮 + 重置按钮）
+- [ ] 题目编辑页（描述 / 用例 / 标签表单）
+
+**已收敛（不再独立做）**
+- ~~单独的用例 CRUD 端点~~：由题目级 upsert 覆盖
+- ~~`/api/admin/login` / `/api/admin/logout`~~：复用 `/api/auth/login` / `/api/auth/logout`，靠 role 中间件拦截
 
 ### Phase 5.5：单元测试（伴随 Phase 5 落地）
 - [x] test_admin_request（20 例）：DTO 序列化 + parseProblemInput / parseTestCaseInput / parseJsonBody 全校验路径
+- [ ] test_admin_auth：role 中间件单元 / 集成测试（普通用户 / 管理员 / 未登录三态）
 - [ ] test_problem_dao（集成测试，需 MySQL 真库）
 
 ### Phase 6：打磨与部署
-- [ ] Dockerfile（backend / frontend）
-- [ ] seed 脚本与初始题库（含 admin 默认账号）
-- [ ] README 一键启动文档（含注册流程说明）
-- [ ] 端到端冒烟测试（注册→登录→刷题 5 道内置题）
+- [x] Dockerfile（`backend/Dockerfile` / `frontend/Dockerfile`，骨架已写，**未实测**）
+- [x] `docker-compose.yml`（骨架已写，未实测）
+- [ ] `backend/scripts/seed.cpp`：读 `backend/seed/problems.json` 灌库 + 创建 admin（随机密码输出到日志）
+- [ ] README 一键启动文档（Docker 路径 + 裸机路径 + 默认账号 + 注册流程）
+- [ ] 端到端冒烟测试（注册→登录→刷题 5 道内置题→管理员新建题→重置）
+- [ ] 补全 `api-curl-test.md` §3 admin 路由 + §5 一键脚本在带鉴权场景下的断言
 
 ---
 
 ## 11. 验收标准
 
+> 每条验收分两层标记：
+> - **代码**：代码 / DDL / 脚本是否落地（仓库内可见）
+> - **E2E**：是否经过端到端验证（实际跑过 `api-smoke.sh` 或人工）
+>
+> 标记：`[x]` = 已通过；`[~]` = 代码已落地但 E2E 未跑；`[ ]` = 未完成
+
 ### 11.1 功能验收
-- [ ] 启动后 5 分钟内可访问首页
-- [ ] 题单显示至少 5 道内置题
-- [ ] 题目页可正常加载、编辑、提交
-- [ ] 内置题目的正确解法提交后返回 `AC`
-- [ ] 错误解法返回 `WA` 且显示 expected/actual
-- [ ] 死循环代码 ≤500ms 后返回 `TLE`
-- [ ] 申请大数组代码 ≤256MB 后返回 `MLE`
-- [ ] 语法错误代码返回 `CE` 且显示 stderr
-- [ ] 管理员登录后可创建/编辑/删除题目
-- [ ] 管理员一键重置后题库回到 seed 状态
-- [ ] **注册页可用**：合法用户名+密码注册成功后自动登录并跳转首页
-- [ ] **注册校验生效**：用户名重复返回 409；密码过短返回 400
-- [ ] **登录页可用**：已注册账号可登录并写入 Session
-- [ ] **登录态显示**：Header 在已登录时展示用户名与退出按钮
+| # | 项 | 代码 | E2E |
+|---|----|------|-----|
+| 1 | 启动后 5 分钟内可访问首页 | [~] | [ ] |
+| 2 | 题单显示至少 5 道内置题 | [ ]（seed 未跑） | [ ] |
+| 3 | 题目页可正常加载、编辑、提交 | [ ]（Phase 4 待做） | [ ] |
+| 4 | 内置题目的正确解法提交后返回 `AC` | [x]（`/api/submissions` 通） | [ ] |
+| 5 | 错误解法返回 `WA` 且显示 expected/actual | [x]（DTO 已带字段） | [ ] |
+| 6 | 死循环代码 ≤500ms 后返回 `TLE` | [x]（`test_runner` 已覆盖） | [ ] |
+| 7 | 申请大数组代码 ≤256MB 后返回 `MLE` | [x]（`test_runner` 已覆盖） | [ ] |
+| 8 | 语法错误代码返回 `CE` 且显示 stderr | [x]（`compile_output` 已带） | [ ] |
+| 9 | 管理员可创建/编辑/删除题目 | [~]（CRUD 已实现，role 中间件缺） | [ ] |
+| 10 | 管理员一键重置后题库回到 seed 状态 | [ ]（`/api/admin/reset` 待做） | [ ] |
+| 11 | 注册页可用（合法输入→自动登录→跳首页） | [x]（前端 register 页 + 后端 register） | [ ] |
+| 12 | 注册校验生效（用户名重复 409 / 密码过短 400） | [x]（`test_handlers_auth` 已覆盖） | [ ] |
+| 13 | 登录页可用（已注册账号可登录） | [x]（前端 login 页 + 后端 login） | [ ] |
+| 14 | 登录态显示（Header 切换登录/用户名） | [x]（`auth.js` 已实现） | [ ] |
 
 ### 11.2 非功能验收
-- [ ] 8 个并发提交全部正常返回，无僵尸进程
-- [ ] MySQL 连接池稳定，无泄漏
-- [ ] 前端首屏 ≤ 1s（本地）
-- [ ] 判题同步响应 ≤ 2s（单用例）
+| # | 项 | 代码 | E2E |
+|---|----|------|-----|
+| 1 | 8 个并发提交全部正常返回，无僵尸进程 | [x]（`test_worker_pool` 9 例） | [ ] |
+| 2 | MySQL 连接池稳定，无泄漏 | [~]（`db/pool` 已实现） | [ ] |
+| 3 | 前端首屏 ≤ 1s（本地） | [ ]（Phase 4 待做） | [ ] |
+| 4 | 判题同步响应 ≤ 2s（单用例） | [~]（500ms/用例 + 编译 3s） | [ ] |
 
 ### 11.3 部署验收
-- [ ] `docker compose up -d` 一键启动成功
-- [ ] README 含完整启动步骤与默认账号
-- [ ] `docker compose down -v` 后重新启动可恢复初始状态
+| # | 项 | 代码 | E2E |
+|---|----|------|-----|
+| 1 | `docker compose up -d` 一键启动成功 | [~]（`docker-compose.yml` 骨架） | [ ] |
+| 2 | README 含完整启动步骤与默认账号 | [ ] | [ ] |
+| 3 | `docker compose down -v` 后重新启动可恢复初始状态 | [ ]（seed 未实装） | [ ] |
 
 ---
 
@@ -962,7 +1061,7 @@ EOF
 | 仅 C/C++ | 多语言 | 用户群体受限 | 求职主场景 + 简化构建 |
 | 仅 rlimit | seccomp / chroot | 沙箱强度弱 | MVP 优先控制复杂度 |
 | 提交不持久化 | 存数据库 | 无法回看历史 | 简化数据模型，降低成本 |
-| 普通用户匿名 | 强制注册 | 无法按人统计 | 改为"可选注册"，保留匿名浏览/提交，注册后展示登录态 |
+| 注册可选（浏览/提交免登录） | 强制登录 | 注册流程流失潜在用户 | 教学场景降低摩擦；注册仅展示登录态、不持久化提交 |
 | MySQL | SQLite | 部署需额外服务 | 用户指定 |
 | Docker Compose | k8s / systemd | 扩展性差 | 1-40 人无需 |
 
