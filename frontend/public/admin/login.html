@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>管理员登录 — MiniOJ</title>
+  <meta name="description" content="MiniOJ 管理员入口">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">MiniOJ</a>
+    <nav class="nav">
+      <a href="/">题单</a>
+      <span id="auth-area">
+        <a href="/login.html">登录</a>
+        <a href="/register.html">注册</a>
+      </span>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <div class="auth-card">
+      <h1>管理员入口</h1>
+      <p class="hint" style="margin: 0 0 var(--space-4);">
+        管理员账号与普通用户共用登录入口。请在登录页使用管理员账号密码登录后，再次访问后台即可。
+      </p>
+      <p class="hint" style="margin: 0 0 var(--space-5); color: var(--text-muted); font-size: 11px;">
+        管理员账号由 <code>backend/seed/problems.json</code> 同目录下的 seed 脚本在首次启动时创建（用户名 <code>admin</code>，随机密码输出到日志）。
+      </p>
+      <div class="submit-row">
+        <a class="button" href="/login.html?next=/admin/index.html" id="go-login">前往登录 →</a>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="/js/auth.js"></script>
+</body>
+</html>

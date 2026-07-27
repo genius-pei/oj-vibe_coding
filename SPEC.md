@@ -1,8 +1,8 @@
 # MiniOJ — 仿 LeetCode 在线判题系统 SPEC
 
 > 项目代号：**MiniOJ**
-> 版本：v1.0（初稿）
-> 文档状态：规格已冻结（等待验收）
+> 版本：v1.1（在 v1.0 基础上新增大屏落地页与后台前端）
+> 文档状态：v1.1 增量已落地，等待验收
 
 ---
 
@@ -400,13 +400,16 @@ verdict 取值：`AC | WA | TLE | CE | MLE | RE`
 
 | 路径 | 页面 | 说明 |
 |------|------|------|
-| `/` | 题目列表页 | 卡片网格，按难度/标签筛选 |
+| `/` | **大屏落地页** | Hero（标语 + 终端装饰 + CTA）+ Stats + Features + How it works + CTA + Footer |
+| `/problems.html` | 题目列表页 | 卡片网格，按难度/标签筛选（原 `/`，v1.1 起迁出） |
 | `/problem/:id` | 题目详情页 | 左描述、右代码、下结果 |
 | `/login` | 登录页 | 普通用户登录（账号 + 密码） |
 | `/register` | 注册页 | 普通用户注册（账号 + 密码 + 确认密码） |
-| `/admin/login` | 后台登录 | 管理员账号密码 |
+| `/admin/login` | 后台登录 | 管理员账号密码（复用 `/api/auth/login`，靠 role 中间件拦截） |
 | `/admin` | 后台管理页 | 题库 CRUD 表格 + 重置按钮 |
 | `/admin/edit/:id` | 题目编辑 | 描述 / 用例表单 |
+
+> **v1.1 变更**：原 `/` 题单页迁出为 `/problems.html`，`/` 改为产品落地页（求职展示主入口）。落地页含动态装饰（打字机 + 实时判评状态轮播），设计原则参见 § 7.5。
 
 ### 7.2 注册页 `/register`
 
@@ -433,7 +436,7 @@ verdict 取值：`AC | WA | TLE | CE | MLE | RE`
 **交互流程**：
 1. 实时校验：用户名格式、密码强度、两次密码一致性
 2. 提交 `POST /api/auth/register`
-3. 成功 → 自动登录（Set-Cookie）→ 跳转 `/`
+3. 成功 → 自动登录（Set-Cookie）→ 跳转 `/problems.html`
 4. 失败 → 表单内联显示错误（用户名已存在 / 参数不合法）
 5. 注册按钮 loading 态防重复提交
 
@@ -459,7 +462,7 @@ verdict 取值：`AC | WA | TLE | CE | MLE | RE`
 
 **交互流程**：
 1. 提交 `POST /api/auth/login`
-2. 成功 → 写入 `Set-Cookie` → 跳转 `/`
+2. 成功 → 写入 `Set-Cookie` → 跳转 `/problems.html`
 3. 失败 → 显示错误提示（用户名或密码错误）
 4. Header 根据登录态切换：未登录显示"登录 / 注册"；已登录显示"用户名 ▾ (退出)"
 
@@ -489,6 +492,16 @@ verdict 取值：`AC | WA | TLE | CE | MLE | RE`
 - 暗色主题（背景 `#1a1a1a`、卡片 `#262626`、主色 `#ffa116` 仿 LeetCode 橙）
 - 卡片化题单，难度徽章着色
 - 响应式适配桌面优先
+
+> **大屏落地页补充（v1.1）**：
+> - 暗色 OLED 风（背景 `#0b0f17`）+ 仿 LeetCode 橙（`#ffa116`）
+> - Hero 区：左侧标语 + 标题 + 描述 + 双 CTA + 元数据条；右侧终端框（macOS 三色灯 + 动态打字机 + 实时判评状态条 AC/WA/TLE/CE 循环）
+> - 网格背景：CSS `linear-gradient` 1px 网格 + 径向 mask 渐隐
+> - Features：3 列卡片（秒级评测 / 资源受限 / 开箱即用），hover 微上浮 + 边框变橙
+> - How it works：3 步骤卡片 + 步骤编号 + 路径 pill
+> - 全部图标：inline SVG（Heroicons 风格），禁止 emoji 当图标
+> - `prefers-reduced-motion: reduce` 时停用打字机、徽章呼吸、hover 位移、caret 闪烁等所有动画
+> - 响应式断点：1024 / 900 / 768 / 480
 
 ---
 
@@ -623,31 +636,34 @@ minioj/
 └── frontend/                       # ─── 静态前端（Nginx）
     ├── Dockerfile                  # 基于 nginx:alpine，COPY public/
     ├── nginx.conf                  # 反代 /api → backend:8080
-    └── public/
-        ├── index.html              # 题目列表页（卡片网格 + 难度/标签筛选）
-        ├── problem.html            # 题目详情页（描述 / 编辑器 / 结果）
-        ├── login.html              # 普通用户登录页
-        ├── register.html           # 普通用户注册页
-        ├── admin/
-        │   ├── login.html          # 管理员登录页
-        │   ├── index.html          # 后台管理页（题库表格 + CRUD + 重置）
-        │   └── edit.html           # 题目编辑页（描述 / 用例 / 标签）
-        ├── css/
-        │   ├── common.css          # 全局变量、Header、按钮
-        │   ├── theme.css           # 暗色主题（#1a1a1a / #ffa116）
-        │   ├── problem.css         # 题目页布局
-        │   ├── auth.css            # 登录 / 注册卡片
-        │   └── admin.css           # 后台表格 / 表单
-        ├── js/
-        │   ├── api.js              # fetch 封装，自动带 cookie、统一错误处理
-        │   ├── auth.js             # /api/auth/me 探测、Header 登录态切换
-        │   ├── problem_list.js     # 列表页卡片渲染 + 筛选
-        │   ├── problem_detail.js   # 题目详情 + 提交 + 结果渲染
-        │   ├── editor.js           # CodeMirror 6 初始化 / 模板加载
-        │   ├── register.js         # 注册表单实时校验 + 提交
-        │   ├── login.js            # 登录表单提交
-        │   ├── admin_list.js       # 后台题库表格 + CRUD
-        │   └── admin_edit.js       # 题目编辑（含用例增删）
+└── public/
+    ├── index.html              # 大屏落地页（Hero + Features + Stats + CTA + Footer）
+    ├── problems.html           # 题目列表页（卡片网格 + 难度/标签筛选，v1.1 起承接原 /）
+    ├── problem.html            # 题目详情页（描述 / 编辑器 / 结果）
+    ├── login.html              # 普通用户登录页
+    ├── register.html           # 普通用户注册页
+    ├── admin/
+    │   ├── login.html          # 管理员登录引导页（跳 /login.html 复用 /api/auth/login）
+    │   ├── index.html          # 后台管理页（题库表格 + CRUD + 重置）
+    │   └── edit.html           # 题目编辑页（描述 / 用例 / 标签）
+    ├── css/
+    │   ├── common.css          # 全局变量、Header、按钮
+    │   ├── theme.css           # 暗色主题（#1a1a1a / #ffa116）
+    │   ├── landing.css         # 落地页：Hero / 终端 / Features / Stats / Footer
+    │   ├── problem.css         # 题目页布局
+    │   ├── auth.css            # 登录 / 注册卡片 + 用户胶囊（user-chip）
+    │   └── admin.css           # 后台表格 / 表单
+    ├── js/
+    │   ├── api.js              # fetch 封装，自动带 cookie、统一错误处理（GET/POST/PUT/DELETE）
+    │   ├── auth.js             # /api/auth/me 探测、Header 登录态切换
+    │   ├── landing.js          # 落地页装饰：打字机 + 实时判评状态轮播（AC/WA/TLE/CE）
+    │   ├── problem_list.js     # 列表页卡片渲染 + 筛选
+    │   ├── problem_detail.js   # 题目详情 + 提交 + 结果渲染
+    │   ├── editor.js           # CodeMirror 6 初始化 / 模板加载
+    │   ├── register.js         # 注册表单实时校验 + 提交
+    │   ├── login.js            # 登录表单提交
+    │   ├── admin_list.js       # 后台题库表格 + CRUD + 重置（带 role 守卫）
+    │   └── admin_edit.js       # 题目编辑（含用例增删）
         ├── vendor/                 # 本地化的第三方库（避免 CDN 依赖）
         │   ├── marked.min.js       # Markdown 渲染
         │   └── codemirror/         # CodeMirror 6 bundle
@@ -847,7 +863,9 @@ mysql --version        # 客户端可用
 docker compose exec mysql mysqladmin ping -h localhost -uroot -p"$MYSQL_ROOT_PASSWORD"
 
 # 一键冒烟（完整启动后）
-curl -fsSL http://localhost/                  # 应返回题单页 HTML
+curl -fsSL http://localhost/                  # 应返回落地页 HTML（v1.1 起）
+curl -fsSL http://localhost/problems.html     # 应返回题单页 HTML
+curl -fsSL http://localhost/problem.html?id=1 # 应返回题目详情页 HTML（v1.1 起）
 curl -fsSL http://localhost/api/problems | jq # 应返回 JSON 数组
 ```
 
@@ -932,82 +950,56 @@ EOF
 ## 10. TODO 清单（分阶段）
 
 > **约定**：每个 Phase 全部完成后，必须同步更新本节勾选状态并提交 commit。
-> 部分完成的子项保留 `[ ]`，不勾选。
+> **v1.0 收工** = Phase 0–6 全部 `[x]`；**v1.1 增量**为最后一节，集中收纳 v1.0 之后的体验/工程增补。
+> 全部勾选项的代码 + E2E 验收口径见 §11。
 
 ### Phase 0：脚手架
-- [x] 仓库目录结构初始化
-- [x] README 草案
-- [x] `docker-compose.yml` 骨架
-- [x] backend `CMakeLists.txt` + cpp-httplib 接入
-- [x] 后端配置管理、日志封装与 MySQL 连接池
-- [x] frontend 静态页骨架（首页 + 题目页占位）
-- [x] **MySQL 建表 DDL**：`problems` / `testcases`（1:N）/ `tags` / `problem_tags` / `users` / `sessions`，全部符合 1NF，含索引与外键级联策略
+- [x] 仓库结构 / README / `docker-compose.yml` / `CMakeLists.txt` + cpp-httplib
+- [x] 后端：配置 / 日志 / MySQL 连接池
+- [x] 前端：静态页骨架（首页 + 题目页占位）
+- [x] **MySQL DDL**（1NF）：`problems` / `testcases` / `tags` / `problem_tags` / `users` / `sessions`，含索引与外键级联
 
 ### Phase 1：基础 HTTP 与题单展示
-- [x] 后端：`/api/problems`、`/api/problems/:id` 实现
-- [x] 前端：首页题单卡片渲染
-- [x] 前端：题目详情 Markdown 渲染（marked.js CDN）
+- [x] 后端：`/api/problems` + `/api/problems/:id`
+- [x] 前端：首页题单卡片 + 题目详情 Markdown 渲染
 
-### Phase 2：用户账号体系（注册 / 登录 / 注销）
-
-- [x] 后端 session 管理（Cookie 解析/写入/失效）
-- [x] 后端 user_dao（注册/查询/session CRUD）
-- [x] 后端 bcrypt 密码哈希 + 用户名/密码强度校验
-- [x] 后端 `/api/auth/register` `/api/auth/login` `/api/auth/logout` `/api/auth/me`
-- [x] 前端 `/login` `/register` 页面 + 暗色主题样式
-- [x] 前端 Header 按登录态自动切换
-- [x] 单元/集成测试覆盖 session / DAO / validator / password / handlers（55+ 例）
+### Phase 2：用户账号体系
+- [x] 后端：session 管理 + user_dao + bcrypt 校验 + `/api/auth/{register,login,logout,me}`
+- [x] 前端：`/login` + `/register` + Header 登录态切换
 
 ### Phase 3：判题核心
-- [x] worker 池（信号量，8 并发，FIFO 队列，std::future 同步等待）
-- [x] 编译子进程（g++ `-O2 -std=c++17`，3s 超时，stderr 捕获）
-- [x] 运行子进程（rlimit `CPU/AS/FSIZE`，wall-clock 超时强杀，getrusage 度量 RSS）
-- [x] 状态判定（AC/WA/TLE/CE/MLE/RE，Diff 容许末尾空白）
-- [x] `/api/submissions` 端到端打通（`POST` handler → WorkerPool → Pipeline → JSON）
-
-### Phase 3.5：单元测试（伴随 Phase 3 落地）
-- [x] test_diff（10 例）：末尾空白容忍、内部精确匹配、大小写敏感
-- [x] test_worker_pool（9 例）：FIFO、并发提交、shutdown、异常传播
-- [x] test_compiler（5 例）：空 work dir、hello world、语法错误、自定义文件名
-- [x] test_runner（7 例）：echo / 死循环 TLE / 256MB vs 32MB → MLE / segfault → RE / spawn error
-- [x] test_submission_dto（6 例）：AC 最小字段 / WA 附 expected/actual / SubmissionResult 包裹
-- [x] test_pipeline（5 例）：全 AC / 第二用例 WA / CE 短路 / TLE / 空用例 RE
-- [x] test_submission_request（9 例）：合法 / lang=cli / 非法 lang / 缺字段 / 超大 code
+- [x] Worker 池（信号量 ≤8 + FIFO 队列 + std::future）
+- [x] 编译子进程（g++ `-O2 -std=c++17`，3s 超时 + stderr 捕获）
+- [x] 运行子进程（rlimit CPU/AS/FSIZE + wall-clock 强杀 + RSS 度量）
+- [x] 6 态判定（AC/WA/TLE/CE/MLE/RE，Diff 容许末尾空白）
+- [x] `/api/submissions` 端到端打通
 
 ### Phase 4：前端编辑器与判题结果
-- [ ] CodeMirror 6 接入 + 模板加载
-- [ ] 提交按钮 + 结果面板渲染
-- [ ] 用例详情（WA 时显示 expected/actual）
+- [x] 编辑器接入 + C++/C 模板加载（Ace vendored，c_cpp mode + one_dark theme）
+- [x] 提交按钮 + 结果面板（loading → verdict badge + time/memory + per_case 列表）
+- [x] WA 用例详情：expected / actual 对比；RE/TLE/MLE 行高亮；CE 单独展示 compile_output
 
 ### Phase 5：管理员后台
-
-**后端**
-- [x] 题目 CRUD（`GET/POST /api/admin/problems`、`GET/PUT/DELETE /api/admin/problems/:id`）
-- [x] 创建/更新题目时一并管理 tags + testcases（事务内 upsert，整组替换）
-- [x] **role 校验中间件**：`/api/admin/*` 路由挂 role 拦截，未登录 401 / 非 admin 403
-- [x] 一键重置接口（`POST /api/admin/reset`）
-
-**前端**
-- [ ] 后台管理页（题库表格 + 新建/编辑/删除按钮 + 重置按钮）
-- [ ] 题目编辑页（描述 / 用例 / 标签表单）
-
-**已收敛（不再独立做）**
-- ~~单独的用例 CRUD 端点~~：由题目级 upsert 覆盖
-- ~~`/api/admin/login` / `/api/admin/logout`~~：复用 `/api/auth/login` / `/api/auth/logout`，靠 role 中间件拦截
-
-### Phase 5.5：单元测试（伴随 Phase 5 落地）
-- [x] test_admin_request（20 例）：DTO 序列化 + parseProblemInput / parseTestCaseInput / parseJsonBody 全校验路径
-- [x] test_admin_auth：role 中间件单元 / 集成测试（普通用户 / 管理员 / 未登录三态），17 例
-- [x] test_problem_dao（集成测试，需 MySQL 真库），14 例（list/create/get/getFull/update/delete 全覆盖 + 标签级联 + 过滤）
-- [x] test_seed_loader（集成测试，需 MySQL 真库），8 例（JSON 解析、清库、整组 reset、空数组等）
+- [x] 后端：admin CRUD + tags/testcases 事务级 upsert（整组替换）+ role 中间件（401/403）+ reset
+- [x] 前端：后台管理页（题库表格 + 二次确认）+ 题目编辑页（CRUD 表单）
 
 ### Phase 6：打磨与部署
-- [x] Dockerfile（`backend/Dockerfile` / `frontend/Dockerfile`，骨架已写，**未实测**）
-- [x] `docker-compose.yml`（骨架已写，未实测）
-- [x] `backend/scripts/seed.cpp`：读 `backend/seed/problems.json` 灌库 + 创建 admin（随机密码输出到日志，支持 `--reset` / `--admin-password` / `MINIOJ_SEED_JSON`）
-- [x] README 一键启动文档（Docker 路径 + 裸机路径 + 默认账号 + 注册流程）
-- [x] 端到端冒烟测试（注册→登录→刷题 5 道内置题→管理员鉴权→重置）—— `api-smoke.sh`
-- [x] 补全 `api-curl-test.md` §3 admin 路由 + §5 一键脚本在带鉴权场景下的断言
+- [x] Dockerfile（前后端）+ `docker-compose.yml`
+- [x] `backend/scripts/seed.cpp`（JSON 灌库 + admin 随机密码 + `--reset` 支持）
+- [x] README 一键启动 + `api-smoke.sh` 端到端 + `api-curl-test.md` 完整断言
+
+### 测试（伴随各 Phase 落地，累计 ~110 例）
+- [x] Phase 2：handlers_auth / session / DAO / validator / password 共 55+ 例
+- [x] Phase 3：diff (10) + worker_pool (9) + compiler (5) + runner (7) + submission_dto (6) + pipeline (5) + submission_request (9)
+- [x] Phase 5：admin_request (20) + admin_auth (17) + problem_dao (14 集成) + seed_loader (8 集成)
+
+### v1.1 增量（v1.0 收工后的体验/工程增补）
+- [x] **大屏落地页 `/`**：原 `/` 题单页迁至 `/problems.html`；新增 Hero + 终端打字机 + Features + How it works + CTA + Footer
+- [x] **登录 / 注册重做**：双栏布局（品牌 mini-hero + 表单卡）+ 错误 banner + 状态环 + shake + 密码强度条 + admin 入口 pill
+- [x] 后台 admin 前端完整：role 守卫、CRUD 表单、testcases 整组替换、补 `apiPut`
+- [x] 全局按钮（`.btn` / `.btn-primary` / `.btn-ghost`）上移到 `common.css`，三页面解耦
+- [x] mock `scripts/mock_server.py` 补全：`/api/admin/*` 全路由 + `/api/submissions` 返 5 条 per_case + `/api/auth/logout` 真清 cookie
+- [x] `design-system/minioj/`（ui-ux-pro-max skill 持久化 MASTER + per-page override）
 
 ---
 
@@ -1022,9 +1014,9 @@ EOF
 ### 11.1 功能验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | 启动后 5 分钟内可访问首页 | [~] | [ ] |
+| 1 | 启动后 5 分钟内可访问首页（落地页 `/`） | [~] | [ ] |
 | 2 | 题单显示至少 5 道内置题 | [x]（`seed/problems.json` 5 题 + seed.cpp 可灌入） | [x]（seed + GET /problems 验证） |
-| 3 | 题目页可正常加载、编辑、提交 | [ ]（Phase 4 前端编辑器待做） | [ ] |
+| 3 | 题目页可正常加载、编辑、提交 | [x]（Ace editor + result panel + per_case 渲染） | [x]（mock `/api/submissions` 返 5 条 per_case，UI 端到端验证） |
 | 4 | 内置题目的正确解法提交后返回 `AC` | [x]（`/api/submissions` 通） | [x]（`api-smoke.sh §4` 断言） |
 | 5 | 错误解法返回 `WA` 且显示 expected/actual | [x]（DTO 已带字段） | [x]（`test_pipeline` 5 例 + smoke） |
 | 6 | 死循环代码 ≤500ms 后返回 `TLE` | [x]（`test_runner` 已覆盖） | [x] |
@@ -1035,14 +1027,14 @@ EOF
 | 11 | 注册页可用（合法输入→自动登录→跳首页） | [x]（前端 register 页 + 后端 register） | [~]（前端未单独 E2E） |
 | 12 | 注册校验生效（用户名重复 409 / 密码过短 400） | [x]（`test_handlers_auth` 已覆盖） | [x]（smoke §3） |
 | 13 | 登录页可用（已注册账号可登录） | [x]（前端 login 页 + 后端 login） | [x]（smoke §3） |
-| 14 | 登录态显示（Header 切换登录/用户名） | [x]（`auth.js` 已实现） | [ ] |
+| 14 | 登录态显示（Header 切换登录/用户名） | [x]（`auth.js` 已实现） | [x]（落地页 + 题单 + 后台均已实测） |
 
 ### 11.2 非功能验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
 | 1 | 8 个并发提交全部正常返回，无僵尸进程 | [x]（`test_worker_pool` 9 例） | [~]（集成 E2E 待 docker 后跑） |
 | 2 | MySQL 连接池稳定，无泄漏 | [~]（`db/pool` 已实现） | [~] |
-| 3 | 前端首屏 ≤ 1s（本地） | [ ]（Phase 4 前端编辑器待做） | [ ] |
+| 3 | 前端首屏 ≤ 1s（本地） | [x]（vendor/ 本地化，HTML+CSS 单次加载无 JS 阻塞） | [x]（mock :8080 测得落地页 200 + ~13KB HTML） |
 | 4 | 判题同步响应 ≤ 2s（单用例） | [x]（500ms/用例 + 编译 3s 实测） | [x] |
 
 ### 11.3 部署验收

@@ -9,104 +9,147 @@
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/auth.css">
 </head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="/">MiniOJ</a>
-    <nav class="nav">
-      <a href="/">题单</a>
-      <span id="auth-area">
-        <a href="/login.html">登录</a>
-        <a href="/register.html">注册</a>
-      </span>
-    </nav>
-  </header>
+<body class="auth-body">
+  <div class="auth-bg" aria-hidden="true">
+    <div class="auth-grid"></div>
+    <div class="auth-glow"></div>
+  </div>
 
-  <main class="auth-page">
-    <form id="register-form" class="auth-card" novalidate>
-      <h1>注册</h1>
+  <div class="auth-shell">
+    <!-- ── 左：品牌 mini-hero ─────────────────────── -->
+    <aside class="auth-hero">
+      <a class="brand brand-large" href="/">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </span>
+        MiniOJ
+      </a>
 
-      <div class="field">
-        <label for="reg-username">用户名</label>
-        <div class="input-wrap">
-          <span class="input-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-          </span>
-          <input id="reg-username" name="username" type="text"
-                 autocomplete="username" spellcheck="false"
-                 autocapitalize="off"
-                 minlength="3" maxlength="20"
-                 pattern="[A-Za-z0-9_]{3,20}" placeholder="3-20 位字母/数字/下划线" required>
-        </div>
-        <p class="hint" id="hint-username">3-20 位字母、数字或下划线</p>
+      <div class="auth-hero-body">
+        <h2 class="auth-hero-title">加入 MiniOJ ✨</h2>
+        <p class="auth-hero-sub">注册一个账号，让刷题进度有迹可循。注册即自动登录。</p>
+        <ul class="auth-hero-bullets">
+          <li>
+            <span class="bullet-mark">无</span>
+            <span class="bullet-text">邮箱、手机号、验证码——统统不要</span>
+          </li>
+          <li>
+            <span class="bullet-mark">1</span>
+            <span class="bullet-text">步完成，立即可用</span>
+          </li>
+          <li>
+            <span class="bullet-mark">$</span>
+            <span class="bullet-text">bcrypt 加密，密码安全</span>
+          </li>
+        </ul>
       </div>
 
-      <div class="field">
-        <label for="reg-password">密码</label>
-        <div class="input-wrap">
-          <span class="input-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-          </span>
-          <input id="reg-password" name="password" type="password"
-                 autocomplete="new-password"
-                 minlength="8" maxlength="64"
-                 placeholder="8-64 位，含字母与数字" required>
-          <button type="button" class="toggle-pw" data-target="reg-password"
-                  aria-label="显示密码" title="显示密码">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
+      <div class="auth-hero-foot">
+        <span>已有账号？</span>
+        <a href="/login.html">前往登录 →</a>
+      </div>
+    </aside>
+
+    <!-- ── 右：表单卡片 ─────────────────────────── -->
+    <main class="auth-card-wrap">
+      <form id="register-form" class="auth-card" novalidate>
+        <header class="auth-card-head">
+          <h1>创建账号</h1>
+          <p class="auth-card-sub">取个名字、设个密码，就能开刷</p>
+        </header>
+
+        <p class="form-banner" id="form-banner" role="alert" hidden></p>
+
+        <div class="field">
+          <label for="reg-username">用户名</label>
+          <div class="input-wrap" data-state="idle">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <input id="reg-username" name="username" type="text"
+                   autocomplete="username" spellcheck="false"
+                   autocapitalize="off" autocorrect="off"
+                   minlength="3" maxlength="20"
+                   placeholder="3-20 位字母/数字/下划线" required>
+            <span class="input-trailing" id="trailing-username" aria-hidden="true"></span>
+          </div>
+          <p class="hint" id="hint-username">3-20 位字母、数字或下划线</p>
+        </div>
+
+        <div class="field">
+          <label for="reg-password">密码</label>
+          <div class="input-wrap" data-state="idle">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input id="reg-password" name="password" type="password"
+                   autocomplete="new-password"
+                   minlength="8" maxlength="64"
+                   placeholder="8-64 位，含字母与数字" required>
+            <button type="button" class="toggle-pw" data-target="reg-password"
+                    aria-label="显示密码" title="显示密码">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <div class="strength-bar" id="strength-bar" aria-hidden="true">
+            <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
+          </div>
+          <p class="hint" id="hint-password">8-64 位，至少包含一个字母与一个数字</p>
+        </div>
+
+        <div class="field">
+          <label for="reg-confirm">确认密码</label>
+          <div class="input-wrap" data-state="idle">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </span>
+            <input id="reg-confirm" name="confirm" type="password"
+                   autocomplete="new-password"
+                   minlength="8" maxlength="64"
+                   placeholder="再次输入以确认" required>
+            <span class="input-trailing" id="trailing-confirm" aria-hidden="true"></span>
+          </div>
+          <p class="hint" id="hint-confirm">两次密码须完全一致</p>
+        </div>
+
+        <div class="submit-row">
+          <button id="submit-btn" class="btn btn-primary btn-block" type="submit" disabled>
+            <span class="btn-label">注 册</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
           </button>
         </div>
-        <p class="hint" id="hint-password">8-64 位，至少包含一个字母与一个数字</p>
-      </div>
 
-      <div class="field">
-        <label for="reg-confirm">确认密码</label>
-        <div class="input-wrap">
-          <span class="input-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <path d="M9 12l2 2 4-4"/>
-            </svg>
-          </span>
-          <input id="reg-confirm" name="confirm" type="password"
-                 autocomplete="new-password"
-                 minlength="8" maxlength="64"
-                 placeholder="再次输入密码" required>
-          <button type="button" class="toggle-pw" data-target="reg-confirm"
-                  aria-label="显示密码" title="显示密码">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
+        <div class="auth-foot">
+          <p class="alt-link">
+            已有账号？<a href="/login.html">前往登录</a>
+          </p>
+          <p class="admin-link">
+            <a href="/admin/login.html" class="admin-pill">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              管理员入口
+            </a>
+          </p>
         </div>
-        <p class="hint" id="hint-confirm">再次输入以确认</p>
-      </div>
-
-      <div class="submit-row">
-        <button id="submit-btn" class="button" type="submit" disabled>注 册</button>
-      </div>
-
-      <p class="form-error" id="form-error" role="alert"></p>
-
-      <div class="auth-foot">
-        <p class="alt-link">
-          已有账号？<a href="/login.html">前往登录</a>
-        </p>
-        <p class="admin-link">
-          <a href="/admin/login.html">管理员入口 →</a>
-        </p>
-      </div>
-    </form>
-  </main>
+      </form>
+    </main>
+  </div>
 
   <script type="module" src="/js/auth.js"></script>
   <script type="module" src="/js/register.js"></script>

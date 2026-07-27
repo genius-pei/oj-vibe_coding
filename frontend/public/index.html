@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>题单 — MiniOJ</title>
-  <meta name="description" content="MiniOJ 在线判题题单">
+  <title>MiniOJ — 仿 LeetCode 的轻量在线判题平台</title>
+  <meta name="description" content="MiniOJ：求职展示 + 教学训练的轻量在线判题系统，单实例支撑 1-40 人并发，秒级评测 C/C++ 代码。">
   <link rel="stylesheet" href="/css/theme.css">
   <link rel="stylesheet" href="/css/common.css">
-  <link rel="stylesheet" href="/css/problem.css">
+  <link rel="stylesheet" href="/css/landing.css">
 </head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="/">MiniOJ</a>
+<body class="landing-body">
+
+  <!-- ──────────────────── Header ──────────────────── -->
+  <header class="site-header landing-header">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </span>
+      MiniOJ
+    </a>
     <nav class="nav">
-      <a href="/" class="active">题单</a>
+      <a href="/problems.html">题单</a>
       <span id="auth-area">
         <a href="/login.html">登录</a>
         <a href="/register.html">注册</a>
@@ -21,36 +31,253 @@
     </nav>
   </header>
 
-  <main class="container">
-    <div class="page-head">
-      <h1 class="page-title">题单</h1>
-      <span class="count" id="problem-count"></span>
+  <!-- ──────────────────── Hero ──────────────────── -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-grid"></div>
+      <div class="hero-glow"></div>
     </div>
 
-    <section class="filters">
-      <label class="filter-field">
-        <span class="filter-label">难度</span>
-        <select id="filter-difficulty">
-          <option value="">全部</option>
-          <option value="easy">简单</option>
-          <option value="medium">中等</option>
-          <option value="hard">困难</option>
-        </select>
-      </label>
-      <label class="filter-field">
-        <span class="filter-label">标签</span>
-        <select id="filter-tag">
-          <option value="">全部</option>
-        </select>
-      </label>
-    </section>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="hero-badge">
+          <span class="badge-dot" aria-hidden="true"></span>
+          v1.0 · 单实例 1–40 人并发
+        </span>
+        <h1 class="hero-title">
+          像 <span class="accent">LeetCode</span> 一样刷题，
+          <br>但跑在 <span class="accent">你自己的机器上</span>。
+        </h1>
+        <p class="hero-sub">
+          MiniOJ 是面向<strong>求职展示</strong>与<strong>教学训练</strong>的轻量级在线判题系统。
+          C/C++ 代码秒级评测，统一资源限制，开箱即用。
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="/problems.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+            立即刷题
+          </a>
+          <a class="btn btn-ghost" href="#how">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            了解工作流程
+          </a>
+        </div>
+        <ul class="hero-meta" aria-label="技术指标">
+          <li><span class="meta-num">≤500 ms</span><span class="meta-label">单用例 CPU 上限</span></li>
+          <li><span class="meta-num">≤256 MB</span><span class="meta-label">单用例内存上限</span></li>
+          <li><span class="meta-num">≤8</span><span class="meta-label">并发提交上限</span></li>
+        </ul>
+      </div>
 
-    <section id="problem-list" class="problem-grid">
-      <p class="empty">题单加载中…</p>
-    </section>
-  </main>
+      <!-- 终端装饰：动态打字机 + 实时判题状态条 -->
+      <aside class="hero-demo" aria-label="评测示例">
+        <header class="terminal-bar">
+          <span class="terminal-dot" data-color="red"></span>
+          <span class="terminal-dot" data-color="yellow"></span>
+          <span class="terminal-dot" data-color="green"></span>
+          <span class="terminal-title">~/minioj — submission #1842</span>
+        </header>
+        <pre class="terminal-body" id="terminal"><code id="typewriter" aria-live="polite"></code><span class="caret" aria-hidden="true"></span></pre>
+        <footer class="terminal-status">
+          <span class="status-label">verdict</span>
+          <span class="status-value" id="verdict">—</span>
+          <span class="status-meta" id="verdict-meta">等待提交</span>
+        </footer>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ──────────────────── Stats ──────────────────── -->
+  <section class="stats">
+    <div class="container stats-inner">
+      <div class="stat">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">内置题目</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2</div>
+        <div class="stat-label">支持语言</div>
+        <div class="stat-sub">C / C++17</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">6</div>
+        <div class="stat-label">评测结果</div>
+        <div class="stat-sub">AC / WA / TLE / MLE / RE / CE</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3s</div>
+        <div class="stat-label">编译超时</div>
+        <div class="stat-sub">超出即 CE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────── Features ──────────────────── -->
+  <section class="features" id="features">
+    <div class="container">
+      <header class="section-head">
+        <span class="section-kicker">FEATURES</span>
+        <h2 class="section-title">为刷题体验而生</h2>
+        <p class="section-sub">三大支柱构成 MiniOJ：强一致的评测、强隔离的资源、强可控的运维。</p>
+      </header>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <h3>秒级评测</h3>
+          <p>fork + exec + setrlimit 子进程隔离，统一 AC / WA / TLE / MLE / RE / CE 六态判定，500 ms 单用例上限不让恶意代码拖垮机器。</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <h3>资源受限</h3>
+          <p>CPU、地址空间、文件大小、输出字节全部走 <code>setrlimit</code> 严格封顶；并发提交通过信号量排队，FIFO 调度，避免雪崩。</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7h18"/>
+              <path d="M3 12h18"/>
+              <path d="M3 17h12"/>
+              <circle cx="20" cy="17" r="2"/>
+            </svg>
+          </div>
+          <h3>开箱即用</h3>
+          <p><code>docker compose up -d</code> 一键拉起 MySQL + 后端 + Nginx；管理员账号密码 seed 脚本生成，配置文件即环境变量。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────── How it works ──────────────────── -->
+  <section class="how" id="how">
+    <div class="container">
+      <header class="section-head">
+        <span class="section-kicker">HOW IT WORKS</span>
+        <h2 class="section-title">三步完成一次评测</h2>
+        <p class="section-sub">从打开题目到看到 AC，全流程不超过 2 秒。</p>
+      </header>
+
+      <ol class="how-steps">
+        <li class="how-step">
+          <div class="step-num">01</div>
+          <h3>选题目</h3>
+          <p>题单支持按难度和标签筛选，进入题目详情查看 Markdown 描述与样例输入输出。</p>
+          <div class="step-pill">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+            /problems.html
+          </div>
+        </li>
+        <li class="how-step">
+          <div class="step-num">02</div>
+          <h3>写代码</h3>
+          <p>内置编辑器（CodeMirror 6）支持语法高亮、自动缩进与一键模板加载，C++17 标准库全开。</p>
+          <div class="step-pill">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+            /problem.html?id=1
+          </div>
+        </li>
+        <li class="how-step">
+          <div class="step-num">03</div>
+          <h3>提交评测</h3>
+          <p>提交后 Worker 池调度编译子进程，遍历用例并汇总 verdict，结果按用例粒度返回。</p>
+          <div class="step-pill">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+            POST /api/submissions
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ──────────────────── CTA Banner ──────────────────── -->
+  <section class="cta-banner">
+    <div class="container cta-inner">
+      <div class="cta-text">
+        <h2>准备好了吗？</h2>
+        <p>无需注册即可浏览题单与提交代码。注册账号可在 Header 留下登录标识。</p>
+      </div>
+      <div class="cta-buttons">
+        <a class="btn btn-primary" href="/problems.html">
+          开始刷题
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+        <a class="btn btn-ghost" href="/register.html">注册账号</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────── Footer ──────────────────── -->
+  <footer class="landing-footer">
+    <div class="container footer-inner">
+      <div class="footer-col">
+        <a class="brand brand-footer" href="/">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </span>
+          MiniOJ
+        </a>
+        <p class="footer-tagline">仿 LeetCode 的轻量级在线判题系统</p>
+      </div>
+      <div class="footer-col">
+        <h4>导航</h4>
+        <ul>
+          <li><a href="/problems.html">题单</a></li>
+          <li><a href="/login.html">登录</a></li>
+          <li><a href="/register.html">注册</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>后台</h4>
+        <ul>
+          <li><a href="/admin/index.html">题库管理</a></li>
+          <li><a href="/admin/login.html">管理员入口</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>规格</h4>
+        <ul>
+          <li><a href="#features">特性</a></li>
+          <li><a href="#how">工作流程</a></li>
+          <li><span class="muted">SPEC.md · v1.0</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span class="muted">© MiniOJ · 单实例 1–40 人并发</span>
+      <span class="muted">暗色主题 · 仿 LeetCode 橙</span>
+    </div>
+  </footer>
 
   <script type="module" src="/js/auth.js"></script>
-  <script type="module" src="/js/problem_list.js"></script>
+  <script type="module" src="/js/landing.js"></script>
 </body>
 </html>

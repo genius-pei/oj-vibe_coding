@@ -9,74 +9,128 @@
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/auth.css">
 </head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="/">MiniOJ</a>
-    <nav class="nav">
-      <a href="/">题单</a>
-      <span id="auth-area">
-        <a href="/login.html">登录</a>
-        <a href="/register.html">注册</a>
-      </span>
-    </nav>
-  </header>
+<body class="auth-body">
+  <div class="auth-bg" aria-hidden="true">
+    <div class="auth-grid"></div>
+    <div class="auth-glow"></div>
+  </div>
 
-  <main class="auth-page">
-    <form id="login-form" class="auth-card" novalidate>
-      <h1>登录</h1>
+  <div class="auth-shell">
+    <!-- ── 左：品牌 mini-hero ─────────────────────── -->
+    <aside class="auth-hero">
+      <a class="brand brand-large" href="/">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </span>
+        MiniOJ
+      </a>
 
-      <div class="field">
-        <label for="login-username">用户名</label>
-        <div class="input-wrap">
-          <span class="input-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-          </span>
-          <input id="login-username" name="username" type="text"
-                 autocomplete="username" spellcheck="false"
-                 autocapitalize="off" placeholder="请输入用户名" required>
-        </div>
+      <div class="auth-hero-body">
+        <h2 class="auth-hero-title">欢迎回来 👋</h2>
+        <p class="auth-hero-sub">登录后即可继续未完成的题目，或开启一场新的刷题之旅。</p>
+        <ul class="auth-hero-bullets">
+          <li>
+            <span class="bullet-mark">5+</span>
+            <span class="bullet-text">内置 C/C++ 经典题型</span>
+          </li>
+          <li>
+            <span class="bullet-mark">≤500ms</span>
+            <span class="bullet-text">单用例评测上限，秒级反馈</span>
+          </li>
+          <li>
+            <span class="bullet-mark">≤8</span>
+            <span class="bullet-text">并发提交，公平排队</span>
+          </li>
+        </ul>
       </div>
 
-      <div class="field">
-        <label for="login-password">密码</label>
-        <div class="input-wrap">
-          <span class="input-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-          </span>
-          <input id="login-password" name="password" type="password"
-                 autocomplete="current-password" placeholder="请输入密码" required>
-          <button type="button" class="toggle-pw" data-target="login-password"
-                  aria-label="显示密码" title="显示密码">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
+      <div class="auth-hero-foot">
+        <span>第一次使用 MiniOJ？</span>
+        <a href="/register.html">创建账号 →</a>
+      </div>
+    </aside>
+
+    <!-- ── 右：表单卡片 ─────────────────────────── -->
+    <main class="auth-card-wrap">
+      <form id="login-form" class="auth-card" novalidate>
+        <header class="auth-card-head">
+          <h1>登录账号</h1>
+          <p class="auth-card-sub">输入你的用户名与密码以继续</p>
+        </header>
+
+        <p class="form-banner" id="form-banner" role="alert" hidden></p>
+
+        <div class="field">
+          <label for="login-username">用户名</label>
+          <div class="input-wrap" data-state="idle">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <input id="login-username" name="username" type="text"
+                   autocomplete="username" spellcheck="false"
+                   autocapitalize="off" autocorrect="off"
+                   placeholder="你的用户名" required>
+            <span class="input-trailing" id="trailing-username" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="login-password">密码</label>
+          <div class="input-wrap" data-state="idle">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input id="login-password" name="password" type="password"
+                   autocomplete="current-password" placeholder="••••••••" required>
+            <button type="button" class="toggle-pw" data-target="login-password"
+                    aria-label="显示密码" title="显示密码">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox">
+            <input type="checkbox" id="remember-me" checked>
+            <span>保持登录 7 天</span>
+          </label>
+        </div>
+
+        <div class="submit-row">
+          <button id="submit-btn" class="btn btn-primary btn-block" type="submit" disabled>
+            <span class="btn-label">登 录</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
           </button>
         </div>
-      </div>
 
-      <div class="submit-row">
-        <button id="submit-btn" class="button" type="submit" disabled>登 录</button>
-      </div>
-
-      <p class="form-error" id="form-error" role="alert"></p>
-
-      <div class="auth-foot">
-        <p class="alt-link">
-          还没有账号？<a href="/register.html">立即注册</a>
-        </p>
-        <p class="admin-link">
-          <a href="/admin/login.html">管理员入口 →</a>
-        </p>
-      </div>
-    </form>
-  </main>
+        <div class="auth-foot">
+          <p class="alt-link">
+            还没有账号？<a href="/register.html">立即注册</a>
+          </p>
+          <p class="admin-link">
+            <a href="/admin/login.html" class="admin-pill">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              管理员入口
+            </a>
+          </p>
+        </div>
+      </form>
+    </main>
+  </div>
 
   <script type="module" src="/js/auth.js"></script>
   <script type="module" src="/js/login.js"></script>

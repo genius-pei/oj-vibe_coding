@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title id="page-title">题目编辑 — MiniOJ 后台</title>
+  <meta name="description" content="MiniOJ 题库编辑">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">MiniOJ</a>
+    <nav class="nav">
+      <a href="/">题单</a>
+      <a href="/admin/index.html">后台</a>
+      <span id="auth-area">
+        <a href="/login.html">登录</a>
+        <a href="/register.html">注册</a>
+      </span>
+    </nav>
+  </header>
+
+  <main class="admin-page container">
+    <header class="page-head">
+      <h1 class="page-title">
+        <a href="/admin/index.html" class="back-link-inline">← 后台</a>
+        <span id="form-title">新建题目</span>
+      </h1>
+    </header>
+
+    <form id="problem-form" class="edit-form" novalidate>
+      <div class="form-row two-col">
+        <div class="field">
+          <label for="f-title">标题 <span class="required">*</span></label>
+          <input id="f-title" name="title" type="text" maxlength="255" placeholder="例如：两数之和" required>
+        </div>
+        <div class="field">
+          <label for="f-difficulty">难度 <span class="required">*</span></label>
+          <select id="f-difficulty" name="difficulty" required>
+            <option value="easy">简单 (easy)</option>
+            <option value="medium" selected>中等 (medium)</option>
+            <option value="hard">困难 (hard)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row two-col">
+        <div class="field">
+          <label for="f-time">时间限制 (ms) <span class="required">*</span></label>
+          <input id="f-time" name="time_limit_ms" type="number" min="1" max="60000" step="1" value="1000" required>
+        </div>
+        <div class="field">
+          <label for="f-mem">内存限制 (MB) <span class="required">*</span></label>
+          <input id="f-mem" name="memory_limit_mb" type="number" min="1" max="1024" step="1" value="256" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-desc">题目描述 (Markdown) <span class="required">*</span></label>
+        <textarea id="f-desc" name="description_md" rows="10" placeholder="支持 Markdown：## 标题、代码块、**加粗** 等" required></textarea>
+        <p class="hint">建议包含：题目说明、输入输出格式、样例、数据范围。</p>
+      </div>
+
+      <div class="field">
+        <label for="f-tags">标签</label>
+        <input id="f-tags" name="tags" type="text" placeholder="逗号分隔，例如：数组, 哈希表, 双指针">
+        <div id="tags-preview" class="tags-preview"></div>
+      </div>
+
+      <fieldset class="testcases-fieldset">
+        <legend>测试用例 <span class="required">*</span></legend>
+        <p class="hint">至少 1 条，最多 1000 条。is_sample=true 的用例会展示给用户。</p>
+        <div id="testcases" class="testcases"></div>
+        <button type="button" class="button secondary" id="btn-add-case">+ 新增用例</button>
+      </fieldset>
+
+      <p class="form-error" id="form-error" role="alert"></p>
+
+      <div class="submit-row">
+        <a href="/admin/index.html" class="button secondary">取消</a>
+        <button type="submit" class="button" id="btn-save" disabled>保存</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- 单条测试用例的模板 -->
+  <template id="tpl-case">
+    <article class="case-row">
+      <header class="case-head">
+        <span class="case-index">#1</span>
+        <label class="case-sample">
+          <input type="checkbox" class="case-is-sample"> 样例
+        </label>
+        <label class="case-score">
+          分值 <input type="number" class="case-score-input" min="0" max="1000" step="1" value="0">
+        </label>
+        <button type="button" class="row-btn danger case-remove">删除</button>
+      </header>
+      <div class="case-body">
+        <label>
+          <span>输入</span>
+          <textarea class="case-input" rows="3" placeholder="stdin 内容" required></textarea>
+        </label>
+        <label>
+          <span>期望输出</span>
+          <textarea class="case-output" rows="3" placeholder="stdout 内容" required></textarea>
+        </label>
+      </div>
+    </article>
+  </template>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/admin_edit.js"></script>
+</body>
+</html>

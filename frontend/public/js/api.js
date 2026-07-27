@@ -47,6 +47,26 @@ export async function apiPost(path, payload) {
   return response.json();
 }
 
+export async function apiPut(path, payload) {
+  const response = await fetch(path, {
+    method: 'PUT',
+    credentials: 'same-origin',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    const body = await readJson(response);
+    throw buildError(body && body.error, response.status);
+  }
+  if (response.status === 204) {
+    return null;
+  }
+  return response.json();
+}
+
 export async function apiDelete(path) {
   const response = await fetch(path, {
     method: 'DELETE',
