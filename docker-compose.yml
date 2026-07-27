@@ -1,3 +1,13 @@
+# ---- 低内存调优锚点（2GB 宿主机优化） ----
+# 设计原则：所有服务默认绑日志大小上限，避免日志塞满磁盘
+# 若宿主机 ≥ 4GB，可直接删除这些 anchors，无副作用
+x-lowmem-logs: &lowmem-logs
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+
 services:
   mysql:
     image: mysql:8.0
@@ -12,10 +22,27 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
       - --default-authentication-plugin=caching_sha2_password
+      # ---- 2GB 宿主机的 MySQL 内存调优 ----
+      # performance_schema=OFF：直接砍掉 ~200MB 内存占用（最大头）
+      # innodb_buffer_pool_size=128M：默认即可，但显式声明避免 MySQL 8 自动放大
+      # 其余参数收口到 OJ 场景（单后端进程连，最多 40 并发用户）
+      - --performance_schema=OFF
+      - --innodb-buffer-pool-size=128M
+      - --innodb-log-file-size=32M
+      - --max-connections=16
+      - --key-buffer-size=16M
+      - --tmp-table-size=16M
+      - --max-heap-table-size=16M
+      - --table-open-cache=400
+      - --table-definition-cache=400
+      - --skip-log-bin
+      - --sync-binlog=0
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
       - "127.0.0.1:3306:3306"
+    mem_limit: 512m
+    oom_score_adj: 0
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
@@ -23,6 +50,7 @@ services:
       retries: 20
     networks:
       - minioj_net
+    <<: *lowmem-logs
 
   backend:
     build:
@@ -39,7 +67,7 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      DB_POOL_SIZE: ${DB_POOL_SIZE:-10}
+      DB_POOL_SIZE: ${DB_POOL_SIZE:-5}
       DB_CONNECT_TIMEOUT_SECONDS: ${DB_CONNECT_TIMEOUT_SECONDS:-5}
       DB_ACQUIRE_TIMEOUT_MS: ${DB_ACQUIRE_TIMEOUT_MS:-2000}
       HTTP_HOST: 0.0.0.0
@@ -49,8 +77,17 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-info}
     expose:
       - "8080"
+    # backend 是无状态 + 编译子进程的协调者，自身占用低
+    # 编译期 g++ 峰值由宿主机管，容器内只跑常驻服务
+    mem_limit: 192m
+    oom_score_adj: 100   # OOM 时优先杀 backend（不可丢题库数据）
+    # tmpfs 给判题 / 编译用的临时目录，避免磁盘 I/O 也避免宿主卷累积
+    tmpfs:
+      - /tmp:size=64m
+      - /var/tmp:size=32m
     networks:
       - minioj_net
+    <<: *lowmem-logs
 
   frontend:
     build:
@@ -62,8 +99,10 @@ services:
       - backend
     ports:
       - "80:80"
+    mem_limit: 32m
     networks:
       - minioj_net
+    <<: *lowmem-logs
 
   seed:
     build:
@@ -81,10 +120,12 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       LOG_LEVEL: ${LOG_LEVEL:-info}
     entrypoint: ["/app/minioj-seed"]
+    mem_limit: 128m
     networks:
       - minioj_net
     profiles:
       - seed
+    <<: *lowmem-logs
 
 volumes:
   mysql_data:
