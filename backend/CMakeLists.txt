@@ -73,6 +73,9 @@ target_link_libraries(minioj-backend PRIVATE minioj_core)
 add_executable(minioj-seed scripts/seed.cpp)
 target_link_libraries(minioj-seed PRIVATE minioj_core)
 
+add_executable(minioj-reset-for-tests scripts/reset_for_tests.cpp)
+target_link_libraries(minioj-reset-for-tests PRIVATE minioj_core)
+
 if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_config tests/test_config.cpp)
     target_link_libraries(minioj_test_config PRIVATE minioj_core GTest::gtest GTest::gtest_main)
