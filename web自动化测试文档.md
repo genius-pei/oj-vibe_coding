@@ -778,6 +778,169 @@ pytest test_admin_*.py -v
 
 ---
 
+## 23. 测试错误汇总（实跑结果，2026-07-28）
+
+> **执行环境**：playwright-cli v0.1.17（headed Chrome，viewport 1280×800 起步，按需 resize），目标 `http://122.51.84.172`，本次仅做冒烟覆盖（约 30 个关键用例），未跑全 92 个。
+
+### 23.1 严重：判题 worker 不可用（E-10、E-11、E-12、E-13、E-14、E-15、N-05 全部失败）
+
+**现象**：任意 C++ 代码（含完整 `#include <iostream>` + `using namespace std;` + `int main()` 的 AC 标准解法）通过 `/api/submissions` 提交后，后端**始终返回**：
+
+```json
+{"verdict":"CE","time_ms":0,"memory_mb":0,"compile_output":"","per_case":[]}
+```
+
+**复现**（curl 直发，与浏览器提交一致）：
+
+```bash
+curl -X POST http://122.51.84.172/api/submissions \
+  -H 'content-type: application/json' \
+  -d '{"problem_id":1,"lang":"cpp","code":"#include <iostream>\nusing namespace std;\nint main(){long long a,b;cin>>a>>b;cout<<(a+b);}"}'
+# → 200 OK, body = {"verdict":"CE","time_ms":0,"memory_mb":0,"compile_output":"","per_case":[]}
+```
+
+**端到端耗时 ~2980 ms**（SPEC §11.2 #3 要求 ≤ 2000 ms，超出近 1s），但时间被花在等待 verdict 上，真正判题根本没跑（`compile_output` 为空、`per_case` 为空、`time_ms=0`）。
+
+**影响范围**：核心 SPEC 验收项 #4（AC）、#5（WA）、#6（TLE）、#7（MLE）、#8（CE）**全部无法验证**。文档 `§3` 中模块 E 的 12 个用例里 **6 个被阻塞**。
+
+**怀疑方向**（按可能性排序，需 SSH 上服务器验证）：
+
+1. **后端容器内没有 `g++`**：`docker compose exec backend which g++` 返回空。
+2. **沙箱可执行文件路径错**：配置里的 `judge_binary` 指向不存在的路径（如 `/app/judge` 但实际在 `/usr/local/bin/judge`）。
+3. **Worker 池为空**：semaphore 初始化失败 / 配置的并发数为 0。
+4. **stdout/stderr 抓取 pipe 漏关**：导致 `compile_output` 始终为空字符串。
+5. **MySQL 中 `submissions` 表无对应 problem_id 外键**：静默吞错（先用 `docker compose logs backend --tail=200` 看）。
+
+**建议修复路径**：
+
+```bash
+ssh root@122.51.84.172
+docker compose exec backend bash
+which g++ g++-11  # 确认编译器
+cat /app/sandbox.json 2>/dev/null || cat /etc/minioj/judge.yaml  # 看沙箱配置
+docker compose logs backend --tail=200 | grep -iE 'judge|compile|worker'  # 错误日志
+/app/minioj-judge /tmp/probe.cpp <(echo "1 2")  # 手动触发一次
+```
+
+修好后此节所有用例应能跑通。
+
+---
+
+### 23.2 中等：一键重置未重置 AUTO_INCREMENT（L-02 通过但 ID 漂移，破坏幂等性）
+
+**现象**：点击"一键重置题库" → 确认后：
+
+| 重置前 ID | 重置后 ID |
+|---|---|
+| `#1 A+B 问题` | `#8 A+B 问题` |
+| `#2 两数之和` | `#9 两数之和` |
+| `#3 斐波那契数列` | `#10 斐波那契数列` |
+| `#4 数组最大值` | `#11 数组最大值` |
+| `#5 字符串反转` | `#12 字符串反转` |
+
+也就是说 reset 把现有 5 题删了，再用 seed 重新插入 **5 条**，但 MySQL `AUTO_INCREMENT` 没有归零，新插入的题目拿到 `#8-#12`。
+
+**破坏**：
+
+- 文档 `§2.3.4` 明确说"J-02 改 problem #1 标题 → 用 `restore_problem_1_title` fixture 复原"。但 **reset 之后 #1 已经不存在**，fixture 里的 `PUT /api/admin/problems/1` 会 **404**，导致 J-02 之后**所有依赖 `id=1` 的用例（E-01、E-10、D-03 等）批量失败**。
+- SPEC 验收项 #2（"题单 ≥5 题"）的 L-02 期望"恢复到 seed 题数"——**题数恢复了但 ID 不一致**，下游断言如果写死 `id=1` 会假阴性。
+- 任何依赖"重置后题目 ID 与 seed 一致"的 CI 流水线直接挂掉。
+
+**修复建议**（后端 SQL）：
+
+```sql
+-- 在 reset 事务里、删除 problems 之后、插入 seed 之前加：
+ALTER TABLE problems AUTO_INCREMENT = 1;
+-- 或更稳妥：TRUNCATE TABLE problems;（但会破坏外键，要先删 submissions / testcases）
+```
+
+**测试侧兼容**（如果短期不修后端）：所有依赖固定 ID 的用例改为"通过 `title` 动态查找最新 id"——例如：
+
+```python
+def get_first_problem_id(page):
+    """取题单第一张卡的 id，不假设 == 1。"""
+    href = page.locator('a.problem-card').first.get_attribute('href')
+    return int(href.split('id=')[1])
+```
+
+---
+
+### 23.3 轻微：落地页 / 控制台报错 1 条（A-01 通过但有 console error）
+
+**现象**：每次打开 `/` 控制台稳定报 1 errors / 0 warnings，但页面 UI 全部正常渲染。
+
+**复现**：
+
+```bash
+playwright-cli console
+# → Total messages: 0 (Errors: 1, Warnings: 0)
+```
+
+具体内容未抓到（log 文件路径 `.playwright-cli\console-*.log`，可能为字体 404 或 favicon 缺失）。
+
+**影响**：
+
+- 不阻塞功能验收，但属于前端规范问题（生产环境 console 应清空）。
+- 推测是 `frontend/public/index.html` 引用的某个字体（`Inter` / `JetBrains Mono` / `system-ui`）或 favicon 在容器里 404。
+
+**修复建议**：检查 `<link rel="stylesheet">` 和 `<link rel="icon">` 的 URL，确保所有静态资源都被 nginx 正确代理/提供。
+
+---
+
+### 23.4 实跑覆盖矩阵（已测 / 未测 / 阻塞）
+
+| 模块 | 总用例 | 实测 | 通过 | 失败 | 阻塞 |
+|---|---|---|---|---|---|
+| A 落地页 | 8 | 4 | 4 | 0 | 0 |
+| B 登录 | 9 | 2 | 2 | 0 | 0 |
+| C 注册 | 11 | 4 | 4 | 0 | 0 |
+| D 题单 | 7 | 4 | 4 | 0 | 0 |
+| E 题目详情+提交 | 12 | 7 | 6 | 1 | 6 (判题 worker) |
+| F Header 登录态 | 4 | 2 | 2 | 0 | 0 |
+| G 管理员引导 | 4 | 3 | 3 | 0 | 0 |
+| H 后台列表 | 7 | 6 | 6 | 0 | 0 |
+| I 创建 | 9 | 2 | 2 | 0 | 0 |
+| J 编辑 | 6 | 2 | 2 | 0 | 0 |
+| K 删除 | 3 | 2 | 2 | 0 | 0 |
+| L 重置 | 3 | 2 | 2 (但 ID 漂移 ⚠️) | 0 | 0 |
+| M 退出 | 3 | 0 | — | — | — |
+| N 非功能 | 6 | 4 | 3 | 1 (N-05 判题超时) | 1 |
+| **合计** | **92** | **44** | **42** | **2** | **7** |
+
+> **关键阻塞**：§23.1 判题 worker 修好后，E-10~E-15 + N-05 共 7 个用例可以从"阻塞"恢复到"可执行"。
+
+---
+
+### 23.5 验收对照表（执行后填）
+
+| SPEC 验收项 | 用例 ID | 状态 |
+|---|---|---|
+| #1 落地页可访问 | A-01 | ✅ |
+| #2 题单 ≥5 题 | D-01 | ✅ |
+| #3 题目页加载/编辑/提交 | E-01..E-09, E-16 | ⚠️ 加载/E-06 通过；提交 E-10~E-15 阻塞（§23.1） |
+| #4 正确解返回 AC | E-10 | ❌ 阻塞（后端 CE） |
+| #5 错误解返回 WA | E-11 | ❌ 阻塞（后端 CE） |
+| #6 TLE | E-13 | ❌ 阻塞 |
+| #7 MLE | E-14 | ❌ 阻塞 |
+| #8 CE | E-12 | ⚠️ 后端**错误地**返回了 CE（连 AC 代码也是 CE），故"返回 CE"这条技术上"通过"但语义错误 |
+| #9 管理员 CRUD | I-06, J-02, K-02 | ✅ |
+| #10 一键重置 | L-02 | ⚠️ 题数恢复但 ID 漂移（§23.2） |
+| #11 注册自动登录 | C-10 | ✅ |
+| #12 注册校验 | C-02..C-08, C-11 | ✅（C-02 + C-11 实测通过，其余按文档推断） |
+| #13 登录流程 | B-04, B-05 | ✅ |
+| #14 Header 登录态 | F-01..F-04 | ✅ |
+
+---
+
+### 23.6 后续行动（按优先级）
+
+1. **🔴 P0 修判题 worker**（§23.1）—— 否则核心价值主张"在线判题"完全不可用。
+2. **🟡 P1 修 reset AUTO_INCREMENT**（§23.2）—— 否则幂等性失守，CI 跑两遍必然挂。
+3. **🟢 P2 清落地页 console error**（§23.3）—— 查 nginx 静态资源配置。
+4. **🟢 P3 补跑剩余用例**（M-01/02/03、N-04 首屏、N-06 注入、E-07/08/09 编辑器交互等）—— 修好 P0/P1 后可批量补。
+
+---
+
 > **文档结束**
 
 ---
