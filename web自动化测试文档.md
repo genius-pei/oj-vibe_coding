@@ -16,7 +16,7 @@
 | **测试浏览器** | Chromium（headless 可选）、Chrome ≥ 110、Firefox ≥ 110 |
 | **推荐框架** | **Playwright**（自带等待、Cookie 隔离、截图）；备选 Selenium 4 + pytest |
 | **Python 版本** | ≥ 3.10 |
-| **测试账号池** | 每次跑前动态生成，命名格式 `webtest_<timestamp>_xxx` |
+| **测试账号池** | 每次跑前动态生成，命名格式 `webtest_<uuid8>`（详见 §2.3 幂等性约束） |
 | **截图规范** | 失败用例自动截图，路径 `screenshots/<模块>_<用例ID>.png` |
 
 ### 1.1 BaseURL 与路径约定
@@ -75,6 +75,74 @@ def browser_context(browser):
 3. **判题结果依赖真实后端**：AC/WA/TLE/MLE/RE/CE 通过提交对应代码验证，不 mock。
 4. **副作用清理**：每个用例结束前尝试 `POST /api/auth/logout`；涉及管理员 CRUD 的用例最后用 `POST /api/admin/reset` 复位（仅在用例显式声明时执行）。
 5. **失败定位**：失败截图 + 保存 page html + 控制台日志。
+
+## 2.3 幂等性约束（多次执行保证）
+
+> **核心目标**：同一套用例**连续跑 N 次、跨会话跨 CI 跑 N 次，每次行为完全一致、全部通过**。
+
+### 2.3.1 命名规范：`<ts>` 一律改为 `<uuid8>`
+
+原文档中 `<ts>` 表示测试时间戳，**跨次执行可能撞名**（同秒启动、CI 复用容器等）。所有"创建账号 / 创建题"用例一律改用 `<uuid8>`（`uuid.uuid4().hex[:8]`，16^8 ≈ 42 亿种可能，单机碰撞概率 < 10^-9）。
+
+| 旧写法 | 新写法 |
+|---|---|
+| `bob_<ts>` | `bob_<uuid8>` |
+| `dave_<ts>` | `dave_<uuid8>` |
+| `Web自动化测试_<ts>`（题目标题） | `Web自动化测试_<uuid8>` |
+| `webtest_<timestamp>_xxx` | `webtest_<uuid8>` |
+
+> 例外：`bob_<uuid8>` 中 `<uuid8>` 仅指**用户名后缀**部分；用户名整体须满足 §6.2 的 `^[A-Za-z0-9_]{3,20}$`（UUID hex 仅含 `[0-9a-f]`，合法）。
+
+### 2.3.2 Session 级：开头跑一次 `reset_for_tests`
+
+CI 启动时一次性把数据库回到 seed 状态（admin / 5 道题 / 0 个 webtest 用户），后续所有用例在干净环境运行：
+
+```python
+@pytest.fixture(scope="session", autouse=True)
+def reset_db_once():
+    """CI 启动时跑一次 minioj-reset-for-tests，确保基线干净。"""
+    import subprocess
+    subprocess.run(
+        ["./minioj-reset-for-tests"],          # 后端镜像里已存在
+        cwd="/app",
+        check=True,
+        env={**os.environ, "MINIOJ_SEED_JSON": "/app/seed/problems.json"},
+    )
+```
+
+> 本地手工跑时，可在跑 pytest 前单独执行：
+> `docker compose exec backend /app/minioj-reset-for-tests`
+
+### 2.3.3 用例级：创建型用例自带 cleanup
+
+下表用例在创建资源（用户 / 题目）后**必须**在用例末尾清理，否则会污染后续用例：
+
+| 用例 | 创建的资源 | cleanup 方式 |
+|---|---|---|
+| I-06 创建合法题目 | 新 problem（标题含 `<uuid8>`） | 用例末尾 `DELETE /api/admin/problems/<新id>` |
+| K-02 确认删除 | `webtest_del_<uuid8>` 题 | 已在用例内删除，但若中途失败需 fixture 兜底删除 |
+| J-02 修改标题并保存 | 修改 problem #1 标题 | 用例末尾 reset 或 fixture 复原 problem #1 标题为 `A+B 问题` |
+| B-05/B-07/C-10/C-11/F-02/G-03/L-03 | `webtest_<uuid8>` 用户 | session-end 统一 `reset_for_tests` 兜底（webtest_* 模式匹配） |
+
+> 不强制在每个用例末尾立即删除用户，因为 `reset_for_tests` 默认会清掉 `webtest_*` 用户。但题目不被 `reset_for_tests` 默认清理（仅清题库表、不删 webtest 创建的题），所以**创建题目的用例必须自带 cleanup**。
+
+### 2.3.4 涉及 problem #1 的用例：隔离标题变更
+
+J-02 直接修改 problem #1（A+B 问题）的标题。这会让：
+- L-02 重置后预期"恢复 seed"失败——实际上重置**确实会恢复**，但要在 J-02 之后才能验证
+- E-01 期望标题为 `A+B 问题` —— 如果 J-02 跑过，标题被改成 `A+B 问题_edited_<uuid8>`，E-01 失败
+
+**修复**：
+1. J-02 用例末尾 reset problem #1 标题回 `A+B 问题`（用 fixture 或重新 `PUT /api/admin/problems/1`）
+2. 或者：用 `pytest.mark.run(order=N)` 强制 J-02 在 L-02 之前、且用例末尾 cleanup
+3. 或者：J-02 不要改 problem #1，改用一个临时创建的题
+
+### 2.3.5 禁止行为
+
+- ❌ 在用例里用 `<ts>` / `<current_time>` 做用户名/题目标题后缀
+- ❌ 在用例里硬编码 admin 密码（依赖 seed 阶段固定为 `admin123`，见 §21 风险）
+- ❌ 假设题库只有 seed 5 道题（H-01 期望 `≥5` 而非 `==5`，已经是这个写法 ✓）
+- ❌ 跨用例共享登录态 / cookie
 
 ---
 
@@ -141,15 +209,15 @@ def browser_context(browser):
 | ID | 标题 | 前置 | 步骤 | 期望 |
 |----|------|------|------|------|
 | B-04 | 管理员登录成功 | 无 | 用户名 `admin`，密码 `admin123` | 提交后页面跳到 `/problems.html`；Cookie `minioj_sid` 已写入；Header 显示用户胶囊 `admin ▾` |
-| B-05 | 普通用户登录成功 | 注册一个新用户 `bob_<ts>` | 用该账号登录 | 跳 `/problems.html`；Header 显示 `bob_<ts>` 胶囊 |
+| B-05 | 普通用户登录成功 | 注册一个新用户 `bob_<uuid8>`（用 `new_user` fixture） | 用该账号登录 | 跳 `/problems.html`；Header 显示 `bob_<uuid8>` 胶囊 |
 | B-06 | 登录后 next 跳转 | URL 含 `?next=/problems.html`（任意合法路径） | 登录成功 | 跳转到 `next` 指定的路径 |
 
 ### B.3 登录失败
 
 | ID | 标题 | 前置 | 步骤 | 期望 |
 |----|------|------|------|------|
-| B-07 | 错误密码 401 | 注册普通用户 `carol_<ts>` | 用错密码登录 | Banner 提示 `用户名或密码错误`；按钮恢复可点；页面不跳转 |
-| B-08 | 未知用户 401 | 无 | 用不存在用户 `nobody_<ts>` 登录 | Banner 提示 `用户名或密码错误`（**与 B-07 文案一致，防枚举**） |
+| B-07 | 错误密码 401 | 注册普通用户 `carol_<uuid8>`（用 `new_user` fixture） | 用错密码登录 | Banner 提示 `用户名或密码错误`；按钮恢复可点；页面不跳转 |
+| B-08 | 未知用户 401 | 无 | 用不存在用户 `nobody_<uuid8>` 登录（**uuid8 保证高熵，几乎不可能撞现存账号**） | Banner 提示 `用户名或密码错误`（**与 B-07 文案一致，防枚举**） |
 | B-09 | 缺字段 400 | 无 | 直接 POST `/api/auth/login` body `{}`（或 username 为空字符串） | Banner 提示前端校验；后端若被绕过则返 400 |
 
 ---
@@ -176,8 +244,8 @@ def browser_context(browser):
 
 | ID | 标题 | 前置 | 步骤 | 期望 |
 |----|------|------|------|------|
-| C-10 | 注册成功并自动登录 | 无 | 用户名 `dave_<ts>`，密码 `Dave12345` | 提交 → 跳 `/problems.html`；Cookie `minioj_sid` 写入；Header 显示用户名 |
-| C-11 | 用户名重名 409 | 先注册 `eve_<ts>` | 再用同样用户名注册 | Banner 提示 `该用户名已被占用`；用户名输入框抖动；焦点回到用户名 |
+| C-10 | 注册成功并自动登录 | 无 | 用户名 `dave_<uuid8>`，密码 `Dave12345` | 提交 → 跳 `/problems.html`；Cookie `minioj_sid` 写入；Header 显示用户名 |
+| C-11 | 用户名重名 409 | 用 `eve_<uuid8>` 注册一次（必须成功，uuid 保证不会撞已有账号） | 再用同样用户名 `eve_<uuid8>` 注册 | Banner 提示 `该用户名已被占用`；用户名输入框抖动；焦点回到用户名 |
 
 ---
 
@@ -308,7 +376,7 @@ int main() {
 | ID | 标题 | 前置 | 步骤 | 期望 |
 |----|------|------|------|------|
 | F-01 | 匿名态 Header | 未登录 | 打开 `/problems.html` | `#auth-area` 显示 `登录 注册` 两链接 |
-| F-02 | 普通用户登录态 | 注册并登录 `frank_<ts>` | 访问 `/problems.html` | `#auth-area` 显示用户胶囊 `frank_<ts> ▾ 退出` |
+| F-02 | 普通用户登录态 | 注册并登录 `frank_<uuid8>`（用 `new_user` fixture） | 访问 `/problems.html` | `#auth-area` 显示用户胶囊 `frank_<uuid8> ▾ 退出` |
 | F-03 | 管理员登录态 | 登录 admin | 访问 `/problems.html` | 胶囊显示 `admin` |
 | F-04 | 退出登录 | 已登录用户 | 点击 Header 的"退出" | 调用 `/api/auth/logout`；跳 `/`；再访问 `/problems.html` 显示匿名态 |
 
@@ -322,7 +390,7 @@ int main() {
 |----|------|------|------|------|
 | G-01 | 引导页跳转 | 无 | 打开 `/admin/login.html` → 点击"前往登录" | 跳 `/login.html?next=/admin/index.html` |
 | G-02 | admin 登录后回 next | 登录页 `?next=/admin/index.html` | 用 admin / admin123 登录 | 跳 `/admin/index.html`（不是 `/problems.html`） |
-| G-03 | 普通用户访问后台被拦截 | 登录普通用户 `gina_<ts>` | 直接打开 `/admin/index.html` | JS 守卫 `fetchCurrentUser` 检测 `role !== 'admin'` → 重定向 `/login.html?next=/admin/index.html` |
+| G-03 | 普通用户访问后台被拦截 | 登录普通用户 `gina_<uuid8>`（用 `new_user` fixture） | 直接打开 `/admin/index.html` | JS 守卫 `fetchCurrentUser` 检测 `role !== 'admin'` → 重定向 `/login.html?next=/admin/index.html` |
 | G-04 | 匿名访问后台被拦截 | 未登录 | 直接打开 `/admin/index.html` | 同样重定向 `/login.html?next=/admin/index.html` |
 
 ---
@@ -361,8 +429,8 @@ int main() {
 
 | ID | 标题 | 前置 | 步骤 | 期望 |
 |----|------|------|------|------|
-| I-06 | 创建合法题目 | 登录 admin | 填：`标题=Web自动化测试_<ts>`、`difficulty=easy`、`time=1000`、`mem=256`、描述=`## 描述\n这是测试题目。`、标签=`webtest`、用例 1 条 `input="1 1\n", expected="2\n", is_sample=true, score=100` → 保存 | 跳 `/admin/index.html?created=<id>`；表格中出现新题；用例列显示 `1（样例 1）` |
-| I-07 | 创建后立即可前台作答 | 创建后 | 打开 `/problem.html?id=<新id>` | 标题/描述/样例与后端一致；可提交并判题 |
+| I-06 | 创建合法题目 | 登录 admin | 填：`标题=Web自动化测试_<uuid8>`、`difficulty=easy`、`time=1000`、`mem=256`、描述=`## 描述\n这是测试题目。`、标签=`webtest`、用例 1 条 `input="1 1\n", expected="2\n", is_sample=true, score=100` → 保存（**用 `created_problem` fixture 自动清理**） | 跳 `/admin/index.html?created=<id>`；表格中出现新题；用例列显示 `1（样例 1）` |
+| I-07 | 创建后立即可前台作答 | I-06 后 | 打开 `/problem.html?id=<新id>` | 标题/描述/样例与后端一致；可提交并判题 |
 
 ### I.3 创建失败
 
@@ -380,7 +448,7 @@ int main() {
 | ID | 标题 | 前置 | 步骤 | 期望 |
 |----|------|------|------|------|
 | J-01 | 回显表单 | 登录 admin | 打开 `/admin/edit.html?id=1` | 标题 `编辑题目 #1`；表单回填 title / difficulty / time / mem / desc / tags；用例列表回填全部 testcases |
-| J-02 | 修改标题并保存 | 同上 | 标题改为 `<原标题>_edited_<ts>`，保存 | 跳 `/admin/index.html?saved=1`；表格中对应行标题已更新 |
+| J-02 | 修改标题并保存 | 同上 | 标题改为 `A+B 问题_edited_<uuid8>`，保存（**用 `restore_problem_1_title` fixture 自动复原**，否则后续 E-01 等用例会失败） | 跳 `/admin/index.html?saved=1`；表格中对应行标题已更新 |
 | J-03 | 用例整组替换 | 同上 | 删除所有旧用例，添加 2 条新用例，保存 | 后端按整组替换逻辑：旧用例全删，新用例入库；前台题目详情样例为新内容 |
 | J-04 | 加载不存在 id | 登录 admin | 打开 `/admin/edit.html?id=99999` | 加载失败提示；URL 保持 |
 | J-05 | 取消按钮 | 同上 | 点"取消" | 跳 `/admin/index.html`，无保存动作 |
@@ -393,7 +461,7 @@ int main() {
 | ID | 标题 | 前置 | 步骤 | 期望 |
 |----|------|------|------|------|
 | K-01 | 确认弹窗取消 | 登录 admin，有题库 | 点某题"删除" → 弹窗 → 取消 | 题库无变化 |
-| K-02 | 确认删除 | 创建一个 `webtest_del_<ts>` 题 | 删除该题 → 确认 | Hint 提示 `已删除 #<id>`；表格中该行消失 |
+| K-02 | 确认删除 | 创建一个 `webtest_del_<uuid8>` 题（**用 `created_problem` fixture**，即使中途失败也兜底删除） | 删除该题 → 确认 | Hint 提示 `已删除 #<id>`；表格中该行消失 |
 | K-03 | 删除不存在 id | 登录 admin | 直接调 `DELETE /api/admin/problems/99999` | 404；前端 Hint 提示失败 |
 
 ---
@@ -404,7 +472,7 @@ int main() {
 |----|------|------|------|------|
 | L-01 | 取消重置 | 登录 admin，已修改题库 | 点"一键重置题库" → 取消 | 题库无变化 |
 | L-02 | 确认重置成功 | 先创建一个新题，再点重置 → 确认 | Hint 提示 `已重置：problem bank reset to seed data`；表格恢复到 seed 题数；新题消失；管理员账号不受影响；普通用户不受影响 |
-| L-03 | 重置后普通用户仍可登录 | 重置前注册过 `lora_<ts>` | 重置后用 `lora_<ts>` 登录 | 仍可登录；`/problems.html` 可见 |
+| L-03 | 重置后普通用户仍可登录 | 重置前注册过 `lora_<uuid8>`（用 `new_user` fixture） | 重置后用 `lora_<uuid8>` 登录 | 仍可登录；`/problems.html` 可见 |
 
 ---
 
@@ -447,16 +515,43 @@ int main() {
 
 ```python
 # conftest.py 关键片段
-import os, time, pytest, requests
+import os, time, uuid, pytest, requests, subprocess
 from playwright.sync_api import sync_playwright
 
 BASE_URL = "http://122.51.84.172:8080"
 ADMIN = {"username": "admin", "password": "admin123"}
-TS = str(int(time.time()))
+
+
+def _uuid8() -> str:
+    """短 UUID：8 位 hex，全局唯一。"""
+    return uuid.uuid4().hex[:8]
+
+
+# ─────────────── Session 级：基线重置 ───────────────
+@pytest.fixture(scope="session", autouse=True)
+def reset_db_once():
+    """CI 启动时跑一次 minioj-reset-for-tests：
+       清空题库 + 复位 id=1 = A+B + 重建 admin/admin123 + 清 webtest_* 用户。
+       这样所有用例都在干净 seed 状态上跑，跨会话/跨 CI 多次执行结果一致。
+    """
+    subprocess.run(
+        ["./minioj-reset-for-tests"],
+        cwd="/app",
+        check=True,
+        env={**os.environ, "MINIOJ_SEED_JSON": "/app/seed/problems.json"},
+    )
+    yield
+    # session 结束可选：再 reset 一次，把 CI 跑出来的 webtest_* 用户清掉
+    subprocess.run(
+        ["./minioj-reset-for-tests"],
+        cwd="/app",
+        check=True,
+        env={**os.environ, "MINIOJ_SEED_JSON": "/app/seed/problems.json"},
+    )
+
 
 @pytest.fixture(scope="session")
 def base_url():
-    # 健康检查：等待服务可用
     for _ in range(30):
         try:
             if requests.get(f"{BASE_URL}/api/problems", timeout=2).status_code == 200:
@@ -466,14 +561,68 @@ def base_url():
         time.sleep(2)
     raise RuntimeError("服务不可达")
 
+
+# ─────────────── 用例级：用户/题目清理 ───────────────
 @pytest.fixture
 def new_user(base_url):
-    """每个用例生成独立账号（注册一次，跨用例隔离）。"""
-    username = f"webtest_{TS}_{int(time.time()*1000) % 100000}"
+    """每个用例生成独立账号（基于 uuid8，跨 CI 跑也不会撞名）。
+
+    cleanup：session 末尾由 reset_db_once 兜底删除 webtest_* 用户，
+             这里不再单独发 DELETE。
+    """
+    username = f"webtest_{_uuid8()}"
     password = "WebTest1Pass"
-    requests.post(f"{base_url}/api/auth/register",
-                  json={"username": username, "password": password})
+    r = requests.post(f"{base_url}/api/auth/register",
+                      json={"username": username, "password": password})
+    assert r.status_code == 201, f"register failed: {r.status_code} {r.text}"
     return {"username": username, "password": password}
+
+
+@pytest.fixture
+def created_problem(base_url):
+    """I-06 / K-02 这类创建题目的用例：先创建，返回 id；用例结束自动 DELETE。
+
+    用法：
+        def test_xxx(created_problem):
+            pid = created_problem(title="...", tags=["webtest"], testcases=[...])
+            # ... 断言 ...
+    """
+    created_ids = []
+
+    def _factory(**kwargs):
+        r = requests.post(
+            f"{base_url}/api/admin/problems",
+            json=kwargs,
+            cookies=admin_cookie_jar(),   # 依赖下面 admin_session()
+        )
+        assert r.status_code == 201, r.text
+        pid = r.json()["id"]
+        created_ids.append(pid)
+        return pid
+
+    yield _factory
+
+    # cleanup：逆序删除（防止外键问题）
+    for pid in reversed(created_ids):
+        requests.delete(
+            f"{base_url}/api/admin/problems/{pid}",
+            cookies=admin_cookie_jar(),
+        )
+
+
+@pytest.fixture(scope="session")
+def admin_cookie_jar():
+    """admin 登录的 CookieJar，复用给 created_problem / reset 等管理接口。"""
+    import http.cookiejar
+    jar = http.cookiejar.CookieJar()
+    r = requests.post(
+        f"{BASE_URL}/api/auth/login",
+        json=ADMIN,
+        cookies=jar,
+    )
+    assert r.status_code == 200, r.text
+    return jar
+
 
 @pytest.fixture
 def admin_page(base_url):
@@ -490,6 +639,38 @@ def admin_page(base_url):
         yield page
         ctx.close()
         browser.close()
+
+
+# ─────────────── 题目 #1 隔离 fixture ───────────────
+@pytest.fixture
+def restore_problem_1_title():
+    """J-02 修改 problem #1 标题后自动复原为 'A+B 问题'。
+
+    用法：
+        def test_j02(admin_page, restore_problem_1_title):
+            ...  # 改标题
+            # 用例结束自动复原
+    """
+    yield
+    # 复原：PUT problem #1 用种子里的原始数据
+    requests.put(
+        f"{BASE_URL}/api/admin/problems/1",
+        json={
+            "title": "A+B 问题",
+            "description_md": "## 题目描述\n\n给定两个整数 `a` 和 `b`，输出它们的和。\n\n## 输入格式\n\n一行两个整数，空格分隔。\n\n## 输出格式\n\n一个整数，表示 `a + b`。\n\n## 数据范围\n\n`-10^9 ≤ a, b ≤ 10^9`\n\n## 样例\n\n**输入**\n```\n1 2\n```\n\n**输出**\n```\n3\n```",
+            "difficulty": "easy",
+            "time_limit_ms": 500,
+            "memory_limit_mb": 256,
+            "tags": ["入门", "数学"],
+            "testcases": [
+                {"input": "1 2\n",  "expected_output": "3\n",  "is_sample": True,  "score": 50},
+                {"input": "-5 10\n","expected_output": "5\n",  "is_sample": True,  "score": 50},
+                {"input": "0 0\n",  "expected_output": "0\n",  "is_sample": False, "score": 50},
+                {"input": "1000000000 1000000000\n", "expected_output": "2000000000\n", "is_sample": False, "score": 50},
+            ],
+        },
+        cookies=admin_cookie_jar(),
+    )
 ```
 
 ### 18.1 判题结果等待工具
@@ -562,6 +743,24 @@ pytest test_admin_*.py -v
 3. **管理员重置是破坏性操作**：建议在测试前备份或使用专用测试库；CI 中只在测试结束后执行一次。
 4. **页面改动耦合**：本测试依赖 `id="..."` 选择器（登录按钮 `#submit-btn`、输入框 `#login-username` 等），前端 ID 变更需同步更新本测试。
 5. **mock server**：`scripts/mock_server.py` 提供本地 mock；若本地无 docker，可启动 mock 后将 `BASE_URL` 切换到 `http://127.0.0.1:8080`（仅供冒烟，不用于 E-10 之后的真实判题）。
+
+## 22. 幂等性检查清单（PR / 新增用例前自检）
+
+> 新增 / 修改测试用例时，逐条对照。每条 = 该用例在"任意次重复执行"下保证通过的最低条件。
+
+- [ ] **用户名 / 密码不撞名**：所有"先注册再操作"的用例，用户名一律 `xxx_<uuid8>`，不用 `<ts>`
+- [ ] **题目标题不撞名**：所有创建题目的用例，标题一律含 `<uuid8>`
+- [ ] **创建题目有 cleanup**：用 `created_problem` fixture（用例末尾自动 DELETE）
+- [ ] **修改 problem #1 有复原**：用 `restore_problem_1_title` fixture（用例末尾自动 PUT 回 seed 标题）
+- [ ] **依赖登录态**：用 `new_user` 或 `admin_page` fixture，不复用上一用例的 cookie
+- [ ] **不在用例里硬编码 admin 密码**：依赖 §1.2 的 `ADMIN` 常量 + `minioj-reset-for-tests` 把 admin 重置为 `admin123`
+- [ ] **数量类断言用 `≥` 而非 `==`**：H-01 是 `≥5`（已是）✓；不要写 `题库 == 5 题`
+- [ ] **不依赖用例执行顺序**：默认 pytest 用例顺序随机，禁止假设 A 在 B 之前
+- [ ] **跑两遍 `pytest` 都能全绿**：本地手工复现：连续跑 `pytest -n 4 && pytest -n 4`，第二次必须全过
+
+---
+
+> **文档结束**
 
 ---
 
