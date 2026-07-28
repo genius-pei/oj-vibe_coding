@@ -11,7 +11,8 @@
 
 | 项目 | 配置 |
 |------|------|
-| **目标服务器** | `http://122.51.84.172:8080` |
+| **目标服务器** | `http://122.51.84.172:80`（nginx 入口，对应 SPEC §9.1 的 frontend 服务） |
+| **后端直连** | `http://122.51.84.172:8080`（**仅 docker 网络内部可达**；测试不直连，统一走 nginx） |
 | **管理员账号** | `admin` / `admin123` |
 | **测试浏览器** | Chromium（headless 可选）、Chrome ≥ 110、Firefox ≥ 110 |
 | **推荐框架** | **Playwright**（自带等待、Cookie 隔离、截图）；备选 Selenium 4 + pytest |
@@ -21,7 +22,17 @@
 
 ### 1.1 BaseURL 与路径约定
 
-服务器直接暴露 8080 端口（后端），由前端通过 Nginx 反代 `/` → `:80`、反代 `/api/*` → `:8080`。本测试环境按用户真实访问路径访问，路径如下：
+**端口拓扑（按 SPEC §9.1 / `docker-compose.yml`）**：
+
+| 服务 | 宿主机端口 | 用途 |
+|---|---|---|
+| `frontend` (nginx:alpine) | **80** | 反向代理 + 静态文件服务（所有页面 + `/api/*` 反代到 backend） |
+| `backend` (C++ httplib) | 8080 | **仅 docker 网络内部**，`docker-compose.yml` 用的是 `expose:` 而非 `ports:`，宿主机**无法直连** |
+| `mysql` | 3306 | 仅 docker 网络内部 |
+
+> ⚠️ **必须走 nginx (port 80) 而非 backend (port 8080)**。`docker-compose.yml` 把 backend 端口用 `expose`（仅 docker 网络可见），宿主机 + 浏览器 + 测试客户端都访问不到 8080。所有路径（页面 + API）通过 nginx 80 端口暴露。
+
+实际访问路径：
 
 | 模块 | URL |
 |------|-----|
@@ -33,11 +44,17 @@
 | 管理员引导 | `/admin/login.html` |
 | 后台列表 | `/admin/index.html` |
 | 新建/编辑题目 | `/admin/edit.html` 或 `/admin/edit.html?id=1` |
+| 公开 API | `/api/problems`、`/api/problems/:id`、`/api/submissions` |
+| 账号 API | `/api/auth/{register,login,logout,me}` |
+| 管理员 API | `/api/admin/*` |
 
 ### 1.2 测试前置
 
 ```python
-BASE_URL = "http://122.51.84.172:8080"
+# 走 nginx 入口（port 80），所有路径走这里
+BASE_URL = os.environ.get("MINIOJ_BASE_URL", "http://122.51.84.172")
+#                       ↑ 改成 http://localhost 用于本地；远程 CI 用 122.51.84.172
+
 ADMIN = {"username": "admin", "password": "admin123"}
 
 @pytest.fixture(scope="session")
@@ -518,7 +535,8 @@ int main() {
 import os, time, uuid, pytest, requests, subprocess
 from playwright.sync_api import sync_playwright
 
-BASE_URL = "http://122.51.84.172:8080"
+# 走 nginx 入口（详见 §1.1）。可用 MINIOJ_BASE_URL 覆盖做本地 / CI 切换。
+BASE_URL = os.environ.get("MINIOJ_BASE_URL", "http://122.51.84.172")
 ADMIN = {"username": "admin", "password": "admin123"}
 
 
@@ -742,7 +760,7 @@ pytest test_admin_*.py -v
 2. **判题用时波动**：E-13 死循环默认 500ms 超时即 TLE；E-15 越界访问在不同 g++ 版本下可能不会触发 RE（建议增加 `*nullptr` 等更确定行为）。
 3. **管理员重置是破坏性操作**：建议在测试前备份或使用专用测试库；CI 中只在测试结束后执行一次。
 4. **页面改动耦合**：本测试依赖 `id="..."` 选择器（登录按钮 `#submit-btn`、输入框 `#login-username` 等），前端 ID 变更需同步更新本测试。
-5. **mock server**：`scripts/mock_server.py` 提供本地 mock；若本地无 docker，可启动 mock 后将 `BASE_URL` 切换到 `http://127.0.0.1:8080`（仅供冒烟，不用于 E-10 之后的真实判题）。
+5. **mock server**：`scripts/mock_server.py` 提供本地 mock；若本地无 docker，可启动 mock 后将 `MINIOJ_BASE_URL` 切到 `http://127.0.0.1:8080`（mock 监听 8080）。仅供冒烟，**不用于 E-10 之后的真实判题**。真实判题仍走 nginx:80。
 
 ## 22. 幂等性检查清单（PR / 新增用例前自检）
 
