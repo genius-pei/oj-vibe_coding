@@ -66,15 +66,19 @@ RUN apt-get update \
             /etc/apt/sources.list.d/ubuntu.sources
 
 # 只装运行时库（dev 包会自动把对应 lib 拉进来，最简可靠）
+# g++ + libstdc++6：判题子进程需要 g++ 编译用户代码（execlp("g++")）
+#   注释：以前只装 lib 系列 → execlp 失败 exit 127，stderr 为空 → pipeline 误判 CE
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
         default-libmysqlclient-dev \
         libjsoncpp-dev \
         libcrypt-dev \
- && rm -rf /var/lib/apt/lists/* \
- && apt-get clean \
+        g++ \
+        libstdc++6 \
  && rm -rf /usr/include /usr/lib/*/pkgconfig /usr/share/man /usr/share/doc \
- && find /usr/lib -name '*.a' -delete 2>/dev/null || true
+ && find /usr/lib -name '*.a' -delete 2>/dev/null || true \
+ && rm -rf /var/lib/apt/lists/* \
+ && apt-get clean
 
 WORKDIR /app
 

@@ -119,6 +119,13 @@ CompileResult compileSource(const CompileRequest& request) {
     if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
         return {true, CompileStatus::Success, elapsed_ms, std::move(stderr_output)};
     }
+    // execlp("g++") 失败：子进程 _exit(127)，stderr 为空 → 给上游一个明确提示
+    //   否则前端只看到 "CE + compile_output 为空"，无从判断是镜像没装 g++ 还是用户代码写错
+    if (WIFEXITED(status) && WEXITSTATUS(status) == 127) {
+        return {false, CompileStatus::SpawnError, elapsed_ms,
+                "compiler unavailable: 'g++' not found in PATH "
+                "(check backend Dockerfile runtime stage installs g++)"};
+    }
     return {false, CompileStatus::Failed, elapsed_ms, std::move(stderr_output)};
 }
 

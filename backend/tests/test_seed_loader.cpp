@@ -330,4 +330,30 @@ TEST_F(SeedLoaderFixture, EmptyJsonArrayIsAllowed) {
     EXPECT_NO_THROW(minioj::db::loadProblemsFromJson(pool, f.path));
 }
 
+// 回归测试：resetProblemBank 必须把 AUTO_INCREMENT 归 1，否则 /api/admin/reset 后
+// seed 题拿到 #8-#12，破坏 web 自动化测试 §2.3.4 的幂等性约束（依赖 ?id=1 命中 A+B 问题）
+TEST_F(SeedLoaderFixture, ResetProblemBankResetsAutoIncrement) {
+    auto& pool = *dbPool();
+    TmpFile f;
+    std::ofstream out(f.path);
+    out << R"([
+      {"title":"seed_loader_test_ai1","description_md":"",
+       "difficulty":"easy","time_limit_ms":500,"memory_limit_mb":256,
+       "tags":[],
+       "testcases":[{"input":"a","expected_output":"b","is_sample":true,"score":100}]},
+      {"title":"seed_loader_test_ai2","description_md":"",
+       "difficulty":"easy","time_limit_ms":500,"memory_limit_mb":256,
+       "tags":[],
+       "testcases":[{"input":"a","expected_output":"b","is_sample":true,"score":100}]}
+    ])";
+    out.close();
+
+    minioj::db::resetProblemBank(pool, f.path);
+
+    auto problems = minioj::db::listProblems(pool, {});
+    ASSERT_GE(problems.size(), 2u);
+    EXPECT_EQ(problems[0].id, 1u);  // 第一题必须从 id=1 开始
+    EXPECT_EQ(problems[1].id, 2u);
+}
+
 }  // namespace

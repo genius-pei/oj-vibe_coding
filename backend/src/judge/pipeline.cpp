@@ -66,7 +66,8 @@ SubmissionResult runPipeline(const PipelineInput& input) {
     result.compile_output = compile_result.stderr_output;
 
     if (!compile_result.ok) {
-        result.verdict = (compile_result.status == CompileStatus::Timeout) ? Verdict::CE : Verdict::CE;
+        // 编译失败（CE / Timeout / SpawnError）一律判 CE，避免把"编译器没装"误报为用户代码错
+        result.verdict = Verdict::CE;
         fs::remove_all(work_dir, ec);
         return result;
     }

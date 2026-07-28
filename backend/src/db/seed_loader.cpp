@@ -43,6 +43,20 @@ void clearProblemBank(ConnectionPool& pool) {
                 mysql_error(connection.get()));
         }
     }
+    // DELETE 不会归零 AUTO_INCREMENT；seed 题会从原末尾继续编号（#1-#5 -> #8-#12）
+    // 幂等性约束（web 自动化测试 §2.3.4）：重置后 id 必须回到 1，否则依赖 ?id=1 的用例全挂
+    static constexpr const char* kResetAi[] = {
+        "ALTER TABLE problems AUTO_INCREMENT = 1",
+        "ALTER TABLE testcases AUTO_INCREMENT = 1",
+        "ALTER TABLE tags AUTO_INCREMENT = 1",
+    };
+    for (const char* sql : kResetAi) {
+        if (mysql_query(connection.get(), sql) != 0) {
+            throw std::runtime_error(
+                std::string("clearProblemBank reset auto_increment failed: ") +
+                mysql_error(connection.get()));
+        }
+    }
 }
 
 void loadProblemsFromJson(ConnectionPool& pool, std::string_view json_path) {
