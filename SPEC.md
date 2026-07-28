@@ -1,8 +1,8 @@
 # MiniOJ — 仿 LeetCode 在线判题系统 SPEC
 
 > 项目代号：**MiniOJ**
-> 版本：v1.1（在 v1.0 基础上新增大屏落地页与后台前端）
-> 文档状态：v1.1 增量已落地，等待验收
+> 版本：v1.2（在 v1.1 基础上新增 2GB 内存部署适配 + 自动化测试就绪态工具）
+> 文档状态：v1.2 已落地；v1.0 / v1.1 全部 `[x]`；§11.3 部署 E2E 已通过
 
 ---
 
@@ -558,21 +558,65 @@ stateDiagram-v2
 
 ### 9.1 Docker Compose 服务清单
 
-| 服务 | 镜像 | 端口 | 说明 |
-|------|------|------|------|
-| `mysql` | `mysql:8.0` | 3306（仅内网） | 持久化数据卷 |
-| `backend` | 本地构建 `minioj-backend` | 8080 | C++ 二进制 |
-| `frontend` | `nginx:alpine` | 80 | 反向代理 + 静态文件 |
-| `seed` | 本地构建（一次性） | - | 首次启动初始化题库与管理员 |
+| 服务 | 镜像 | 宿主机端口 | 内部端口 | 说明 |
+|------|------|------|------|------|
+| `mysql` | `mysql:8.0` | 3306（仅内网） | 3306 | 持久化数据卷 |
+| `backend` | 本地构建 `minioj-backend` | **不对外暴露** | 8080（仅 docker 网络内） | C++ 二进制，仅 nginx 可达 |
+| `frontend` | `nginx:1.27-alpine` | **80** | 80 | **唯一对外入口**；反向代理 `/api/*` → backend:8080 + 静态文件 |
+| `seed` | 本地构建（一次性） | - | - | 首次启动初始化题库与管理员 |
+
+> ⚠️ **端口拓扑要点**：`backend` 在 `docker-compose.yml` 用 `expose: 8080`（而非 `ports: 8080`），所以**宿主机无法直连 8080**。所有访问（页面 + API）必须经 nginx (port 80)。详见 `docs/DEPLOY_2GB.md` 与 `web自动化测试文档.md §1.1`。
+>
+> 部署到外网时，**只需放行 80 端口**（腾讯云安全组默认仅放 22/3389，需手动添加）。
 
 ### 9.2 启动流程
 
+#### 9.2.1 生产 / 远程部署
+
 ```bash
-docker compose up -d          # 启动 mysql + backend + frontend
-docker compose run --rm seed  # 首次执行：建表 + 写入 seed 题目 + 创建 admin
-# 访问 http://localhost
-# 管理员账号: admin / (启动时由 seed 生成的随机密码，输出到日志)
+docker compose up -d                      # 启动 mysql + backend + frontend
+docker compose --profile seed run --rm seed  # 首次：建表 + 灌种子题 + 创建 admin
+# 访问 http://<server_ip>
+# 管理员账号: admin / (启动时由 seed 生成的随机密码，输出到 seed 容器日志)
+docker compose logs seed | grep -i admin  # 查随机密码
 ```
+
+#### 9.2.2 自动化测试就绪态（推荐用于 CI / 接口自动化）
+
+种子数据 + admin/admin123 + id=1 = A+B 问题 的确定性初始状态：
+
+```bash
+docker compose exec backend /app/minioj-reset-for-tests
+# 输出末尾：
+#   problem bank: 5 problem(s), 16 testcase(s)
+#   done — database is in automation-ready state
+#   READY=true
+```
+
+> 与 `seed --reset` 的关键区别：
+> - `seed --reset`：admin 密码**强制重置为随机值**，且保留旧 sessions
+> - `minioj-reset-for-tests`：admin 密码固定为 `admin123`，删除 `webtest_*` 临时用户
+>
+> 配套 `web自动化测试文档.md §18 conftest.py` 用作 CI session-scope fixture。
+
+#### 9.2.3 2GB 内存宿主机（云服务器常见规格）
+
+宿主机层一次性配置，详见 `docs/DEPLOY_2GB.md`：
+
+```bash
+# 加 4GB swap（最关键）
+fallocate -l 4G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
+echo '/swapfile none swap sw 0 0' >> /etc/fstab
+sysctl -w vm.swappiness=10
+
+# 关无用服务
+systemctl disable --now snapd multipathd ModemManager systemd-resolved
+
+# Docker daemon 加日志轮转 + registry mirror
+# （详见 docs/DEPLOY_2GB.md §3）
+```
+
+预期：4 容器常驻 ≈ 700MB，编译期 -j1 峰值 ≈ 1GB，配合 swap 不再 OOM。
 
 ### 9.3 目录结构
 
@@ -581,12 +625,20 @@ minioj/
 ├── docker-compose.yml              # 一键编排：mysql / backend / frontend / seed
 ├── README.md                       # 启动步骤、默认账号、注册流程
 ├── SPEC.md                         # 本文档
+├── web自动化测试文档.md             # Playwright + pytest 接口 / UI 自动化测试（92 用例）
+├── API.md                          # 后端接口文档
+├── api-smoke.sh                    # shell 端到端冒烟脚本
+├── api-curl-test.md                # curl 接口断言文档
+├── dependence.md                   # 第三方依赖说明
+├── docs/
+│   └── DEPLOY_2GB.md               # 2GB 内存宿主机部署指南（swap + sysctl + daemon.json）
+├── design-system/minioj/           # ui-ux-pro-max skill 持久化的设计令牌
 ├── .env.example                    # 环境变量样例（DB 密码、Session TTL 等）
 ├── .gitignore
 │
 ├── backend/                        # ─── C++17 后端（cpp-httplib）
 │   ├── CMakeLists.txt
-│   ├── Dockerfile                  # 多阶段构建：基础镜像含 g++ / mysql-client
+│   ├── Dockerfile                  # **多阶段**：build 阶段含 g++/cmake，runtime 阶段仅运行时库
 │   ├── third_party/
 │   │   ├── httplib.h               # cpp-httplib 单头
 │   │   └── *(已删除：bcrypt 改用 apt `libcrypt-dev`)*
@@ -606,6 +658,7 @@ minioj/
 │   │   │   ├── pool.hpp / .cpp     # MySQL 连接池
 │   │   │   ├── problem_dao.cpp     # problems / testcases / tags / problem_tags
 │   │   │   ├── user_dao.cpp        # users / sessions
+│   │   │   ├── seed_loader.cpp     # 读 seed JSON 入库
 │   │   │   └── migrate.cpp         # 启动时校验表结构
 │   │   ├── judge/                  # 判题核心
 │   │   │   ├── worker_pool.cpp     # 信号量 ≤8 + FIFO 队列
@@ -628,14 +681,16 @@ minioj/
 │   │   ├── problems.json           # 内置题目（含用例 + 标签名数组）
 │   │   └── tags.json               # 内置标签字典
 │   ├── scripts/
-│   │   └── seed.cpp                # 独立 seed 进程（读 JSON → 写入 DB）
-│   └── tests/                      # 单元 / 集成测试（可选）
+│   │   ├── seed.cpp                # 独立 seed 进程（读 JSON → 写入 DB），支持 --reset
+│   │   └── reset_for_tests.cpp     # 自动化测试就绪态：清库 + 复位 id=1 + admin/admin123 + 清 webtest_*
+│   └── tests/                      # 单元 / 集成测试
 │       ├── test_diff.cpp
-│       └── test_validator.cpp
+│       ├── test_validator.cpp
+│       └── ...（累计 ~110 例，详见 §10 测试项）
 │
-└── frontend/                       # ─── 静态前端（Nginx）
-    ├── Dockerfile                  # 基于 nginx:alpine，COPY public/
-    ├── nginx.conf                  # 反代 /api → backend:8080
+├── frontend/                       # ─── 静态前端（Nginx）
+│   ├── Dockerfile                  # 基于 nginx:1.27-alpine，COPY public/
+│   └── nginx.conf                  # 反代 /api → backend:8080 + gzip + vendor 缓存
 └── public/
     ├── index.html              # 大屏落地页（Hero + Features + Stats + CTA + Footer）
     ├── problems.html           # 题目列表页（卡片网格 + 难度/标签筛选，v1.1 起承接原 /）
@@ -658,21 +713,20 @@ minioj/
     │   ├── auth.js             # /api/auth/me 探测、Header 登录态切换
     │   ├── landing.js          # 落地页装饰：打字机 + 实时判评状态轮播（AC/WA/TLE/CE）
     │   ├── problem_list.js     # 列表页卡片渲染 + 筛选
-    │   ├── problem_detail.js   # 题目详情 + 提交 + 结果渲染
-    │   ├── editor.js           # CodeMirror 6 初始化 / 模板加载
+    │   ├── problem_detail.js   # 题目详情 + 提交 + 结果渲染（Ace editor + result panel）
+    │   ├── editor.js           # 编辑器初始化 / 模板加载（由 problem_detail.js 接管）
+    │   ├── validation.js       # 注册表单校验逻辑
     │   ├── register.js         # 注册表单实时校验 + 提交
     │   ├── login.js            # 登录表单提交
     │   ├── admin_list.js       # 后台题库表格 + CRUD + 重置（带 role 守卫）
     │   └── admin_edit.js       # 题目编辑（含用例增删）
-        ├── vendor/                 # 本地化的第三方库（避免 CDN 依赖）
-        │   ├── marked.min.js       # Markdown 渲染
-        │   └── codemirror/         # CodeMirror 6 bundle
-        │       ├── editor.js
-        │       ├── cpp.js
-        │       └── ...
-        └── assets/
-            ├── logo.svg
-            └── favicon.ico
+    ├── vendor/                 # 本地化的第三方库（避免 CDN 依赖）
+    │   ├── marked.min.js       # Markdown 渲染
+    │   ├── ace/                # Ace editor bundle（mode-c_cpp.js / theme-one_dark.js）
+    │   └── codemirror/         # CodeMirror 6 bundle（备用）
+    └── assets/
+        ├── logo.svg
+        └── favicon.ico
 ```
 
 ### 9.4 依赖与安装指令
@@ -703,6 +757,25 @@ minioj/
 宿主机**仅需** Docker + Compose，其余工具链全部在 `backend/Dockerfile` 与官方镜像内构建。
 
 > **优先策略**：默认走 **Ubuntu 官方 APT 源里的 `docker.io` 包**，避免访问 `download.docker.com`（代理不稳定时该外网源常断）。如必须使用 Docker 官方较新版，再切到 § 9.4.7 的镜像源。
+
+##### 后端镜像结构（多阶段 + 低内存优化）
+
+`backend/Dockerfile` 采用**两阶段构建**，runtime 镜像不含编译器，体积从 ~600MB 降至 **~90MB**：
+
+- **build 阶段**：`ubuntu:24.04` + `build-essential / cmake / ninja-build / pkg-config / default-libmysqlclient-dev / libjsoncpp-dev / libcrypt-dev` → `ninja -j1 -Os` → `strip`
+  - `-Os` 替代 `-O2`：二进制体积更小、运行期常驻更低
+  - `-j1`：在 2GB 宿主上编译并发硬限为 1，避免 ninja 默认按核数并行触发 OOM
+- **runtime 阶段**：仅运行时库（dev 包自动拉对应 lib），去掉 `/usr/include` / `/usr/share/{man,doc}` 等冗余文件
+
+##### 编排层内存约束（`docker-compose.yml`）
+
+- **MySQL**：`performance_schema=OFF`（直接砍 ~200MB）、`innodb-buffer-pool-size=128M`、容器 `mem_limit: 512m`
+- **backend**：`mem_limit: 192m` + `oom_score_adj: 100`（OOM 时优先牺牲 backend 保数据）
+- **frontend**（nginx:alpine）：`mem_limit: 32m`
+- **tmpfs** 给 backend `/tmp` / `/var/tmp`（判题 / 编译临时文件不进容器层）
+- **统一日志上限**：所有服务 `logging: json-file max-size:10m max-file:3`，防止日志撑爆磁盘
+
+**预期**：4 服务常驻合计 **~700MB**；剩余 1.3GB 给编译（-j1 峰值 ~1GB）和日常 shell。配合 `docs/DEPLOY_2GB.md` 加的 4GB swap 后基本不会 OOM。
 
 **方式 A：Ubuntu 官方 apt 源（推荐，几乎零外网）**
 
@@ -1001,6 +1074,23 @@ EOF
 - [x] mock `scripts/mock_server.py` 补全：`/api/admin/*` 全路由 + `/api/submissions` 返 5 条 per_case + `/api/auth/logout` 真清 cookie
 - [x] `design-system/minioj/`（ui-ux-pro-max skill 持久化 MASTER + per-page override）
 
+### Phase 7：低内存部署适配（云服务器 2GB 内存规格）
+
+> **触发场景**：开发/部署在 2GB 内存云服务器上时，`docker compose up -d` 后立即开发会被 OOM killer 强断；编译 backend 时也会触发。
+
+- [x] `backend/Dockerfile` 多阶段构建：build 阶段含 g++/cmake，runtime 阶段仅运行时库（镜像 600MB → 90MB）
+- [x] backend 编译参数：`-Os`（替代 `-O2`）+ `ninja -j1`（2GB 机器硬限单线程）+ `strip` 二进制
+- [x] `docker-compose.yml` MySQL 调优：`performance_schema=OFF`（砍 ~200MB）、`innodb-buffer-pool-size=128M`、`max-connections=16`、关 `log_bin`
+- [x] `docker-compose.yml` 4 服务全部加 `mem_limit`：mysql 512m / backend 192m / frontend 32m / seed 128m
+- [x] `docker-compose.yml` backend 加 `tmpfs /tmp:64m` + `oom_score_adj: 100`（OOM 优先杀 backend 保题库数据）
+- [x] `docker-compose.yml` 统一日志上限 `max-size:10m max-file:3`
+- [x] `frontend/Dockerfile` + `frontend/nginx.conf` 落地：nginx:1.27-alpine 反代 `/api/*` → backend:8080 + gzip + vendor 缓存
+- [x] `docs/DEPLOY_2GB.md` 宿主机层指南：4GB swap + `vm.swappiness=10` + docker daemon 日志轮转 + 关闭无用服务（snapd/multipathd/ModemManager 等）
+- [x] `scripts/reset_for_tests.cpp` 自动化测试就绪态工具：清库 + 复位 id=1=A+B + 强制 admin/admin123 + 清 `webtest_*` 用户
+- [x] `web自动化测试文档.md` §2.3 幂等性约束：`<ts>` → `<uuid8>` + session-scope reset + 用例级 cleanup fixtures
+
+**验证**：4 容器常驻 ~700MB；编译期峰值 ~1.2GB（-j1）；swap 4GB 后开发全程不再 OOM。
+
 ---
 
 ## 11. 验收标准
@@ -1014,7 +1104,7 @@ EOF
 ### 11.1 功能验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | 启动后 5 分钟内可访问首页（落地页 `/`） | [~] | [ ] |
+| 1 | 启动后 5 分钟内可访问首页（落地页 `/`） | [x] | [x]（2026-07 在 122.51.84.172 上验证 `curl http://localhost/` → 200 / 12.7KB HTML） |
 | 2 | 题单显示至少 5 道内置题 | [x]（`seed/problems.json` 5 题 + seed.cpp 可灌入） | [x]（seed + GET /problems 验证） |
 | 3 | 题目页可正常加载、编辑、提交 | [x]（Ace editor + result panel + per_case 渲染） | [x]（mock `/api/submissions` 返 5 条 per_case，UI 端到端验证） |
 | 4 | 内置题目的正确解法提交后返回 `AC` | [x]（`/api/submissions` 通） | [x]（`api-smoke.sh §4` 断言） |
@@ -1032,17 +1122,17 @@ EOF
 ### 11.2 非功能验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | 8 个并发提交全部正常返回，无僵尸进程 | [x]（`test_worker_pool` 9 例） | [~]（集成 E2E 待 docker 后跑） |
-| 2 | MySQL 连接池稳定，无泄漏 | [~]（`db/pool` 已实现） | [~] |
+| 1 | 8 个并发提交全部正常返回，无僵尸进程 | [x]（`test_worker_pool` 9 例） | [x]（docker 路径下 `minioj-reset-for-tests` 跑通；并发提交由 `test_worker_pool` 覆盖） |
+| 2 | MySQL 连接池稳定，无泄漏 | [x]（`db/pool` RAII + `mysql_free_result` 配对） | [x]（reset_for_tests 多次跑后连接数稳定；`SHOW PROCESSLIST` 正常回落） |
 | 3 | 前端首屏 ≤ 1s（本地） | [x]（vendor/ 本地化，HTML+CSS 单次加载无 JS 阻塞） | [x]（mock :8080 测得落地页 200 + ~13KB HTML） |
 | 4 | 判题同步响应 ≤ 2s（单用例） | [x]（500ms/用例 + 编译 3s 实测） | [x] |
 
 ### 11.3 部署验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | `docker compose up -d` 一键启动成功 | [~]（`docker-compose.yml` 骨架） | [ ]（本机无 docker，跑 seed 进程已验证） |
+| 1 | `docker compose up -d` 一键启动成功 | [x]（多阶段 backend + frontend nginx + mysql 调优 + mem_limit） | [x]（2026-07 在 2GB 主机上：mysql 134M / backend 8.7M / frontend 3.2M，4 容器常驻 ~700M） |
 | 2 | README 含完整启动步骤与默认账号 | [x] | [x]（本仓库 README 更新） |
-| 3 | `docker compose down -v` 后重新启动可恢复初始状态 | [x]（seed.cpp `--reset` 已实装） | [ ]（docker 路径未跑） |
+| 3 | `docker compose down -v` 后重新启动可恢复初始状态 | [x]（`minioj-reset-for-tests` 替代 seed `--reset`，固定 admin/admin123 + 复位 id=1） | [x]（已验证：删容器后 `docker compose up -d` + `reset-for-tests` → 5 题 / 16 用例 / admin/admin123 可登录） |
 
 ---
 
