@@ -934,10 +934,123 @@ playwright-cli console
 
 ### 23.6 后续行动（按优先级）
 
-1. **🔴 P0 修判题 worker**（§23.1）—— 否则核心价值主张"在线判题"完全不可用。
-2. **🟡 P1 修 reset AUTO_INCREMENT**（§23.2）—— 否则幂等性失守，CI 跑两遍必然挂。
-3. **🟢 P2 清落地页 console error**（§23.3）—— 查 nginx 静态资源配置。
+1. **🔴 P0 修判题 worker**（§23.1）—— 否则核心价值主张"在线判题"完全不可用。**已修复 ✅**
+2. **🟡 P1 修 reset AUTO_INCREMENT**（§23.2）—— 否则幂等性失守，CI 跑两遍必然挂。**已修复 ✅**
+3. **🟢 P2 清落地页 console error**（§23.3）—— 查 nginx 静态资源配置。**已修复 ✅**
 4. **🟢 P3 补跑剩余用例**（M-01/02/03、N-04 首屏、N-06 注入、E-07/08/09 编辑器交互等）—— 修好 P0/P1 后可批量补。
+
+---
+
+## 24. 本轮修复落地清单（2026-07-29）
+
+> 与 §23 三项 + §23.4 后续审查出的 5 个新问题对应的代码改动 + 回归测试。
+
+### 24.1 §23.1 P0 — 判题 worker（已修）
+
+| 文件 | 改动 |
+|---|---|
+| `backend/Dockerfile` | runtime stage 加装 `g++ libstdc++6` |
+| `docker-compose.yml` | `backend.mem_limit` 从 `192m` 改为 `512m`（g++ 编译峰值 ~300MB） |
+| `backend/src/judge/compiler.cpp` | 检测 execlp 失败（exit 127），返回 `"compiler unavailable: 'g++' not found in PATH..."` |
+| `backend/src/judge/pipeline.cpp` | 删除冗余三目 `(Timeout) ? CE : CE`，统一为 `Verdict::CE` |
+
+**回归**：`build/minioj_test_compiler` 5/5、`build/minioj_test_pipeline` 5/5。
+
+### 24.2 §23.2 P1 — AUTO_INCREMENT（已修）
+
+| 文件 | 改动 |
+|---|---|
+| `backend/src/db/seed_loader.cpp` | `clearProblemBank` 末尾追加 `ALTER TABLE problems/testcases/tags AUTO_INCREMENT = 1` |
+| `backend/tests/test_seed_loader.cpp` | 新增 `ResetProblemBankResetsAutoIncrement` 回归用例 |
+
+**回归**：`build/minioj_test_seed_loader` 9/9（含新增 1 例）。
+
+### 24.3 §23.3 P2 — 落地页 console error（已修）
+
+| 文件 | 改动 |
+|---|---|
+| `frontend/public/index.html` 等 8 个 HTML | `<head>` 各加 1 行 `<link rel="icon" href="data:,">` |
+
+**原理**：浏览器对没声明 favicon 的页面会自动请求 `/favicon.ico`，本仓库 favicon 实文件在 `/assets/favicon.ico` 但 nginx `try_files` 把 `/favicon.ico` 兜底回落到 `/index.html`（HTML），浏览器报 MIME mismatch。`href="data:,"` 是标准做法，明确告诉浏览器"无 favicon"，抑制自动请求。
+
+### 24.4 新发现 5 个 Bug 一并修复（2026-07-29）
+
+#### 24.4.1 🔴 XSS — 题目描述未净化（实际 N-06 失守）
+
+**症状**：管理员创建题目描述含 `<script>alert(1)</script>` 时，前台打开题目会执行脚本。文档 §17 N-06 声称"已转义"实际**未转义**。
+
+**根因**：`frontend/public/js/problem_detail.js` 直接 `bodyEl.innerHTML = window.marked.parse(...)`，marked 默认不过滤 HTML。
+
+**修复**：
+- 新增 `frontend/public/vendor/purify.min.js`（DOMPurify 3.1.6，22KB）
+- `frontend/public/problem.html` 引入该脚本
+- `problem_detail.js:248` 改为 `DOMPurify.sanitize(rawHtml, { USE_PROFILES:{html:true}, FORBID_TAGS:[...], FORBID_ATTR:[...] })`
+
+**验证**：人工回归 — 创建描述为 `<script>alert(1)</script><img src=x onerror=alert(2)>` 的题 → 前台不弹窗，DOM 中只剩文本节点。
+
+#### 24.4.2 🔴 CSRF — 跨源 POST 未拦截
+
+**症状**：恶意页面可用已登录用户的 cookie 发 `/api/submissions` 提交代码（虽然 SameSite=Lax 挡了部分，但 GET 改写 + 老浏览器仍有风险）。
+
+**修复**：
+- 新增 `backend/src/http/csrf.{hpp,cpp}`：检查 `Origin` 头是否在白名单（默认信任 `http://<HTTP_HOST>` + `0.0.0.0` 监听时的 localhost），跨源 `POST/PUT/DELETE/PATCH` 返 403
+- 白名单可通过 `CSRF_TRUSTED_ORIGINS="http://a http://b"` 覆盖
+- `backend/src/http/router.cpp` 把 CSRF + admin_auth 串联到同一个 pre_routing handler（httplib 只允许一个）
+- `backend/src/http/admin_auth.{hpp,cpp}` 重构出 `checkAdminAuth()` 函数便于组合
+- `backend/CMakeLists.txt` 加入 `csrf.cpp`
+
+#### 24.4.3 🔴 速率限制 — 缺位
+
+**症状**：单用户能瞬间发几百次 `/api/submissions`，8 worker 全占满后其他人卡死。
+
+**修复**：
+- 新增 `backend/src/http/rate_limiter.{hpp,cpp}`：进程内令牌桶实现（lazy refill，per-key 独立桶）
+- 新增 `backend/src/http/rate_limit.{hpp,cpp}`：`clientKey()` 提取 IP（X-Forwarded-For 优先），`checkRateLimit()` 串到 pre_routing，超限返 429 + `Retry-After`
+- 环境变量覆盖：`RATE_LIMIT_CAPACITY=60` `RATE_LIMIT_REFILL_PER_SEC=1`（默认 60 req/min/IP）
+- `backend/tests/test_rate_limiter.cpp` 6 个单元测试（桶满、不同 key 独立、随时间补充、容量封顶、remaining 精度、reset）
+- `backend/CMakeLists.txt` 加入 + 测试 target
+
+**回归**：`build/minioj_test_rate_limiter` 6/6、`build/minioj_test_admin_auth` 17/17。
+
+#### 24.4.4 🟡 信号处理 — `signal.cpp` 是空文件
+
+**症状**：`docker stop` 发 SIGTERM，进程被直接杀掉，worker 线程中途死亡 → `/tmp/minioj_pipeline_*` 残留 + 正在跑的 HTTP 请求永久 hanging。
+
+**修复**：
+- 新增 `backend/src/util/signal.{hpp,cpp}`：`SignalGuard` 注册 SIGINT/SIGTERM handler（忽略 SIGPIPE），提供 `waitForShutdown()` 阻塞主线程 + `registerHook()` 注入收尾逻辑
+- `backend/src/main.cpp` 重写：listen 跑在子线程，主线程等信号 → 收到后调 `server.stop()` 优雅关闭 accept 循环 → join listen 线程 → 触发注册的 hook（drain worker pool）
+- `backend/CMakeLists.txt` 加入 `signal.cpp`
+
+#### 24.4.5 🟡 WorkerPool 排空 — pending 任务被无声丢弃
+
+**症状**：原 `shutdown()` 设 `stopping_=true` + join workers，但**队列里 pending 的提交任务被丢弃**，HTTP handler `future.get()` 永久阻塞。
+
+**修复**：
+- `backend/src/judge/worker_pool.cpp`：shutdown 时 `notify_all` + join，让 worker 把队列里剩下的 task 全部跑完（drain 而非丢弃）。每个 worker 循环用 try/catch 包住单个任务，单任务失败不再拖垮 worker 线程。
+- `backend/src/judge/worker_pool.hpp`：`submit()` 在 `stopping_=true` 时立即抛 `std::runtime_error("worker pool is shutting down")`，handler 的 try/catch 会返 500 给客户端（不再 hanging）。
+
+#### 24.5 涉及文件清单（合计）
+
+| 类别 | 文件 |
+|---|---|
+| 后端 C++ | `backend/Dockerfile` `backend/CMakeLists.txt` `backend/src/main.cpp` `backend/src/db/seed_loader.cpp` `backend/src/judge/compiler.cpp` `backend/src/judge/pipeline.cpp` `backend/src/judge/worker_pool.{hpp,cpp}` `backend/src/http/router.{hpp,cpp}` `backend/src/http/admin_auth.{hpp,cpp}` `backend/src/http/csrf.{hpp,cpp}` `backend/src/http/rate_limit.{hpp,cpp}` `backend/src/http/rate_limiter.{hpp,cpp}` `backend/src/util/signal.{hpp,cpp}` |
+| 前端 | `frontend/public/{index,login,register,problems,problem}.html` `frontend/public/admin/{index,login,edit}.html` `frontend/public/problem.html` `frontend/public/js/problem_detail.js` `frontend/public/vendor/purify.min.js`（新） |
+| 部署 | `docker-compose.yml` |
+| 测试 | `backend/tests/test_seed_loader.cpp` `backend/tests/test_rate_limiter.cpp`（新） |
+
+**变更规模**：22 文件，+约 600 行 / -约 30 行。
+
+#### 24.6 待跑用例（§23.6 P3 收尾）
+
+修好 P0/P1 后，原阻塞的 7 个用例（E-10/11/12/13/14/15、N-05）应能从阻塞恢复。补跑：
+
+- **M 模块（退出登录 3 例）** —— 未跑过，需补
+- **N-04 首屏 ≤ 1s** —— 未跑过，需补
+- **N-06 Markdown 注入** —— 此前声称"已转义"，实际失守；DOMPurify 修复后**必须重测**
+- **E-07/08/09 编辑器交互** —— 未跑过，需补
+- **E-10~E-15**（6 例）+ **N-05** —— 阻塞状态，重测应可执行
+
+跑测后请回填 §23.4 / §23.5 矩阵并更新本文档。
 
 ---
 

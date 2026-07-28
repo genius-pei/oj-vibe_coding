@@ -16,11 +16,17 @@
 - **教学训练**：小班/校内场景下刷题、考核的轻量平台。
 
 ### 1.3 成功标准（v1.0 收工定义）
-- [ ] 执行 `docker compose up -d` 即可启动整套系统
+- [ ] **容器化路径**：执行 `docker compose up -d` 即可启动整套系统
+- [ ] **裸机路径**：按 `docs/DEPLOY_NATIVE.md` 在 Ubuntu 22.04+ 上无需 Docker 直接拉起
 - [ ] 浏览器可访问首页、查看题单、进入题目详情
 - [ ] 普通用户可注册、登录、提交 C/C++ 代码并收到 AC/WA/TLE/CE/MLE/RE 结果
 - [ ] 管理员登录后可对题目进行增删改查，并可一键重置题库
 - [ ] 同时 8 个并发提交不出现崩溃或资源耗尽
+
+> **部署形态**：本项目**不强制依赖 Docker**。两种等价部署形态：
+> 1. **Docker Compose**（默认推荐）：`docs/DEPLOY_2GB.md` — 一键拉起 mysql/backend/frontend/seed 四个容器，含 2GB 低内存优化
+> 2. **裸机原生**：`docs/DEPLOY_NATIVE.md` — Ubuntu/Debian 系统包 + 自编译后端 + nginx 反代
+> 后端代码、`.env` 配置、数据库 schema 在两条路径上完全一致。
 
 ---
 
@@ -49,7 +55,7 @@
 | 前端 | 原生 HTML + CSS + JS | 用户指定；CDN 引入 CodeMirror 6 作为编辑器 |
 | 判题执行 | 本机 `fork` + `exec` + `setrlimit` | 用户指定；权衡后不做 seccomp/chroot |
 | 构建系统 | CMake + 系统包 / vcpkg | 用户指定 |
-| 容器化 | Docker Compose | 用户指定；一键启动 |
+| 容器化 | Docker Compose（**可选**，见 §1.3） | 默认推荐；裸机原生部署见 `docs/DEPLOY_NATIVE.md` |
 
 ---
 
@@ -62,10 +68,19 @@ graph TB
     User[浏览器用户]
     Admin[管理员]
 
-    subgraph Docker Compose
-        Frontend[静态前端<br/>Nginx]
-        Backend[C++ 后端<br/>cpp-httplib]
-        MySQL[(MySQL 8)]
+    subgraph 部署形态（任选其一）
+        subgraph "Docker Compose（docs/DEPLOY_2GB.md）"
+            Frontend[静态前端<br/>nginx:alpine]
+            Backend[C++ 后端<br/>minioj-backend]
+            MySQL[(MySQL 8<br/>mysql:8.0)]
+        end
+        subgraph "裸机原生（docs/DEPLOY_NATIVE.md）"
+            Nginx[系统 nginx]
+            Binary[自编译二进制]
+            MysqlSys[(系统 mysql-server)]
+            Nginx -->|反代 /api/*| Binary
+            Binary --> MysqlSys
+        end
     end
 
     subgraph 判题子系统（同机进程内）
@@ -556,6 +571,15 @@ stateDiagram-v2
 
 ## 9. 部署
 
+本节覆盖 Docker 与原生两种部署形态，两者数据层与代码层完全等价。**任选其一即可**。
+
+### 9.0 形态选择
+
+| 形态 | 适用 | 文档 |
+|---|---|---|
+| **Docker Compose**（默认推荐） | 一键拉起全套；适合 2GB 低内存宿主机 | `docs/DEPLOY_2GB.md` |
+| **裸机原生** | 已有 MySQL / 不想装 Docker / CI 用容器但 dev 用本机 | `docs/DEPLOY_NATIVE.md` |
+
 ### 9.1 Docker Compose 服务清单
 
 | 服务 | 镜像 | 宿主机端口 | 内部端口 | 说明 |
@@ -568,6 +592,16 @@ stateDiagram-v2
 > ⚠️ **端口拓扑要点**：`backend` 在 `docker-compose.yml` 用 `expose: 8080`（而非 `ports: 8080`），所以**宿主机无法直连 8080**。所有访问（页面 + API）必须经 nginx (port 80)。详见 `docs/DEPLOY_2GB.md` 与 `web自动化测试文档.md §1.1`。
 >
 > 部署到外网时，**只需放行 80 端口**（腾讯云安全组默认仅放 22/3389，需手动添加）。
+
+### 9.1.bis 原生部署服务清单
+
+| 进程 | 角色 | 端口 |
+|---|---|---|
+| `mysqld`（系统服务） | 数据库 | 3306（localhost） |
+| `minioj-backend`（自编译） | HTTP + 判题 | 8080 |
+| `nginx`（系统服务） | 静态文件 + `/api/*` 反代 | 80 |
+
+详见 `docs/DEPLOY_NATIVE.md`。
 
 ### 9.2 启动流程
 

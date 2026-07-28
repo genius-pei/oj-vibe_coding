@@ -44,6 +44,8 @@ std::future<std::invoke_result_t<F>> WorkerPool::submit(F&& task) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
         if (stopping_) {
+            // 显式拒绝：调用方立即拿异常，不再让 future.get() 永久阻塞
+            packaged.reset();
             throw std::runtime_error("worker pool is shutting down");
         }
         tasks_.emplace([packaged]() { (*packaged)(); });

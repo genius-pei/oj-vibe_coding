@@ -22,6 +22,7 @@ endif()
 add_library(minioj_core
     src/util/config.cpp
     src/util/logger.cpp
+    src/util/signal.cpp
     src/util/types.cpp
     src/db/pool.cpp
     src/db/problem_dao.cpp
@@ -42,6 +43,9 @@ add_library(minioj_core
     src/http/submission_request.cpp
     src/http/middleware.cpp
     src/http/admin_auth.cpp
+    src/http/csrf.cpp
+    src/http/rate_limiter.cpp
+    src/http/rate_limit.cpp
     src/http/handlers_public.cpp
     src/http/handlers_admin.cpp
     src/http/handlers_auth.cpp
@@ -156,4 +160,8 @@ if(MINIOJ_BUILD_TESTS)
     add_executable(minioj_test_seed_loader tests/test_seed_loader.cpp)
     target_link_libraries(minioj_test_seed_loader PRIVATE minioj_core GTest::gtest GTest::gtest_main)
     gtest_discover_tests(minioj_test_seed_loader)
+
+    add_executable(minioj_test_rate_limiter tests/test_rate_limiter.cpp)
+    target_link_libraries(minioj_test_rate_limiter PRIVATE minioj_core GTest::gtest GTest::gtest_main)
+    gtest_discover_tests(minioj_test_rate_limiter)
 endif()

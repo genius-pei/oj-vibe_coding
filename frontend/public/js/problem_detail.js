@@ -245,7 +245,14 @@ async function load() {
     idEl.textContent = `#${problem.id}`;
     titleEl.textContent = problem.title;
     renderMeta(problem);
-    bodyEl.innerHTML = window.marked.parse(problem.description_md || '');
+    // marked 默认不过滤 HTML，管理员描述里写 <script>/onerror= 会被原样执行
+    // → DOMPurify 净化后再注入（参见 N-06）
+    const rawHtml = window.marked.parse(problem.description_md || '');
+    bodyEl.innerHTML = window.DOMPurify.sanitize(rawHtml, {
+      USE_PROFILES: { html: true },
+      FORBID_TAGS: ['style', 'iframe', 'form', 'object', 'embed', 'meta', 'link'],
+      FORBID_ATTR: ['style', 'onerror', 'onload', 'onclick'],
+    });
     samplesEl.innerHTML = renderSamples(problem.sample_testcases);
     submitBtn.disabled = false;
 

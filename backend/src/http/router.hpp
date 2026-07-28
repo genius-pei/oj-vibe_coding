@@ -12,6 +12,7 @@ namespace minioj::http {
 void registerAllRoutes(httplib::Server& server,
                        db::ConnectionPool& pool,
                        judge::WorkerPool& judge_pool,
-                       const SessionConfig& session_config);
+                       const SessionConfig& session_config,
+                       const HttpConfig& http_config);
 
 }

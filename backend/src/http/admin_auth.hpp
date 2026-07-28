@@ -6,6 +6,15 @@
 
 namespace minioj::http {
 
+// /api/admin/* 路径前缀判定：供其它中间件组合时复用
+bool isAdminPath(std::string_view path) noexcept;
+
+// 单步校验：admin 路径要求已登录 + role=admin
+// 返回 Handled（已写入 401/403/500 响应）或 Unhandled（继续后续处理）
+httplib::Server::HandlerResponse checkAdminAuth(db::ConnectionPool& pool,
+                                                const httplib::Request& req,
+                                                httplib::Response& res);
+
 // 在 cpp-httplib Server 上安装 admin role 校验中间件：
 // - /api/admin/* 路径必须登录且 role=admin
 // - 未登录返 401 "not logged in"
