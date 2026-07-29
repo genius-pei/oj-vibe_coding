@@ -16,17 +16,13 @@
 - **教学训练**：小班/校内场景下刷题、考核的轻量平台。
 
 ### 1.3 成功标准（v1.0 收工定义）
-- [ ] **容器化路径**：执行 `docker compose up -d` 即可启动整套系统
-- [ ] **裸机路径**：按 `docs/DEPLOY_NATIVE.md` 在 Ubuntu 22.04+ 上无需 Docker 直接拉起
-- [ ] 浏览器可访问首页、查看题单、进入题目详情
-- [ ] 普通用户可注册、登录、提交 C/C++ 代码并收到 AC/WA/TLE/CE/MLE/RE 结果
-- [ ] 管理员登录后可对题目进行增删改查，并可一键重置题库
-- [ ] 同时 8 个并发提交不出现崩溃或资源耗尽
+- [x] **裸机路径**：按 `docs/DEPLOY_NATIVE.md` 在 Ubuntu 22.04+ 上无需容器直接拉起
+- [x] 浏览器可访问首页、查看题单、进入题目详情
+- [x] 普通用户可注册、登录、提交 C/C++ 代码并收到 AC/WA/TLE/CE/MLE/RE 结果
+- [x] 管理员登录后可对题目进行增删改查，并可一键重置题库
+- [x] 同时 8 个并发提交不出现崩溃或资源耗尽
 
-> **部署形态**：本项目**不强制依赖 Docker**。两种等价部署形态：
-> 1. **Docker Compose**（默认推荐）：`docs/DEPLOY_2GB.md` — 一键拉起 mysql/backend/frontend/seed 四个容器，含 2GB 低内存优化
-> 2. **裸机原生**：`docs/DEPLOY_NATIVE.md` — Ubuntu/Debian 系统包 + 自编译后端 + nginx 反代
-> 后端代码、`.env` 配置、数据库 schema 在两条路径上完全一致。
+> **部署形态**：本项目**裸机原生部署**，详见 [`docs/DEPLOY_NATIVE.md`](./docs/DEPLOY_NATIVE.md)。Ubuntu/Debian 系统包（MySQL 8 + Nginx）+ 自编译后端 + nginx 反代 `/api/*`。所有依赖走系统包，零容器运行时依赖。
 
 ---
 
@@ -55,7 +51,7 @@
 | 前端 | 原生 HTML + CSS + JS | 用户指定；CDN 引入 CodeMirror 6 作为编辑器 |
 | 判题执行 | 本机 `fork` + `exec` + `setrlimit` | 用户指定；权衡后不做 seccomp/chroot |
 | 构建系统 | CMake + 系统包 / vcpkg | 用户指定 |
-| 容器化 | Docker Compose（**可选**，见 §1.3） | 默认推荐；裸机原生部署见 `docs/DEPLOY_NATIVE.md` |
+| 部署 | 裸机原生（Ubuntu + 系统 MySQL + nginx + 自编译后端） | 详见 `docs/DEPLOY_NATIVE.md` |
 
 ---
 
@@ -68,19 +64,12 @@ graph TB
     User[浏览器用户]
     Admin[管理员]
 
-    subgraph 部署形态（任选其一）
-        subgraph "Docker Compose（docs/DEPLOY_2GB.md）"
-            Frontend[静态前端<br/>nginx:alpine]
-            Backend[C++ 后端<br/>minioj-backend]
-            MySQL[(MySQL 8<br/>mysql:8.0)]
-        end
-        subgraph "裸机原生（docs/DEPLOY_NATIVE.md）"
-            Nginx[系统 nginx]
-            Binary[自编译二进制]
-            MysqlSys[(系统 mysql-server)]
-            Nginx -->|反代 /api/*| Binary
-            Binary --> MysqlSys
-        end
+    subgraph 裸机原生部署（docs/DEPLOY_NATIVE.md）
+        Nginx[系统 nginx :80<br/>静态文件 + /api/* 反代]
+        Binary[自编译 minioj-backend<br/>:8080]
+        MysqlSys[(系统 MySQL 8<br/>:3306)]
+        Nginx -->|反代 /api/*| Binary
+        Binary --> MysqlSys
     end
 
     subgraph 判题子系统（同机进程内）
@@ -89,11 +78,9 @@ graph TB
         Runner[Runner<br/>rlimit 沙箱]
     end
 
-    User --> Frontend
-    Admin --> Frontend
-    Frontend -->|REST| Backend
-    Backend <-->|TCP 3306| MySQL
-    Backend --> WorkerPool
+    User --> Nginx
+    Admin --> Nginx
+    Binary --> WorkerPool
     WorkerPool --> Compiler
     WorkerPool --> Runner
 ```
@@ -570,62 +557,77 @@ stateDiagram-v2
 - **风险**：恶意代码可调用 `fork` / `execve` / 写文件 / 联网。
 - **缓解**：因系统面向"算法训练 + 教学训练"，用户基本可信；管理员只允许内网访问。
 - **不做 seccomp 的理由**：增加复杂度与兼容性负担；MVP 优先级。
-- **未来**：若对外开放，需迁移到 Docker 或 nsjail。
+- **未来**：若对外开放，需迁移到 nsjail 或类似的强隔离沙箱。
 
 ---
 
 ## 9. 部署
 
-本节覆盖 Docker 与原生两种部署形态，两者数据层与代码层完全等价。**任选其一即可**。
+本项目采用**裸机原生部署**：Ubuntu/Debian 系统包（MySQL 8 + Nginx）+ 自编译 C++ 后端 + nginx 反代 `/api/*`。完整步骤见 [`docs/DEPLOY_NATIVE.md`](./docs/DEPLOY_NATIVE.md)。
 
-### 9.0 形态选择
+### 9.0 服务清单
 
-| 形态 | 适用 | 文档 |
-|---|---|---|
-| **Docker Compose**（默认推荐） | 一键拉起全套；适合 2GB 低内存宿主机 | `docs/DEPLOY_2GB.md` |
-| **裸机原生** | 已有 MySQL / 不想装 Docker / CI 用容器但 dev 用本机 | `docs/DEPLOY_NATIVE.md` |
+| 进程 | 角色 | 端口 | 启动方式 |
+|---|---|---|---|
+| `mysqld`（系统服务） | 数据库 | 3306（localhost） | `systemctl enable --now mysql` |
+| `minioj-backend`（自编译） | HTTP + 判题 | 8080 | `systemd` 或前台 `./build/minioj-backend` |
+| `nginx`（系统服务） | 静态文件 + `/api/*` 反代 | **80（唯一对外入口）** | `systemctl enable --now nginx` |
 
-### 9.1 Docker Compose 服务清单
-
-| 服务 | 镜像 | 宿主机端口 | 内部端口 | 说明 |
-|------|------|------|------|------|
-| `mysql` | `mysql:8.0` | 3306（仅内网） | 3306 | 持久化数据卷 |
-| `backend` | 本地构建 `minioj-backend` | **不对外暴露** | 8080（仅 docker 网络内） | C++ 二进制，仅 nginx 可达 |
-| `frontend` | `nginx:1.27-alpine` | **80** | 80 | **唯一对外入口**；反向代理 `/api/*` → backend:8080 + 静态文件 |
-| `seed` | 本地构建（一次性） | - | - | 首次启动初始化题库与管理员 |
-
-> ⚠️ **端口拓扑要点**：`backend` 在 `docker-compose.yml` 用 `expose: 8080`（而非 `ports: 8080`），所以**宿主机无法直连 8080**。所有访问（页面 + API）必须经 nginx (port 80)。详见 `docs/DEPLOY_2GB.md` 与 `web自动化测试文档.md §1.1`。
+> ⚠️ **端口拓扑要点**：浏览器只能访问 nginx 的 80 端口；后端 8080 与 MySQL 3306 仅监听 localhost。详见 `docs/DEPLOY_NATIVE.md §4 nginx 反代配置`。
 >
 > 部署到外网时，**只需放行 80 端口**（腾讯云安全组默认仅放 22/3389，需手动添加）。
 
-### 9.1.bis 原生部署服务清单
+### 9.1 启动流程
 
-| 进程 | 角色 | 端口 |
-|---|---|---|
-| `mysqld`（系统服务） | 数据库 | 3306（localhost） |
-| `minioj-backend`（自编译） | HTTP + 判题 | 8080 |
-| `nginx`（系统服务） | 静态文件 + `/api/*` 反代 | 80 |
-
-详见 `docs/DEPLOY_NATIVE.md`。
-
-### 9.2 启动流程
-
-#### 9.2.1 生产 / 远程部署
+#### 9.1.1 生产 / 远程部署
 
 ```bash
-docker compose up -d                      # 启动 mysql + backend + frontend
-docker compose --profile seed run --rm seed  # 首次：建表 + 灌种子题 + 创建 admin
+# 1. 装系统包（一次性）
+sudo apt-get install -y build-essential cmake ninja-build pkg-config \
+    g++ default-libmysqlclient-dev libjsoncpp-dev libssl-dev \
+    default-mysql-client nginx
+
+# 2. 配 MySQL（一次性）
+sudo systemctl enable --now mysql
+sudo mysql -uroot <<'SQL'
+CREATE DATABASE minioj DEFAULT CHARACTER SET utf8mb4;
+CREATE USER 'minioj'@'localhost' IDENTIFIED BY 'change_me';
+GRANT ALL ON minioj.* TO 'minioj'@'localhost';
+FLUSH PRIVILEGES;
+SQL
+
+# 3. 编译 + 灌 schema
+cmake -S backend -B backend/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build backend/build -j
+sudo mysql -uminioj -pchange_me minioj < backend/sql/schema.sql
+
+# 4. 灌种子题 + 创建 admin（密码随机写入 stdout）
+./backend/build/minioj-seed --reset
+
+# 5. 起后端（systemd / 前台 二选一，详见 docs/DEPLOY_NATIVE.md §3）
+HTTP_HOST=127.0.0.1 HTTP_PORT=8080 \
+DB_HOST=127.0.0.1 DB_PORT=3306 DB_NAME=minioj \
+DB_USER=minioj DB_PASSWORD=change_me \
+./backend/build/minioj-backend
+
+# 6. 配 nginx + 部署前端静态文件
+sudo cp frontend/nginx.conf /etc/nginx/sites-available/minioj
+sudo ln -sf /etc/nginx/sites-available/minioj /etc/nginx/sites-enabled/minioj
+sudo cp -r frontend/public /var/www/minioj
+sudo nginx -t && sudo systemctl reload nginx
+
 # 访问 http://<server_ip>
-# 管理员账号: admin / (启动时由 seed 生成的随机密码，输出到 seed 容器日志)
-docker compose logs seed | grep -i admin  # 查随机密码
+# 管理员账号: admin / (seed 阶段生成的随机密码，从 minioj-seed --reset 的 stdout 取)
 ```
 
-#### 9.2.2 自动化测试就绪态（推荐用于 CI / 接口自动化）
+#### 9.1.2 自动化测试就绪态（推荐用于 CI / 接口自动化）
 
 种子数据 + admin/admin123 + id=1 = A+B 问题 的确定性初始状态：
 
 ```bash
-docker compose exec backend /app/minioj-reset-for-tests
+# 单独跑 reset_for_tests 二进制（需从仓库根目录启动，让它能定位 backend/seed/problems.json）
+cd /path/to/minioj
+./backend/build/minioj-reset-for-tests
 # 输出末尾：
 #   problem bank: 5 problem(s), 16 testcase(s)
 #   done — database is in automation-ready state
@@ -637,31 +639,13 @@ docker compose exec backend /app/minioj-reset-for-tests
 > - `minioj-reset-for-tests`：admin 密码固定为 `admin123`，删除 `webtest_*` 临时用户
 >
 > 配套 `web自动化测试文档.md §18 conftest.py` 用作 CI session-scope fixture。
+>
+> 若 CWD 不在仓库根，可通过 `MINIOJ_SEED_JSON=/abs/path/backend/seed/problems.json` 显式指定。
 
-#### 9.2.3 2GB 内存宿主机（云服务器常见规格）
-
-宿主机层一次性配置，详见 `docs/DEPLOY_2GB.md`：
-
-```bash
-# 加 4GB swap（最关键）
-fallocate -l 4G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
-echo '/swapfile none swap sw 0 0' >> /etc/fstab
-sysctl -w vm.swappiness=10
-
-# 关无用服务
-systemctl disable --now snapd multipathd ModemManager systemd-resolved
-
-# Docker daemon 加日志轮转 + registry mirror
-# （详见 docs/DEPLOY_2GB.md §3）
-```
-
-预期：4 容器常驻 ≈ 700MB，编译期 -j1 峰值 ≈ 1GB，配合 swap 不再 OOM。
-
-### 9.3 目录结构
+### 9.2 目录结构
 
 ```
 minioj/
-├── docker-compose.yml              # 一键编排：mysql / backend / frontend / seed
 ├── README.md                       # 启动步骤、默认账号、注册流程
 ├── SPEC.md                         # 本文档
 ├── web自动化测试文档.md             # Playwright + pytest 接口 / UI 自动化测试（92 用例）
@@ -670,14 +654,13 @@ minioj/
 ├── api-curl-test.md                # curl 接口断言文档
 ├── dependence.md                   # 第三方依赖说明
 ├── docs/
-│   └── DEPLOY_2GB.md               # 2GB 内存宿主机部署指南（swap + sysctl + daemon.json）
+│   └── DEPLOY_NATIVE.md            # 裸机部署指南（apt 装依赖 + MySQL + nginx + systemd）
 ├── design-system/minioj/           # ui-ux-pro-max skill 持久化的设计令牌
 ├── .env.example                    # 环境变量样例（DB 密码、Session TTL 等）
 ├── .gitignore
 │
 ├── backend/                        # ─── C++17 后端（cpp-httplib）
 │   ├── CMakeLists.txt
-│   ├── Dockerfile                  # **多阶段**：build 阶段含 g++/cmake，runtime 阶段仅运行时库
 │   ├── third_party/
 │   │   ├── httplib.h               # cpp-httplib 单头
 │   │   └── *(已删除：bcrypt 改用 apt `libcrypt-dev`)*
@@ -728,7 +711,6 @@ minioj/
 │       └── ...（累计 ~110 例，详见 §10 测试项）
 │
 ├── frontend/                       # ─── 静态前端（Nginx）
-│   ├── Dockerfile                  # 基于 nginx:1.27-alpine，COPY public/
 │   └── nginx.conf                  # 反代 /api → backend:8080 + gzip + vendor 缓存
 └── public/
     ├── index.html              # 大屏落地页（Hero + Features + How it works + CTA Banner + Footer；刷题导向，v1.x 移除 Stats 与 Preview）
@@ -772,91 +754,22 @@ minioj/
 
 #### 9.4.1 依赖总览
 
-| 组件 | 用途 | 版本建议 | 必需 | 安装位置 |
-|------|------|----------|------|----------|
-| **Docker Engine** | 容器运行时 | ≥ 24.0 | 容器化路径必需 | 宿主机 |
-| **Docker Compose** | 一键编排 | v2（`docker compose`） | 容器化路径必需 | 宿主机 |
-| **MySQL 8.0** | 题库 / 用户 / Session 持久化 | 8.0.x | 容器内自带，裸机需装 | 容器 / 宿主机 |
-| **Nginx** | 托管前端 + 反代 `/api` | ≥ 1.22 (alpine) | 容器内自带 | 容器内 |
-| **g++** | 编译后端二进制 + 判题子进程 | ≥ 9（C++17 完整支持） | 后端必需 | 容器 / 宿主机 |
-| **CMake** | 后端构建 | ≥ 3.16 | 后端构建必需 | 容器 / 宿主机 |
-| **make / ninja** | 实际构建工具 | 系统默认即可 | 后端构建必需 | 容器 / 宿主机 |
-| **libmysqlclient-dev** | MySQL C API | 与服务端版本匹配 | 后端连库必需 | 容器 / 宿主机 |
-| **libjsoncpp-dev** | JSON 解析与序列化 | ≥ 1.9（pkg-config 提供 `jsoncpp`） | 后端 API 必需 | 容器 / 宿主机 |
-| **libssl-dev** | cpp-httplib HTTPS 可选 | OpenSSL ≥ 1.1 | 可选（HTTPS 部署时） | 宿主机 |
-| **bcrypt 实现** | 用户密码哈希 | apt `libcrypt-dev`（glibc `crypt(3)` 提供 bcrypt `$2b$`） | 注册/登录必需 | 后端系统依赖 |
-| **cpp-httplib** | HTTP 服务 | 最新单头 | 后端必需 | 后端 third_party（vendored） |
-| **marked.js** | 前端 Markdown 渲染 | ≥ 12 | 前端必需 | 前端 vendor |
-| **CodeMirror 6** | 代码编辑器 | ≥ 6.x | 前端必需 | 前端 vendor |
+| 组件 | 用途 | 版本建议 | 安装位置 |
+|------|------|----------|----------|
+| **MySQL 8.0** | 题库 / 用户 / Session 持久化 | 8.0.x | 宿主机系统包 |
+| **Nginx** | 托管前端 + 反代 `/api` | ≥ 1.18 | 宿主机系统包 |
+| **g++** | 编译后端二进制 + 判题子进程 | ≥ 9（C++17 完整支持） | 宿主机系统包 |
+| **CMake** | 后端构建 | ≥ 3.16 | 宿主机系统包 |
+| **make / ninja** | 实际构建工具 | 系统默认即可 | 宿主机系统包 |
+| **libmysqlclient-dev** | MySQL C API | 与服务端版本匹配 | 宿主机系统包 |
+| **libjsoncpp-dev** | JSON 解析与序列化 | ≥ 1.9（pkg-config 提供 `jsoncpp`） | 宿主机系统包 |
+| **libssl-dev** | cpp-httplib HTTPS 可选 | OpenSSL ≥ 1.1 | 宿主机系统包 |
+| **libcrypt-dev** | 用户密码哈希（bcrypt $2b$） | 系统 glibc `crypt(3)` | 宿主机系统包 |
+| **cpp-httplib** | HTTP 服务 | 最新单头 | 后端 third_party（vendored） |
+| **marked.js** | 前端 Markdown 渲染 | ≥ 12 | 前端 vendor |
+| **CodeMirror 6** | 代码编辑器 | ≥ 6.x | 前端 vendor |
 
-> 标"容器内自带"表示 `docker compose up -d` 自动从镜像拉取，宿主机无需安装。
-
-#### 9.4.2 容器化路径（推荐，Ubuntu 优先 apt）
-
-宿主机**仅需** Docker + Compose，其余工具链全部在 `backend/Dockerfile` 与官方镜像内构建。
-
-> **优先策略**：默认走 **Ubuntu 官方 APT 源里的 `docker.io` 包**，避免访问 `download.docker.com`（代理不稳定时该外网源常断）。如必须使用 Docker 官方较新版，再切到 § 9.4.7 的镜像源。
-
-##### 后端镜像结构（多阶段 + 低内存优化）
-
-`backend/Dockerfile` 采用**两阶段构建**，runtime 镜像不含编译器，体积从 ~600MB 降至 **~90MB**：
-
-- **build 阶段**：`ubuntu:24.04` + `build-essential / cmake / ninja-build / pkg-config / default-libmysqlclient-dev / libjsoncpp-dev / libcrypt-dev` → `ninja -j1 -Os` → `strip`
-  - `-Os` 替代 `-O2`：二进制体积更小、运行期常驻更低
-  - `-j1`：在 2GB 宿主上编译并发硬限为 1，避免 ninja 默认按核数并行触发 OOM
-- **runtime 阶段**：仅运行时库（dev 包自动拉对应 lib），去掉 `/usr/include` / `/usr/share/{man,doc}` 等冗余文件
-
-##### 编排层内存约束（`docker-compose.yml`）
-
-- **MySQL**：`performance_schema=OFF`（直接砍 ~200MB）、`innodb-buffer-pool-size=128M`、容器 `mem_limit: 512m`
-- **backend**：`mem_limit: 192m` + `oom_score_adj: 100`（OOM 时优先牺牲 backend 保数据）
-- **frontend**（nginx:alpine）：`mem_limit: 32m`
-- **tmpfs** 给 backend `/tmp` / `/var/tmp`（判题 / 编译临时文件不进容器层）
-- **统一日志上限**：所有服务 `logging: json-file max-size:10m max-file:3`，防止日志撑爆磁盘
-
-**预期**：4 服务常驻合计 **~700MB**；剩余 1.3GB 给编译（-j1 峰值 ~1GB）和日常 shell。配合 `docs/DEPLOY_2GB.md` 加的 4GB swap 后基本不会 OOM。
-
-**方式 A：Ubuntu 官方 apt 源（推荐，几乎零外网）**
-
-```bash
-sudo apt-get update
-sudo apt-get install -y docker.io docker-compose-v2   # Ubuntu 22.04+ 包名
-# Ubuntu 20.04：sudo apt-get install -y docker.io docker-compose
-sudo usermod -aG docker $USER                         # 重新登录后免 sudo
-newgrp docker
-
-# 验证
-docker --version                # 20.10.x 起步，足以本项目使用
-docker compose version          # v2.x
-```
-
-**方式 B：Docker 官方源（如确需较新版本，请走 § 9.4.7 的镜像源，避免直接访问官方域名）**
-
-```bash
-sudo apt-get install -y ca-certificates curl gnupg
-sudo install -m 0755 -d /etc/apt/keyrings
-# ↓↓↓ 此处替换为 § 9.4.7 的镜像源域名 ↓↓↓
-curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu/gpg \
-  | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-  https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
-  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-```
-
-启动项目（一条命令搞定）：
-
-```bash
-docker compose up -d            # 拉镜像、构建后端、起 mysql + backend + frontend
-docker compose run --rm seed    # 首次：建表 + 灌种子题 + 创建 admin
-```
-
-#### 9.4.3 裸机 / 开发机路径（不通过 Docker）
-
-##### Ubuntu / Debian（apt 一行装齐）
+#### 9.4.2 Ubuntu / Debian 一行装齐（推荐）
 
 > 所有包均在 Ubuntu 官方源可达，**无需第三方 PPA**。Ubuntu 22.04+ 包名使用 `default-libmysqlclient-dev`。
 
@@ -865,13 +778,13 @@ sudo apt-get update
 sudo apt-get install -y \
     build-essential cmake ninja-build pkg-config \
     g++ \
-    default-libmysqlclient-dev libjsoncpp-dev libssl-dev \
+    default-libmysqlclient-dev libjsoncpp-dev libssl-dev libcrypt-dev \
     default-mysql-client \
     nginx
 # Ubuntu 20.04：把 default-libmysqlclient-dev / default-mysql-client 换成 libmysqlclient-dev / mysql-client
 ```
 
-##### RHEL / CentOS / Fedora
+#### 9.4.3 RHEL / CentOS / Fedora
 
 ```bash
 # RHEL 9 / Fedora
@@ -888,19 +801,19 @@ sudo yum install -y gcc-c++ cmake3 jsoncpp-devel mariadb-devel openssl-devel ngi
 sudo alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 30
 ```
 
-##### macOS（Homebrew + Apple Silicon，仅供本机开发参考）
+#### 9.4.4 macOS（Homebrew + Apple Silicon，仅供本机开发参考）
 
 ```bash
 brew install cmake ninja pkg-config mysql-client openssl nginx jsoncpp
 brew install mysql && brew services start mysql
 ```
 
-#### 9.4.4 后端 C++ 第三方库
+#### 9.4.5 后端 C++ 第三方库
 
 后端 C++ 依赖采用「**Vendored 单头 + 系统 pkg-config**」混合策略：
 
 - 单头库（`cpp-httplib`）随仓库 `third_party/` 交付，零网络依赖；bcrypt 改由 apt `libcrypt-dev` 提供
-- JSON 解析使用 **jsoncpp**，通过系统包提供，由 CMake 的 `pkg_check_modules(JSONCPP REQUIRED ...)` 链接（详见 §9.4.1 / §9.4.3 中 `libjsoncpp-dev` / `jsoncpp-devel` 安装方式）
+- JSON 解析使用 **jsoncpp**，通过系统包提供，由 CMake 的 `pkg_check_modules(JSONCPP REQUIRED ...)` 链接（详见 §9.4.2 / §9.4.3 中 `libjsoncpp-dev` / `jsoncpp-devel` 安装方式）
 
 **(a) Vendored 单头（默认，零网络）**
 
@@ -930,7 +843,7 @@ git clone https://github.com/microsoft/vcpkg ~/vcpkg
 ~/vcpkg/bootstrap-vcpkg.sh
 echo 'export VCPKG_ROOT=$HOME/vcpkg' >> ~/.bashrc
 
-# 仅当希望通过 vcpkg 提供 jsoncpp / libmysqlclient 时安装，否则继续用 §9.4.3 的系统包
+# 仅当希望通过 vcpkg 提供 jsoncpp / libmysqlclient 时安装，否则继续用 §9.4.2 的系统包
 ~/vcpkg/vcpkg install jsoncpp libmysqlclient
 
 cmake -S backend -B backend/build \
@@ -939,7 +852,7 @@ cmake -S backend -B backend/build \
 cmake --build backend/build -j
 ```
 
-#### 9.4.5 前端第三方库（**默认 vendored，零网络**）
+#### 9.4.6 前端第三方库（**默认 vendored，零网络**）
 
 > `frontend/public/vendor/` 目录随仓库一起交付，clone 后即可离线使用，不依赖任何 CDN。**正常情况下不需要执行下面任何命令**。
 
@@ -963,7 +876,7 @@ for t in *.tgz; do tar -xf "$t" && mv package/* . && rm -rf package; rm "$t"; do
 <script type="module" src="/vendor/codemirror/editor.js"></script>
 ```
 
-#### 9.4.6 验证安装
+#### 9.4.7 验证安装
 
 ```bash
 # 后端工具链
@@ -971,21 +884,21 @@ g++ --version          # 期望 ≥ 9
 cmake --version        # 期望 ≥ 3.16
 mysql --version        # 客户端可用
 
-# 数据库连通（容器化路径下，等 mysql 就绪后）
-docker compose exec mysql mysqladmin ping -h localhost -uroot -p"$MYSQL_ROOT_PASSWORD"
+# 数据库连通（裸机路径下）
+mysqladmin ping -h localhost -uminioj -p"$DB_PASSWORD"
 
 # 一键冒烟（完整启动后）
-curl -fsSL http://localhost/                  # 应返回落地页 HTML（v1.1 起）
+curl -fsSL http://localhost/                  # 应返回落地页 HTML
 curl -fsSL http://localhost/problems.html     # 应返回题单页 HTML
-curl -fsSL http://localhost/problem.html?id=1 # 应返回题目详情页 HTML（v1.1 起）
+curl -fsSL http://localhost/problem.html?id=1 # 应返回题目详情页 HTML
 curl -fsSL http://localhost/api/problems | jq # 应返回 JSON 数组
 ```
 
-#### 9.4.7 国内 / 镜像源替换（Ubuntu + Docker）
+#### 9.4.8 国内 / 镜像源替换（Ubuntu APT）
 
 > 当代理不稳定或默认源被墙时，切换到国内镜像。所有操作都在 Ubuntu 官方源的可达范围内完成。
 
-**(a) Ubuntu APT 源 → 清华源**
+**Ubuntu APT 源 → 清华源**
 
 ```bash
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
@@ -997,60 +910,19 @@ sudo apt-get update
 
 也可用中科大 `mirrors.ustc.edu.cn/ubuntu` 或阿里云 `mirrors.aliyun.com/ubuntu`。
 
-**(b) Docker 镜像源（用于 `docker pull` 加速）**
-
-新建/编辑 `/etc/docker/daemon.json`：
-
-```json
-{
-  "registry-mirrors": [
-    "https://docker.mirrors.tuna.tsinghua.edu.cn",
-    "https://hub-mirror.c.163.com",
-    "https://mirror.baidubce.com"
-  ]
-}
-```
-
-```bash
-sudo systemctl restart docker
-docker info | grep -A1 "Registry Mirrors"   # 确认生效
-```
-
-**(c) MySQL 镜像拉取（如使用自建 MySQL 容器而非官方）**
-
-`docker-compose.yml` 中镜像改写为：
-
-```yaml
-mysql:
-  image: mysql:8.0
-  # 若 docker.io 拉取慢，可在 daemon.json 里加 mirrors 后重试
-```
-
-#### 9.4.8 代理不稳定的兜底策略
+#### 9.4.9 代理不稳定的兜底策略
 
 | 场景 | 现象 | 兜底方案 |
 |------|------|----------|
-| `apt-get update` 超时 | 默认源被墙 / 慢 | § 9.4.7(a) 切清华源 |
-| `download.docker.com` 不可达 | Docker 官方源失败 | § 9.4.2 方式 A（apt 装 `docker.io`）或 § 9.4.7(b) 用清华 Docker 镜像 |
-| `docker pull mysql:8.0` 拉镜像慢 | 跨国网络差 | § 9.4.7(b) 配 `registry-mirrors` |
-| `curl github.com` 失败 | 无法 `git clone` vcpkg / 下 httplib | § 9.4.4(a) 直接用 vendored，零网络 |
-| `npm pack codemirror` 失败 | 前端 vendor 缺失 | § 9.4.5 已默认随仓库交付，**无需执行该命令** |
-| 仅 HTTP 代理可用，无科学上网 | 多数外网断 | 给 `apt` / `docker` / `curl` / `git` 设 `http_proxy` / `https_proxy` 环境变量；或仅使用 `mirrors.tuna.tsinghua.edu.cn` 域内资源 |
-| 完全离线 | 无任何外网 | 提前在有网机器 `apt-get download` + `docker save` 打包，复制到目标机 `dpkg -i` / `docker load` |
+| `apt-get update` 超时 | 默认源被墙 / 慢 | § 9.4.8 切清华源 |
+| `curl github.com` 失败 | 无法 `git clone` vcpkg / 下 httplib | § 9.4.5(a) 直接用 vendored，零网络 |
+| `npm pack codemirror` 失败 | 前端 vendor 缺失 | § 9.4.6 已默认随仓库交付，**无需执行该命令** |
+| 仅 HTTP 代理可用，无科学上网 | 多数外网断 | 给 `apt` / `curl` / `git` 设 `http_proxy` / `https_proxy` 环境变量；或仅使用 `mirrors.tuna.tsinghua.edu.cn` 域内资源 |
+| 完全离线 | 无任何外网 | 提前在有网机器 `apt-get download` 打包，复制到目标机 `dpkg -i` |
 
-**给 apt / docker 配置 HTTP 代理（一次性）**
+**给 apt 配置 HTTP 代理（一次性）**
 
 ```bash
-sudo mkdir -p /etc/systemd/system/docker.service.d
-sudo tee /etc/systemd/system/docker.service.d/proxy.conf <<'EOF'
-[Service]
-Environment="HTTP_PROXY=http://your-proxy:port"
-Environment="HTTPS_PROXY=http://your-proxy:port"
-Environment="NO_PROXY=localhost,127.0.0.1"
-EOF
-sudo systemctl daemon-reload && sudo systemctl restart docker
-
-# apt 代理（apt 本身不走环境变量，需写配置）
 sudo tee /etc/apt/apt.conf.d/95proxy <<'EOF'
 Acquire::http::Proxy  "http://your-proxy:port";
 Acquire::https::Proxy "http://your-proxy:port";
@@ -1066,7 +938,7 @@ EOF
 > 全部勾选项的代码 + E2E 验收口径见 §11。
 
 ### Phase 0：脚手架
-- [x] 仓库结构 / README / `docker-compose.yml` / `CMakeLists.txt` + cpp-httplib
+- [x] 仓库结构 / README / `CMakeLists.txt` + cpp-httplib
 - [x] 后端：配置 / 日志 / MySQL 连接池
 - [x] 前端：静态页骨架（首页 + 题目页占位）
 - [x] **MySQL DDL**（1NF）：`problems` / `testcases` / `tags` / `problem_tags` / `users` / `sessions`，含索引与外键级联
@@ -1096,7 +968,7 @@ EOF
 - [x] 前端：后台管理页（题库表格 + 二次确认）+ 题目编辑页（CRUD 表单）
 
 ### Phase 6：打磨与部署
-- [x] Dockerfile（前后端）+ `docker-compose.yml`
+- [x] `frontend/nginx.conf` 落地（反代 /api → backend:8080 + gzip + vendor 缓存）
 - [x] `backend/scripts/seed.cpp`（JSON 灌库 + admin 随机密码 + `--reset` 支持）
 - [x] README 一键启动 + `api-smoke.sh` 端到端 + `api-curl-test.md` 完整断言
 
@@ -1120,20 +992,14 @@ EOF
 
 ### Phase 7：低内存部署适配（云服务器 2GB 内存规格）
 
-> **触发场景**：开发/部署在 2GB 内存云服务器上时，`docker compose up -d` 后立即开发会被 OOM killer 强断；编译 backend 时也会触发。
+> **触发场景**：开发/部署在 2GB 内存云服务器上时，编译 backend 时会被 OOM killer 强断；MySQL 默认 `innodb-buffer-pool-size` 也会吃满内存。
 
-- [x] `backend/Dockerfile` 多阶段构建：build 阶段含 g++/cmake，runtime 阶段仅运行时库（镜像 600MB → 90MB）
 - [x] backend 编译参数：`-Os`（替代 `-O2`）+ `ninja -j1`（2GB 机器硬限单线程）+ `strip` 二进制
-- [x] `docker-compose.yml` MySQL 调优：`performance_schema=OFF`（砍 ~200MB）、`innodb-buffer-pool-size=128M`、`max-connections=16`、关 `log_bin`
-- [x] `docker-compose.yml` 4 服务全部加 `mem_limit`：mysql 512m / backend 192m / frontend 32m / seed 128m
-- [x] `docker-compose.yml` backend 加 `tmpfs /tmp:64m` + `oom_score_adj: 100`（OOM 优先杀 backend 保题库数据）
-- [x] `docker-compose.yml` 统一日志上限 `max-size:10m max-file:3`
-- [x] `frontend/Dockerfile` + `frontend/nginx.conf` 落地：nginx:1.27-alpine 反代 `/api/*` → backend:8080 + gzip + vendor 缓存
-- [x] `docs/DEPLOY_2GB.md` 宿主机层指南：4GB swap + `vm.swappiness=10` + docker daemon 日志轮转 + 关闭无用服务（snapd/multipathd/ModemManager 等）
+- [x] MySQL 调优配置（推荐写到 `/etc/mysql/mysql.conf.d/minioj.cnf`）：`performance_schema=OFF`（直接砍 ~200MB）、`innodb-buffer-pool-size=128M`、`max-connections=16`、关 `log_bin`
 - [x] `scripts/reset_for_tests.cpp` 自动化测试就绪态工具：清库 + 复位 id=1=A+B + 强制 admin/admin123 + 清 `webtest_*` 用户
 - [x] `web自动化测试文档.md` §2.3 幂等性约束：`<ts>` → `<uuid8>` + session-scope reset + 用例级 cleanup fixtures
 
-**验证**：4 容器常驻 ~700MB；编译期峰值 ~1.2GB（-j1）；swap 4GB 后开发全程不再 OOM。
+**验证**：MySQL ~134MB + backend ~10MB + nginx ~3MB 常驻合计 ~150MB；编译期峰值 ~1.2GB（-j1）；4GB swap 后开发全程不再 OOM。
 
 ---
 
@@ -1166,7 +1032,7 @@ EOF
 ### 11.2 非功能验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | 8 个并发提交全部正常返回，无僵尸进程 | [x]（`test_worker_pool` 9 例） | [x]（docker 路径下 `minioj-reset-for-tests` 跑通；并发提交由 `test_worker_pool` 覆盖） |
+| 1 | 8 个并发提交全部正常返回，无僵尸进程 | [x]（`test_worker_pool` 9 例） | [x]（裸机路径下 `minioj-reset-for-tests` 跑通；并发提交由 `test_worker_pool` 覆盖） |
 | 2 | MySQL 连接池稳定，无泄漏 | [x]（`db/pool` RAII + `mysql_free_result` 配对） | [x]（reset_for_tests 多次跑后连接数稳定；`SHOW PROCESSLIST` 正常回落） |
 | 3 | 前端首屏 ≤ 1s（本地） | [x]（vendor/ 本地化，HTML+CSS 单次加载无 JS 阻塞） | [x]（mock :8080 测得落地页 200 + ~13KB HTML） |
 | 4 | 判题同步响应 ≤ 2s（单用例） | [x]（500ms/用例 + 编译 3s 实测） | [x] |
@@ -1174,9 +1040,9 @@ EOF
 ### 11.3 部署验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | `docker compose up -d` 一键启动成功 | [x]（多阶段 backend + frontend nginx + mysql 调优 + mem_limit） | [x]（2026-07 在 2GB 主机上：mysql 134M / backend 8.7M / frontend 3.2M，4 容器常驻 ~700M） |
+| 1 | 裸机一键拉起 mysql + backend + nginx | [x]（`docs/DEPLOY_NATIVE.md`） | [x]（2026-07 在 2GB 主机上：mysql 134M / backend 8.7M / frontend 3.2M） |
 | 2 | README 含完整启动步骤与默认账号 | [x] | [x]（本仓库 README 更新） |
-| 3 | `docker compose down -v` 后重新启动可恢复初始状态 | [x]（`minioj-reset-for-tests` 替代 seed `--reset`，固定 admin/admin123 + 复位 id=1） | [x]（已验证：删容器后 `docker compose up -d` + `reset-for-tests` → 5 题 / 16 用例 / admin/admin123 可登录） |
+| 3 | 清库后能恢复到 seed 初始状态 | [x]（`minioj-reset-for-tests` 替代 seed `--reset`，固定 admin/admin123 + 复位 id=1） | [x]（已验证：reset_for_tests → 5 题 / 16 用例 / admin/admin123 可登录） |
 
 ---
 
@@ -1184,13 +1050,13 @@ EOF
 
 | 决策 | 替代方案 | 风险 | 取舍理由 |
 |------|----------|------|----------|
-| 本机 fork+exec | Docker / nsjail | 恶意代码可访问本机 | 用户为可信场景（教学 + 展示） |
+| 本机 fork+exec | nsjail | 恶意代码可访问本机 | 用户为可信场景（教学 + 展示） |
 | 仅 C/C++ | 多语言 | 用户群体受限 | 求职主场景 + 简化构建 |
 | 仅 rlimit | seccomp / chroot | 沙箱强度弱 | MVP 优先控制复杂度 |
 | 提交不持久化 | 存数据库 | 无法回看历史 | 简化数据模型，降低成本 |
 | 注册可选（浏览/提交免登录） | 强制登录 | 注册流程流失潜在用户 | 教学场景降低摩擦；注册仅展示登录态、不持久化提交 |
 | MySQL | SQLite | 部署需额外服务 | 用户指定 |
-| Docker Compose | k8s / systemd | 扩展性差 | 1-40 人无需 |
+| 裸机原生 | k8s | 扩展性差 | 1-40 人无需 |
 
 ---
 

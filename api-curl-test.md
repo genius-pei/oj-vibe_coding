@@ -23,26 +23,38 @@
 
 ### 启动后端
 
-#### 方式 A：Docker Compose（推荐，SPEC §9.2）
+#### 裸机原生（SPEC §9.1 / `docs/DEPLOY_NATIVE.md`）
 
 ```bash
-docker compose up -d                  # 起 mysql + backend + frontend
-docker compose run --rm seed          # 首次：建表 + 灌种子题 + 创建 admin
-# 访问 http://localhost                # 前端 80 → backend 8080
+# 1. 装依赖（apt）
+sudo apt-get install -y build-essential cmake ninja-build pkg-config \
+    g++ default-libmysqlclient-dev libjsoncpp-dev libssl-dev libcrypt-dev \
+    default-mysql-client nginx
+
+# 2. 配 MySQL（一次性，见 docs/DEPLOY_NATIVE.md §2）
+sudo systemctl enable --now mysql
+sudo mysql -uroot <<'SQL'
+CREATE DATABASE minioj DEFAULT CHARACTER SET utf8mb4;
+CREATE USER 'minioj'@'localhost' IDENTIFIED BY 'change_me';
+GRANT ALL ON minioj.* TO 'minioj'@'localhost';
+FLUSH PRIVILEGES;
+SQL
+
+# 3. 编译 + 灌 schema + 灌种子题
+cmake -S backend -B backend/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build backend/build -j
+sudo mysql -uminioj -pchange_me minioj < backend/sql/schema.sql
+./backend/build/minioj-seed --reset
+
+# 4. 起后端（前台 / systemd 二选一）
+DB_HOST=127.0.0.1 DB_PORT=3306 DB_NAME=minioj \
+DB_USER=minioj DB_PASSWORD=change_me \
+HTTP_HOST=127.0.0.1 HTTP_PORT=8080 \
+./backend/build/minioj-backend
 ```
 
-> 容器化路径下，后端运行在 `backend:8080` 容器内，Nginx 反代 `/api/*` 到该端口。本机 `curl` 时仍可用 `http://localhost:8080/api` 直接打后端（绕过前端反代，便于测试）。
-
-#### 方式 B：裸机 / 本地开发（SPEC §9.4.3）
-
-```bash
-cd backend
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j
-./build/minioj-backend                # 监听 0.0.0.0:8080
-```
-
-> 启动后会从环境变量（或 `backend/.env`）读 MySQL 连接信息，MySQL 不可达则启动失败。
+> 启动后会从环境变量读 MySQL 连接信息，MySQL 不可达则启动失败。
+> 若用 nginx 反代（推荐部署形态），本机 `curl` 仍可直接打 `http://localhost:8080/api` 绕过反代。
 
 ### 创建 Cookie 文件目录
 
@@ -424,7 +436,6 @@ curl -sS -X POST "$BASE_URL/admin/reset" -b "$COOKIE_ADMIN"
 ```
 
 > 若想用本地 JSON 而非默认 `backend/seed/problems.json`，可设环境变量 `MINIOJ_SEED_JSON`。
-> 等价的容器化做法：`docker compose --profile seed run --rm seed --reset`。
 
 ---
 

@@ -11,8 +11,8 @@
 
 | 项目 | 配置 |
 |------|------|
-| **目标服务器** | `http://122.51.84.172:80`（nginx 入口，对应 SPEC §9.1 的 frontend 服务） |
-| **后端直连** | `http://122.51.84.172:8080`（**仅 docker 网络内部可达**；测试不直连，统一走 nginx） |
+| **目标服务器** | `http://122.51.84.172:80`（nginx 入口，对应 SPEC §9.0 部署的服务清单） |
+| **后端直连** | `http://122.51.84.172:8080`（**仅本机 127.0.0.1 / 宿主机内网可达**；测试不直连，统一走 nginx） |
 | **管理员账号** | `admin` / `admin123` |
 | **测试浏览器** | Chromium（headless 可选）、Chrome ≥ 110、Firefox ≥ 110 |
 | **推荐框架** | **Playwright**（自带等待、Cookie 隔离、截图）；备选 Selenium 4 + pytest |
@@ -22,15 +22,15 @@
 
 ### 1.1 BaseURL 与路径约定
 
-**端口拓扑（按 SPEC §9.1 / `docker-compose.yml`）**：
+**端口拓扑（按 SPEC §9.0 服务清单 — 裸机原生部署）**：
 
-| 服务 | 宿主机端口 | 用途 |
+| 进程 | 宿主机端口 | 用途 |
 |---|---|---|
-| `frontend` (nginx:alpine) | **80** | 反向代理 + 静态文件服务（所有页面 + `/api/*` 反代到 backend） |
-| `backend` (C++ httplib) | 8080 | **仅 docker 网络内部**，`docker-compose.yml` 用的是 `expose:` 而非 `ports:`，宿主机**无法直连** |
-| `mysql` | 3306 | 仅 docker 网络内部 |
+| `nginx`（系统服务） | **80** | 反向代理 + 静态文件服务（所有页面 + `/api/*` 反代到 backend） |
+| `minioj-backend`（自编译） | 8080 | 仅监听 127.0.0.1，外部不可直连 |
+| `mysqld`（系统服务） | 3306 | 仅监听 127.0.0.1，外部不可直连 |
 
-> ⚠️ **必须走 nginx (port 80) 而非 backend (port 8080)**。`docker-compose.yml` 把 backend 端口用 `expose`（仅 docker 网络可见），宿主机 + 浏览器 + 测试客户端都访问不到 8080。所有路径（页面 + API）通过 nginx 80 端口暴露。
+> ⚠️ **必须走 nginx (port 80) 而非 backend (port 8080)**。backend 与 mysql 都只绑 127.0.0.1（不在外网网卡监听），浏览器 + 测试客户端均无法直连 8080/3306。所有路径（页面 + API）通过 nginx 80 端口暴露。
 
 实际访问路径：
 

@@ -1,7 +1,6 @@
-# MiniOJ — 原生部署指南（无 Docker）
+# MiniOJ — 原生部署指南
 
-> 适用：Ubuntu 22.04+ / Debian 12+。本指南覆盖本地开发与单机部署，**不依赖 Docker / docker-compose**。
-> Docker 用户请参阅 `DEPLOY_2GB.md`。
+> 适用：Ubuntu 22.04+ / Debian 12+。本指南覆盖本地开发与单机部署，**走系统包 + 自编译后端 + nginx 反代**，无需任何容器运行时。
 
 ---
 
@@ -185,21 +184,7 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ---
 
-## 8. 与 Docker 部署的差异
-
-| 项 | Docker | 原生 |
-|---|---|---|
-| MySQL | `mysql:8.0` 容器 + 健康检查 | 系统 mysql-server + systemd |
-| 后端隔离 | docker-compose `mem_limit` | cgroup / systemd `MemoryMax=`（可选） |
-| 日志 | json-file driver + max-size 10m | rsyslog / journald 接管 |
-| 临时目录 | tmpfs `/tmp:size=64m` | 默认 `/tmp`（通常够用） |
-| 信号处理 | docker stop → SIGTERM（已修） | systemd stop → SIGTERM（同样优雅） |
-| 升级 / 回滚 | `docker compose pull` | git pull + 重编译 + restart |
-| 资源占用 | 多 ~50MB 容器开销 | 少 ~50MB |
-
----
-
-## 9. 故障排查
+## 8. 故障排查
 
 | 症状 | 排查 |
 |---|---|

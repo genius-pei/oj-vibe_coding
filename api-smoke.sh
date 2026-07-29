@@ -133,8 +133,8 @@ code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST "$BASE_URL/admin/problems
 assert_status 403 "$code" "POST /admin/problems (普通用户 -> 403)"
 
 # 尝试 admin 登录——admin 必须存在才能继续
-# 这一步假定 docker compose --profile seed run --rm seed 已执行，
-# admin 密码由 seed 进程输出到日志；若日志未捕获，本测试段会跳过。
+# 这一步假定 ./backend/build/minioj-seed --reset 已执行（或 minioj-reset-for-tests 跑过），
+# admin 密码由 seed 进程输出到 stdout；若未捕获，本测试段会跳过。
 if [[ -z "${ADMIN_USERNAME:-}" || -z "${ADMIN_PASSWORD:-}" ]]; then
     yellow "[WARN] ADMIN_USERNAME/ADMIN_PASSWORD 未设置，跳过 admin 鉴权 / 重置段。"
     yellow "       启用方法：在 seed 容器日志中取随机密码，然后在调用此脚本前 export。"

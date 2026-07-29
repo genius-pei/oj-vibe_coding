@@ -7,83 +7,59 @@
 
 ## 一键启动
 
-### 方式 A：Docker Compose（推荐）
+> 推荐路径：**裸机原生部署**（Ubuntu 22.04+ / Debian）。完整步骤见 [docs/DEPLOY_NATIVE.md](./docs/DEPLOY_NATIVE.md) 与 [SPEC §9.4](./SPEC.md#94-依赖与安装指令)。
 
 ```bash
-# 1. 准备环境变量（首次）
-cp .env.example .env
-# 按需修改 .env：MYSQL_ROOT_PASSWORD / DB_PASSWORD 等
-
-# 2. 启动 mysql + backend + frontend
-docker compose up -d
-
-# 3. 首次启动：初始化题库与管理员账号（admin 密码会打到日志）
-docker compose --profile seed run --rm seed
-docker compose --profile seed logs seed | tail -3
-# 看到形如：
-#   ADMIN_USERNAME=admin
-#   ADMIN_PASSWORD=XXXXXXXX
-# 即成功
-```
-
-访问 <http://localhost>：
-
-- 首页 / 题单 / 注册 / 登录 / 提交代码：对所有用户开放
-- 后台管理 <http://localhost/admin>：账号 `admin` + seed 阶段生成的随机密码
-
-容器化路径下，后端实际在 `backend:8080`，Nginx 反代 `/api/*` 到该端口。
-调试可以直接打后端绕开反代：`curl http://localhost:8080/api/problems`（以 `docker-compose.yml` 暴露端口为准）。
-
-### 重置与销毁
-
-```bash
-# 清空所有数据回到初始状态
-docker compose down -v
-docker compose up -d
-docker compose --profile seed run --rm seed
-```
-
-只重置题库（保留 user/session）：
-
-```bash
-# 走 API：
-curl -X POST http://localhost/api/admin/reset -b /tmp/admin-cookie.txt
-# 走 seed 进程：
-docker compose --profile seed run --rm seed --reset
-```
-
----
-
-## 方式 B：裸机 / 本地开发
-
-> 详细依赖与镜像源见 [SPEC §9.4](./SPEC.md#94-依赖与安装指令)。
-
-```bash
-# Ubuntu 22.04+ 一行装齐（apt 路径）
+# 1. 一行装齐依赖（apt 路径）
 sudo apt-get install -y build-essential cmake ninja-build pkg-config \
     g++ default-libmysqlclient-dev libjsoncpp-dev libssl-dev \
-    default-mysql-client
+    default-mysql-client nginx
 
-# 后端构建
+# 2. 准备 MySQL（系统服务）
+sudo systemctl enable --now mysql
+sudo mysql -uroot <<'SQL'
+CREATE DATABASE minioj DEFAULT CHARACTER SET utf8mb4;
+CREATE USER 'minioj'@'localhost' IDENTIFIED BY 'change_me';
+GRANT ALL ON minioj.* TO 'minioj'@'localhost';
+FLUSH PRIVILEGES;
+SQL
+
+# 3. 后端构建
 cmake -S backend -B backend/build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build backend/build -j
 
-# 跑单元 / 集成测试（需要 MySQL：DB_HOST/PORT/NAME/USER/PASSWORD 环境变量）
-export DB_HOST=127.0.0.1 DB_PORT=3306 DB_NAME=minioj \
-       DB_USER=minioj DB_PASSWORD=your_pw
-cd backend/build && ctest -j4 --output-on-failure
+# 4. 跑 schema（一次性）
+sudo mysql -uminioj -pchange_me minioj < backend/sql/schema.sql
 
-# 启动后端
-HTTP_HOST=127.0.0.1 HTTP_PORT=8080 ./backend/build/minioj-backend
-
-# 首次 / 重置题库 + 创建 admin（密码随机写入 stdout）
-cd /path/to/minioj          # seed 进程从这里取 backend/seed/problems.json
+# 5. 灌种子题 + 创建 admin（密码随机写入 stdout）
 ./backend/build/minioj-seed --reset
-# 或者用一个固定密码：
-./backend/build/minioj-seed --reset --admin-password=Passw0rd!
+
+# 6. 起后端（前台 / systemd 二选一）
+HTTP_HOST=127.0.0.1 HTTP_PORT=8080 \
+DB_HOST=127.0.0.1 DB_PORT=3306 DB_NAME=minioj \
+DB_USER=minioj DB_PASSWORD=change_me \
+./backend/build/minioj-backend
+
+# 7. 配 nginx（反代 /api + 静态文件），见 docs/DEPLOY_NATIVE.md §4
+sudo cp frontend/nginx.conf /etc/nginx/sites-available/minioj
+sudo ln -sf /etc/nginx/sites-available/minioj /etc/nginx/sites-enabled/minioj
+sudo cp -r frontend/public /var/www/minioj
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
-> seed 进程若 CWD 不在仓库根，可通过 `MINIOJ_SEED_JSON=/abs/path/backend/seed/problems.json` 显式指定。
+访问 <http://localhost>：
+- 首页 / 题单 / 注册 / 登录 / 提交代码：对所有用户开放
+- 后台管理 <http://localhost/admin>：账号 `admin` + seed 阶段生成的随机密码
+
+### 重置
+
+```bash
+# 只重置题库 + admin（保留 user / session）
+./backend/build/minioj-seed --reset
+
+# 或走 API
+curl -X POST http://localhost/api/admin/reset -b /tmp/admin-cookie.txt
+```
 
 ---
 
@@ -110,11 +86,11 @@ ADMIN_USERNAME=admin ADMIN_PASSWORD=<from seed log> \
 ├── API.md                  # 后端接口文档
 ├── api-curl-test.md        # curl 接口自动化测试文档
 ├── api-smoke.sh            # 一键冒烟脚本
-├── docker-compose.yml      # 一键编排：mysql / backend / frontend / seed
 ├── .env.example            # 环境变量样例
+├── docs/
+│   └── DEPLOY_NATIVE.md    # 裸机部署指南（系统 MySQL + nginx + 后端 systemd）
 ├── backend/                # C++17 后端（cpp-httplib + MySQL + jsoncpp）
 │   ├── CMakeLists.txt
-│   ├── Dockerfile
 │   ├── include/            # 公共头
 │   ├── src/                # 业务代码（http / db / judge / auth / util）
 │   ├── sql/                # 建表 DDL
@@ -124,9 +100,8 @@ ADMIN_USERNAME=admin ADMIN_PASSWORD=<from seed log> \
 │   ├── scripts/seed.cpp    # 独立 seed 进程（灌库 + 创建 admin）
 │   └── tests/              # GTest 单元 / 集成测试（17 个二进制 +218 例）
 └── frontend/               # 静态前端（Nginx + 原生 HTML/JS）
-    ├── Dockerfile
-    ├── nginx.conf
-    └── public/
+    ├── nginx.conf          # 反代 /api → backend:8080 + gzip + vendor 缓存
+    └── public/             # 静态 HTML / CSS / JS / vendor
 ```
 
 ---
@@ -143,4 +118,4 @@ ADMIN_USERNAME=admin ADMIN_PASSWORD=<from seed log> \
 | Phase 4 前端编辑器 + 结果 | ⚠️ 后端通，前端待做 |
 | Phase 5 管理员后台（CRUD + role 中间件 + 一键重置） | ✅ |
 | Phase 5.5 后端单测（test_admin_request / test_admin_auth / test_problem_dao / test_seed_loader） | ✅ |
-| Phase 6 部署 / 冒烟 / 文档 | ✅ (docker 部署未在本机跑，已通过裸机 seed 进程与 api-smoke.sh 端到端验证) |
+| Phase 6 部署 / 冒烟 / 文档 | ✅ (裸机部署：通过 seed 进程 + api-smoke.sh 端到端验证；nginx 反代见 `docs/DEPLOY_NATIVE.md`) |

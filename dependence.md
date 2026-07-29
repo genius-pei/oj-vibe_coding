@@ -4,8 +4,6 @@
 
 | 依赖 | 当前版本 | 用途 |
 |---|---:|---|
-| Docker Engine | 29.1.3 | 容器运行时 |
-| Docker Compose | 2.40.3 | 服务编排 |
 | g++ | 13.3.0 | C++17 后端与判题代码编译 |
 | CMake | 3.28.3 | 后端构建配置 |
 | Ninja | 1.11.1 | 后端构建工具 |
@@ -49,17 +47,15 @@
 
 前端依赖均已保存到仓库，不需要从 CDN 动态加载。
 
-## 容器运行依赖
+## 系统服务依赖
 
 | 组件 | 建议版本 | 用途 |
 |---|---:|---|
-| MySQL Server | 8.0.x | 题库、用户和 Session 持久化 |
-| Nginx Alpine | 最新稳定版 | 前端容器和 API 反向代理 |
-| Ubuntu/Debian 构建镜像 | 支持 g++ 9+、CMake 3.16+ | 后端镜像构建 |
+| MySQL Server | 8.0.x | 题库、用户和 Session 持久化（系统包） |
+| Nginx | ≥ 1.18 | 前端反代 + 静态文件（系统包） |
 
 ## 验证状态
 
 - cpp-httplib 与 jsoncpp 已通过 C++17 编译验证。
 - bcrypt 已通过密码生成、正确密码验证和错误密码拒绝测试。
-- Docker daemon 和 Docker Compose 可用。
 - MySQL、OpenSSL、jsoncpp 开发头文件及 pkg-config 元数据可用。

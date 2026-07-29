@@ -16,7 +16,7 @@ namespace minioj::judge {
 namespace {
 
 // 让一个 "run_submission" 风格的 packaged_task 立刻以异常结束
-// 避免调用方 future.get() 永久阻塞（参见 docker stop 时 hanging 请求）
+// 避免调用方 future.get() 永久阻塞（参见 SIGTERM 优雅关闭时 hanging 请求）
 void rejectPendingTask(std::function<void()>& task) {
     // task 是 [packaged]() { (*packaged)(); } 形式
     // 通过 type-erased packaged_task 接口触发 broken_promise 不靠谱
