@@ -32,8 +32,8 @@ sudo ln -sf /etc/nginx/sites-available/minioj /etc/nginx/sites-enabled/minioj
 sudo systemctl enable --now nginx
 ```
 
-访问 **http://localhost/**：落地页 → 题单 → 提交代码。
-后台：**http://localhost/admin/**（账号 `admin` / `admin123`）。
+访问 **http://122.51.84.172/**：落地页 → 题单 → 提交代码。
+后台：**http://122.51.84.172/admin/**（账号 `admin` / `admin123`）。
 
 完整步骤 + systemd / 故障排查见 **[DEPLOY.md](./DEPLOY.md)**。
 
@@ -87,7 +87,6 @@ minioj/
 ---
 
 ## 核心能力
-
 - **判题**：fork + exec + rlimit 沙箱（CPU 500ms / MEM 256MB / 编译 3s / 子进程 ≤8 信号量 / FIFO 队列）
 - **题库**：1NF 规范化的 6 张表（problems / testcases / tags / problem_tags / users / sessions）
 - **用户**：bcrypt 密码 + Session + Cookie 鉴权，role 中间件拦截 `/api/admin/*`
@@ -108,19 +107,3 @@ minioj/
 cd test && python3 -m pytest
 ```
 
----
-
-## 进度
-
-| 阶段 | 状态 | 说明 |
-|---|---|---|
-| Phase 0–6（v1.0） | ✅ | 脚手架 / 题单 / 账号 / 判题 / 编辑器 / admin / 部署 |
-| v1.1 | ✅ | 大屏落地页 / 登录注册重做 / mock server / 设计系统 |
-| v1.2 | ✅ | 2GB 内存适配 + 自动化测试就绪态工具 |
-| v1.3 | ✅ | **剥离 Docker，裸机原生部署实跑通过**（2026-07-29 122.51.84.172） |
-
----
-
-## License
-
-MIT
