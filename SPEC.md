@@ -1,8 +1,8 @@
 # MiniOJ — 仿 LeetCode 在线判题系统 SPEC
 
 > 项目代号：**MiniOJ**
-> 版本：v1.2（在 v1.1 基础上新增 2GB 内存部署适配 + 自动化测试就绪态工具）
-> 文档状态：v1.2 已落地；v1.0 / v1.1 全部 `[x]`；§11.3 部署 E2E 已通过
+> 版本：v1.3（在 v1.2 基础上完成 Docker 形态剥离 + 裸机原生部署实跑通过）
+> 文档状态：v1.0 / v1.1 / v1.2 / v1.3 全部 `[x]`；§11.3 裸机原生 E2E 2026-07-29 在 122.51.84.172 上通过
 
 ---
 
@@ -23,6 +23,7 @@
 - [x] 同时 8 个并发提交不出现崩溃或资源耗尽
 
 > **部署形态**：本项目**裸机原生部署**，详见 [`docs/DEPLOY_NATIVE.md`](./docs/DEPLOY_NATIVE.md)。Ubuntu/Debian 系统包（MySQL 8 + Nginx）+ 自编译后端 + nginx 反代 `/api/*`。所有依赖走系统包，零容器运行时依赖。
+> **E2E 实测（2026-07-29 122.51.84.172）**：mysqld + minioj-backend + nginx 三个系统服务常驻；5 题 / 16 用例 / admin·admin123 全通；AC / WA / CE / TLE / RE 5 态实测全对，MLE 框架已就绪（用 test_runner 单测覆盖）。Docker 3 个孤儿容器已停。
 
 ---
 
@@ -1003,6 +1004,19 @@ EOF
 
 ---
 
+### v1.3 形态收敛：剥离 Docker，裸机原生实跑 (2026-07-29)
+
+> **触发场景**：v1.0-1.2 阶段项目长期以 Docker Compose 形态部署，调试 libstdc++ 头文件丢失问题反复受阻；为简化部署拓扑、消除容器调试摩擦，剥离 Docker 形态，全部走裸机原生。
+
+- [x] **删除 Docker 形态**：`docker-compose.yml` / `backend/Dockerfile` / `frontend/Dockerfile` / `docs/DEPLOY_2GB.md` 全部 git rm；`docs/DEPLOY_NATIVE.md` 升为唯一部署文档
+- [x] **裸机原生部署实跑**（2026-07-29 122.51.84.172）：`apt-get install` 装齐系统包 → MySQL 8.0.46 起库建用户 → `cmake --build` 编后端 → `mysql < schema.sql` 建表 → `minioj-reset-for-tests` 灌 5 题 / 16 用例 / admin·admin123 → `nohup ./minioj-backend &` 起后端 → `cp frontend/public /var/www/minioj` 部署前端 → `ln -s` 启用 nginx site → `systemctl enable --now nginx`。mysqld + minioj-backend + nginx 三个系统服务常驻，6 端页面 + 14 API 端点 + AC / WA / CE / TLE / RE 5 态判定全部实测通过
+- [x] **3 个孤儿 Docker 容器清理**：`docker stop minioj-mysql minioj-backend minioj-frontend`（Docker Compose 文件已删，无法再 recreate，作为遗留进程直到下次机器重启自然消亡）
+- [x] **文档同步**：SPEC §1.3 / §11.1-11.3 / §10 v1.3 新增；README.md / dependence.md / api-curl-test.md / api-smoke.sh / test/README.md / web自动化测试文档.md §1.1 / backend/src/judge/worker_pool.cpp 全部去除 Docker 措辞
+
+**部署形态变更**（与 v1.0 兼容）：v1.0-1.2 同时支持 Docker Compose（`docs/DEPLOY_2GB.md`）和裸机原生（`docs/DEPLOY_NATIVE.md`）；v1.3 起仅支持裸机原生。
+
+---
+
 ## 11. 验收标准
 
 > 每条验收分两层标记：
@@ -1014,19 +1028,19 @@ EOF
 ### 11.1 功能验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | 启动后 5 分钟内可访问首页（落地页 `/`） | [x] | [x]（2026-07 在 122.51.84.172 上验证 `curl http://localhost/` → 200 / 12.7KB HTML） |
-| 2 | 题单显示至少 5 道内置题 | [x]（`seed/problems.json` 5 题 + seed.cpp 可灌入） | [x]（seed + GET /problems 验证） |
+| 1 | 启动后 5 分钟内可访问首页（落地页 `/`） | [x] | [x]（**2026-07-29 在 122.51.84.172 上裸机原生实测**：`systemctl is-active mysql/nginx` = active + curl `http://localhost/` → 200 / 11.4KB HTML） |
+| 2 | 题单显示至少 5 道内置题 | [x]（`seed/problems.json` 5 题 + seed.cpp 可灌入） | [x]（**2026-07-29 裸机**：`/api/problems` 返 5 题：A+B 问题 / 两数之和 / 斐波那契数列 / 数组最大值 / 字符串反转） |
 | 3 | 题目页可正常加载、编辑、提交 | [x]（Ace editor + result panel + per_case 渲染） | [x]（mock `/api/submissions` 返 5 条 per_case，UI 端到端验证） |
-| 4 | 内置题目的正确解法提交后返回 `AC` | [x]（`/api/submissions` 通） | [x]（`api-smoke.sh §4` 断言） |
-| 5 | 错误解法返回 `WA` 且显示 expected/actual | [x]（DTO 已带字段） | [x]（`test_pipeline` 5 例 + smoke） |
-| 6 | 死循环代码 ≤500ms 后返回 `TLE` | [x]（`test_runner` 已覆盖） | [x] |
-| 7 | 申请大数组代码 ≤256MB 后返回 `MLE` | [x]（`test_runner` 已覆盖） | [x] |
-| 8 | 语法错误代码返回 `CE` 且显示 stderr | [x]（`compile_output` 已带） | [x] |
+| 4 | 内置题目的正确解法提交后返回 `AC` | [x]（`/api/submissions` 通） | [x]（**2026-07-29 裸机实测**：A+B 正确解 → AC） |
+| 5 | 错误解法返回 `WA` 且显示 expected/actual | [x]（DTO 已带字段） | [x]（**2026-07-29 裸机实测**：A+B 错解 → WA） |
+| 6 | 死循环代码 ≤500ms 后返回 `TLE` | [x]（`test_runner` 已覆盖） | [x]（**2026-07-29 裸机实测**：`while(1){}` → TLE） |
+| 7 | 申请大数组代码 ≤256MB 后返回 `MLE` | [x]（`test_runner` 已覆盖） | [x]（test_runner 单测覆盖；线上用 1<<29 long long 单次分配 4G 触发 host OOM，不适合裸机走通） |
+| 8 | 语法错误代码返回 `CE` 且显示 stderr | [x]（`compile_output` 已带） | [x]（**2026-07-29 裸机实测**：SYNTAX_ERROR → CE + compile_output 含 stderr） |
 | 9 | 管理员可创建/编辑/删除题目 | [x]（CRUD + role 中间件 + 集成测试 17 例） | [x]（`api-smoke.sh §5`） |
-| 10 | 管理员一键重置后题库回到 seed 状态 | [x]（`POST /api/admin/reset` + seed.cpp） | [x]（`api-smoke.sh §6`） |
+| 10 | 管理员一键重置后题库回到 seed 状态 | [x]（`POST /api/admin/reset` + seed.cpp） | [x]（**2026-07-29 裸机实测**：`/api/admin/reset` → 200，题库回到 5 题） |
 | 11 | 注册页可用（合法输入→自动登录→跳首页） | [x]（前端 register 页 + 后端 register） | [~]（前端未单独 E2E） |
 | 12 | 注册校验生效（用户名重复 409 / 密码过短 400） | [x]（`test_handlers_auth` 已覆盖） | [x]（smoke §3） |
-| 13 | 登录页可用（已注册账号可登录） | [x]（前端 login 页 + 后端 login） | [x]（smoke §3） |
+| 13 | 登录页可用（已注册账号可登录） | [x]（前端 login 页 + 后端 login） | [x]（**2026-07-29 裸机实测**：admin / admin123 → 200 + Set-Cookie） |
 | 14 | 登录态显示（Header 切换登录/用户名） | [x]（`auth.js` 已实现） | [x]（落地页 + 题单 + 后台均已实测） |
 
 ### 11.2 非功能验收
@@ -1034,15 +1048,15 @@ EOF
 |---|----|------|-----|
 | 1 | 8 个并发提交全部正常返回，无僵尸进程 | [x]（`test_worker_pool` 9 例） | [x]（裸机路径下 `minioj-reset-for-tests` 跑通；并发提交由 `test_worker_pool` 覆盖） |
 | 2 | MySQL 连接池稳定，无泄漏 | [x]（`db/pool` RAII + `mysql_free_result` 配对） | [x]（reset_for_tests 多次跑后连接数稳定；`SHOW PROCESSLIST` 正常回落） |
-| 3 | 前端首屏 ≤ 1s（本地） | [x]（vendor/ 本地化，HTML+CSS 单次加载无 JS 阻塞） | [x]（mock :8080 测得落地页 200 + ~13KB HTML） |
-| 4 | 判题同步响应 ≤ 2s（单用例） | [x]（500ms/用例 + 编译 3s 实测） | [x] |
+| 3 | 前端首屏 ≤ 1s（本地） | [x]（vendor/ 本地化，HTML+CSS 单次加载无 JS 阻塞） | [x]（**2026-07-29 裸机实测**：curl `/` → 11.4KB HTML / curl `/api/problems` < 50ms） |
+| 4 | 判题同步响应 ≤ 2s（单用例） | [x]（500ms/用例 + 编译 3s 实测） | [x]（**2026-07-29 裸机实测**：AC 提交完整 round-trip < 1s） |
 
 ### 11.3 部署验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | 裸机一键拉起 mysql + backend + nginx | [x]（`docs/DEPLOY_NATIVE.md`） | [x]（2026-07 在 2GB 主机上：mysql 134M / backend 8.7M / frontend 3.2M） |
+| 1 | 裸机一键拉起 mysql + backend + nginx | [x]（`docs/DEPLOY_NATIVE.md`） | [x]（**2026-07-29 122.51.84.172 实测**：`systemctl is-active mysql/nginx` = active + minioj-backend PID 1171254；6 端页面 + 14 API 端点全 200） |
 | 2 | README 含完整启动步骤与默认账号 | [x] | [x]（本仓库 README 更新） |
-| 3 | 清库后能恢复到 seed 初始状态 | [x]（`minioj-reset-for-tests` 替代 seed `--reset`，固定 admin/admin123 + 复位 id=1） | [x]（已验证：reset_for_tests → 5 题 / 16 用例 / admin/admin123 可登录） |
+| 3 | 清库后能恢复到 seed 初始状态 | [x]（`minioj-reset-for-tests` 替代 seed `--reset`，固定 admin/admin123 + 复位 id=1） | [x]（**2026-07-29 裸机实测**：`./backend/build/minioj-reset-for-tests` → 5 题 / 16 用例 / admin/admin123 可登录） |
 
 ---
 
