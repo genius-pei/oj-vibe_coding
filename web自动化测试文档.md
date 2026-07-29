@@ -1054,7 +1054,55 @@ playwright-cli console
 
 ---
 
-> **文档结束**
+## 25. v1.x 落地页内容重定向（2026-07-29，非功能改动）
+
+> 与 §24 "本轮修复" 并列：本次只调整落地页文案 / 内容结构，**不涉及判题 / 鉴权 / 性能**，故未单独建 bug 修复条目。但为可追溯仍在此记录。
+
+### 25.1 改动范围
+
+| 改动 | 原 | 新 |
+|---|---|---|
+| Hero 标语 | "像 LeetCode 一样刷题，但跑在 **你自己的机器上**" | "像 LeetCode 一样刷题，写完代码 **立即看 AC**" |
+| Hero 副标题 | 面向"求职展示 + 教学训练" | 面向"**算法训练** + 刷题练习" |
+| Hero 元数据条 | ≤500 ms CPU / ≤256 MB 内存 / ≤8 并发 | **删除**（面向刷题人群，不再展示运维指标） |
+| Stats 4 栏 | 5+ 内置题目 / 3 难度 / 10+ 标签 / 6 评测结果 | **删除整段** |
+| Features 卡片标题 | 秒级评测 / 资源受限 / 开箱即用 | 秒回结果 / 逐用例反馈 / 开箱即用的编辑器 |
+| How it works | 选题目 / 写代码 / 提交评测 | 挑一道题 / 写下思路 / 看结果，调思路 |
+| CTA Banner | "准备好了吗？" | "来一道题热热身？" |
+| Footer tagline | "仿 LeetCode 的轻量级在线判题系统" | "专注刷题的轻量级在线评测平台" |
+
+> **同步 SPEC**：`SPEC.md §1.1-1.2`、`§7.1`、`§7.5`、`§8.4`、`§9.3`；新增 `§10 v1.x 微调`（3 项勾选）。
+> **同步 README**：tagline 由"求职展示 + 教学训练"改为"算法训练 + 教学训练"。
+
+### 25.2 测试用例回归核对（结构断言）
+
+| 用例 | 关键断言 | v1.x 后是否仍成立 | 说明 |
+|---|---|---|---|
+| A-01 全元素 | Title=`MiniOJ`、H1 含"像 LeetCode 一样刷题"、Features 3 卡、How 3 步、CTA + Footer 存在 | ✅ | 仅文案微调，DOM 结构未变（curl 校验 4 项全过） |
+| A-02 终端装饰 | 3 个 macOS 圆点 + `~/minioj — submission #1842` 标题 | ✅ | Hero 区右侧终端原样保留 |
+| A-03 终端打字机 | `#typewriter` 出现非空内容 | ✅ | `landing.js` 未改 |
+| A-04 verdict 轮播 | `#verdict` AC/WA/TLE/CE 循环 | ✅ | `landing.js` 未改 |
+| A-05 题单跳转 | Header "题单" → `/problems.html` | ✅ | Header 未改 |
+| A-06 登录跳转 | Header "登录" → `/login.html` | ✅ | Header 未改 |
+| A-07 注册跳转 | Header "注册" → `/register.html` | ✅ | Header 未改 |
+| A-08 Hero CTA | 点击"立即刷题" → `/problems.html` | ✅ | Hero 第一个 `btn-primary` 文本未改（curl 校验确认） |
+| N-01 / N-02 / N-03 | 落地页响应式 1280 / 1024 / 375 | ✅ | 媒体查询断点 1024/900/768/480 未变；删除 Stats / Preview 后 Hero 区纵向空间增加，更不易溢出 |
+| N-04 首屏 ≤ 1s | `domContentLoaded - navigationStart` ≤ 1000ms | ✅ | 移除 Stats + Preview 后首屏 HTML 体积略减 |
+
+**结论**：模块 A 全部 8 条用例结构兼容，**无需修改任何用例**。
+
+### 25.3 工程清理（顺带）
+
+| 改动 | 文件 | 原因 |
+|---|---|---|
+| `.user-chip` / `.user-chip .logout` / `#auth-area` 从 `auth.css` 移到 `common.css` | `frontend/public/css/auth.css`、`frontend/public/css/common.css` | 题单 / 题目详情 / 后台页面登录后右上角退出按钮变 native 白方块（这些页面没引入 `auth.css`，自定义 `.logout` 样式失效） |
+| 文档结构对齐 | `SPEC §10 v1.x 微调` | 见 `SPEC.md` |
+
+> F-01~F-04（Header 登录态用例）原本在题单 / 详情 / 后台页面跑，靠 `.user-chip` 可见性 + 文本断言，**改前若用 selector `.user-chip` 会失败**（CSS 不加载 → DOM 元素未生成）。改后 selector 在所有页面统一生效。
+
+### 25.4 已知瑕疵（非本次引入，遗留）
+
+- 第 §23.2 节示例代码 `page.locator('a.problem-card').first` 用作"取题单第一张卡"，但题单页实际渲染为 `<a class="card diff-easy">`（见 `frontend/public/js/problem_list.js:63`），selector `.problem-card` 在仓库任何位置都不存在。该示例是文档旧版遗留，本次未顺手修。建议下次补 §23.6 P3 时改为 `page.locator('a.card[href^="/problem.html?id="]')`。
 
 ---
 
