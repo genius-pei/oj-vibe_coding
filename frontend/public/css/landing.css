@@ -154,41 +154,6 @@
   margin-bottom: var(--space-6);
 }
 
-/* meta strip */
-.hero-meta {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
-  max-width: 560px;
-}
-
-.hero-meta li {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.meta-num {
-  font-family: var(--font-mono);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--accent);
-}
-
-.meta-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.5px;
-}
-
-@media (max-width: 480px) {
-  .hero-meta { grid-template-columns: 1fr 1fr; }
-}
-
 /* ── Terminal demo ─────────────────────────────────────── */
 .hero-demo {
   position: relative;
@@ -547,6 +512,8 @@
   font-size: 11px;
   color: var(--accent);
 }
+
+/* ── 题库预览 (已删除，CSS 保留无用，使用 .featured 替代) ── */
 
 /* ── CTA Banner ────────────────────────────────────────── */
 .cta-banner {

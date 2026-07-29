@@ -9,10 +9,10 @@
 ## 1. 项目概述
 
 ### 1.1 一句话定位
-面向**求职展示与教学训练**的轻量级在线判题系统，仿 LeetCode 的核心体验，单实例即可承载 1–40 人并发。
+面向**算法训练与刷题练习**的轻量级在线判题系统，仿 LeetCode 的核心体验，单实例即可承载 1–40 人并发。
 
 ### 1.2 业务目标
-- **求职展示**：作为候选人作品集，可一键部署演示。
+- **算法训练**：面向刷题人群（自学 / 求职备考 / 校队训练），提供 LeetCode 风格的题单 + 编辑器 + 即时评测。
 - **教学训练**：小班/校内场景下刷题、考核的轻量平台。
 
 ### 1.3 成功标准（v1.0 收工定义）
@@ -415,7 +415,7 @@ verdict 取值：`AC | WA | TLE | CE | MLE | RE`
 
 | 路径 | 页面 | 说明 |
 |------|------|------|
-| `/` | **大屏落地页** | Hero（标语 + 终端装饰 + CTA）+ Stats + Features + How it works + CTA + Footer |
+| `/` | **大屏落地页** | Hero（标语 + 终端装饰 + CTA）+ Features + How it works + CTA Banner + Footer |
 | `/problems.html` | 题目列表页 | 卡片网格，按难度/标签筛选（原 `/`，v1.1 起迁出） |
 | `/problem/:id` | 题目详情页 | 左描述、右代码、下结果 |
 | `/login` | 登录页 | 普通用户登录（账号 + 密码） |
@@ -424,7 +424,9 @@ verdict 取值：`AC | WA | TLE | CE | MLE | RE`
 | `/admin` | 后台管理页 | 题库 CRUD 表格 + 重置按钮 |
 | `/admin/edit/:id` | 题目编辑 | 描述 / 用例表单 |
 
-> **v1.1 变更**：原 `/` 题单页迁出为 `/problems.html`，`/` 改为产品落地页（求职展示主入口）。落地页含动态装饰（打字机 + 实时判评状态轮播），设计原则参见 § 7.5。
+> **v1.1 变更**：原 `/` 题单页迁出为 `/problems.html`，`/` 改为产品落地页（**刷题导向主入口**）。落地页含动态装饰（打字机 + 实时判评状态轮播），设计原则参见 § 7.5。
+>
+> **v1.x 微调**：落地页删除了 Stats 与 Preview（精选题目卡片 + 标签胶囊）两节，Hero 区移除了 CPU/内存/并发等技术指标 — 全部内容聚焦"刷题体验"，面向刷题人群而非部署运维视角。
 
 ### 7.2 注册页 `/register`
 
@@ -508,12 +510,15 @@ verdict 取值：`AC | WA | TLE | CE | MLE | RE`
 - 卡片化题单，难度徽章着色
 - 响应式适配桌面优先
 
-> **大屏落地页补充（v1.1）**：
+> **大屏落地页补充（v1.1 / v1.x）**：
 > - 暗色 OLED 风（背景 `#0b0f17`）+ 仿 LeetCode 橙（`#ffa116`）
-> - Hero 区：左侧标语 + 标题 + 描述 + 双 CTA + 元数据条；右侧终端框（macOS 三色灯 + 动态打字机 + 实时判评状态条 AC/WA/TLE/CE 循环）
+> - Hero 区：左侧标语 + 标题 + 描述 + 双 CTA；右侧终端框（macOS 三色灯 + 动态打字机 + 实时判评状态条 AC/WA/TLE/CE 循环）。**无技术指标条**（CPU/内存/并发等已移出，面向刷题人群）
 > - 网格背景：CSS `linear-gradient` 1px 网格 + 径向 mask 渐隐
-> - Features：3 列卡片（秒级评测 / 资源受限 / 开箱即用），hover 微上浮 + 边框变橙
-> - How it works：3 步骤卡片 + 步骤编号 + 路径 pill
+> - Features：3 列卡片（**秒回结果 / 逐用例反馈 / 开箱即用的编辑器**），hover 微上浮 + 边框变橙 — 文案从"运维视角"改为"刷题体验视角"
+> - How it works：3 步骤卡片 + 步骤编号 + 路径 pill（**挑一道题 → 写下思路 → 看结果，调思路**）
+> - CTA Banner：单行文案"来一道题热热身？"+ 双 CTA（开始刷题 / 注册账号）
+> - Footer：tagline "专注刷题的轻量级在线评测平台"
+> - **已删除**：Stats 4 栏技术指标带、Preview（精选题目 + 难度档位 + 标签胶囊）整段
 > - 全部图标：inline SVG（Heroicons 风格），禁止 emoji 当图标
 > - `prefers-reduced-motion: reduce` 时停用打字机、徽章呼吸、hover 位移、caret 闪烁等所有动画
 > - 响应式断点：1024 / 900 / 768 / 480
@@ -563,7 +568,7 @@ stateDiagram-v2
 ### 8.4 安全策略（已知权衡）
 **只采用 rlimit，不做 seccomp / chroot / setuid**。
 - **风险**：恶意代码可调用 `fork` / `execve` / 写文件 / 联网。
-- **缓解**：因系统面向"求职展示 + 教学训练"，用户基本可信；管理员只允许内网访问。
+- **缓解**：因系统面向"算法训练 + 教学训练"，用户基本可信；管理员只允许内网访问。
 - **不做 seccomp 的理由**：增加复杂度与兼容性负担；MVP 优先级。
 - **未来**：若对外开放，需迁移到 Docker 或 nsjail。
 
@@ -726,7 +731,7 @@ minioj/
 │   ├── Dockerfile                  # 基于 nginx:1.27-alpine，COPY public/
 │   └── nginx.conf                  # 反代 /api → backend:8080 + gzip + vendor 缓存
 └── public/
-    ├── index.html              # 大屏落地页（Hero + Features + Stats + CTA + Footer）
+    ├── index.html              # 大屏落地页（Hero + Features + How it works + CTA Banner + Footer；刷题导向，v1.x 移除 Stats 与 Preview）
     ├── problems.html           # 题目列表页（卡片网格 + 难度/标签筛选，v1.1 起承接原 /）
     ├── problem.html            # 题目详情页（描述 / 编辑器 / 结果）
     ├── login.html              # 普通用户登录页
@@ -736,11 +741,11 @@ minioj/
     │   ├── index.html          # 后台管理页（题库表格 + CRUD + 重置）
     │   └── edit.html           # 题目编辑页（描述 / 用例 / 标签）
     ├── css/
-    │   ├── common.css          # 全局变量、Header、按钮
+    │   ├── common.css          # 全局变量、Header、按钮、用户胶囊（user-chip；v1.x 从 auth.css 上移）
     │   ├── theme.css           # 暗色主题（#1a1a1a / #ffa116）
-    │   ├── landing.css         # 落地页：Hero / 终端 / Features / Stats / Footer
+    │   ├── landing.css         # 落地页：Hero / 终端 / Features / How it works / Footer
     │   ├── problem.css         # 题目页布局
-    │   ├── auth.css            # 登录 / 注册卡片 + 用户胶囊（user-chip）
+    │   ├── auth.css            # 登录 / 注册卡片（v1.x 移除 user-chip 相关规则）
     │   └── admin.css           # 后台表格 / 表单
     ├── js/
     │   ├── api.js              # fetch 封装，自动带 cookie、统一错误处理（GET/POST/PUT/DELETE）
@@ -1107,6 +1112,11 @@ EOF
 - [x] 全局按钮（`.btn` / `.btn-primary` / `.btn-ghost`）上移到 `common.css`，三页面解耦
 - [x] mock `scripts/mock_server.py` 补全：`/api/admin/*` 全路由 + `/api/submissions` 返 5 条 per_case + `/api/auth/logout` 真清 cookie
 - [x] `design-system/minioj/`（ui-ux-pro-max skill 持久化 MASTER + per-page override）
+
+### v1.x 微调（v1.1 之后的体验增补 / 工程清理）
+- [x] **落地页内容重定向"刷题"**：移除 Hero 技术指标条（CPU / 内存 / 并发上限）、删除 Stats 4 栏、删除 Preview（精选题目 + 难度档位 + 标签胶囊）；Features 文案从"运维视角"改为"刷题体验视角"（秒回结果 / 逐用例反馈 / 开箱即用的编辑器）；How it works 改为"挑一道题 → 写下思路 → 看结果，调思路"；CTA Banner 改为"来一道题热热身？"
+- [x] **业务定位文案调整**：`SPEC §1.1-1.2` 与 `README.md` 一句话从"求职展示 + 教学训练"改为"算法训练 + 教学训练"
+- [x] **`user-chip` 上移 `common.css`**：`.user-chip` / `.user-chip .logout` / `#auth-area` 从 `auth.css` 移到 `common.css`，避免题单 / 题目详情 / 后台页面登录后右上角退出按钮变 native 白方块（SPEC §7.5 / §9.3）
 
 ### Phase 7：低内存部署适配（云服务器 2GB 内存规格）
 

@@ -571,57 +571,6 @@
   text-decoration: none;
 }
 
-/* ── 用户胶囊（Header 登录后）保留原逻辑 ──────────── */
-.user-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-1) var(--space-3);
-  background-color: rgba(255, 161, 22, 0.08);
-  border: 1px solid rgba(255, 161, 22, 0.3);
-  border-radius: 999px;
-  color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 12px;
-}
-
-.user-chip .name {
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.user-chip .logout {
-  background-color: transparent !important;
-  background-image: none !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  color: var(--text-secondary);
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 11px;
-  line-height: inherit;
-}
-
-.user-chip .logout:hover { color: var(--text-error); }
-.user-chip .logout:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 2px;
-}
-
-#auth-area {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-4);
-}
-
-#auth-area > a { white-space: nowrap; }
-
 /* ── 小屏适配 ─────────────────────────────────────── */
 @media (max-width: 1023px) {
   .auth-hero {

@@ -1,6 +1,6 @@
 # MiniOJ — 仿 LeetCode 在线判题系统
 
-> 面向**求职展示 + 教学训练**的轻量级 OJ，单实例即可承载 1–40 人并发。
+> 面向**算法训练 + 教学训练**的轻量级 OJ，单实例即可承载 1–40 人并发。
 > 规格文档：[SPEC.md](./SPEC.md) · 后端 API：[API.md](./API.md) · curl 用例：[api-curl-test.md](./api-curl-test.md)
 
 ---
