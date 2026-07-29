@@ -50,7 +50,7 @@ python3 test/python/test_minioj_api.py
 ### CI 集成
 
 ```bash
-# 在裸机环境按 docs/DEPLOY_NATIVE.md 启动 mysql + backend + nginx 之后执行：
+# 在裸机环境按 DEPLOY.md 启动 mysql + backend + nginx 之后执行：
 python3 test/python/test_minioj_api.py
 # 末尾输出：
 #   Ran 9 tests in 8.5s

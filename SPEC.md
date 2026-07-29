@@ -16,13 +16,13 @@
 - **教学训练**：小班/校内场景下刷题、考核的轻量平台。
 
 ### 1.3 成功标准（v1.0 收工定义）
-- [x] **裸机路径**：按 `docs/DEPLOY_NATIVE.md` 在 Ubuntu 22.04+ 上无需容器直接拉起
+- [x] **裸机路径**：按 `DEPLOY.md` 在 Ubuntu 22.04+ 上无需容器直接拉起
 - [x] 浏览器可访问首页、查看题单、进入题目详情
 - [x] 普通用户可注册、登录、提交 C/C++ 代码并收到 AC/WA/TLE/CE/MLE/RE 结果
 - [x] 管理员登录后可对题目进行增删改查，并可一键重置题库
 - [x] 同时 8 个并发提交不出现崩溃或资源耗尽
 
-> **部署形态**：本项目**裸机原生部署**，详见 [`docs/DEPLOY_NATIVE.md`](./docs/DEPLOY_NATIVE.md)。Ubuntu/Debian 系统包（MySQL 8 + Nginx）+ 自编译后端 + nginx 反代 `/api/*`。所有依赖走系统包，零容器运行时依赖。
+> **部署形态**：本项目**裸机原生部署**，详见 [`DEPLOY.md`](./DEPLOY.md)。Ubuntu/Debian 系统包（MySQL 8 + Nginx）+ 自编译后端 + nginx 反代 `/api/*`。所有依赖走系统包，零容器运行时依赖。
 > **E2E 实测（2026-07-29 122.51.84.172）**：mysqld + minioj-backend + nginx 三个系统服务常驻；5 题 / 16 用例 / admin·admin123 全通；AC / WA / CE / TLE / RE 5 态实测全对，MLE 框架已就绪（用 test_runner 单测覆盖）。Docker 3 个孤儿容器已停。
 
 ---
@@ -52,7 +52,7 @@
 | 前端 | 原生 HTML + CSS + JS | 用户指定；CDN 引入 CodeMirror 6 作为编辑器 |
 | 判题执行 | 本机 `fork` + `exec` + `setrlimit` | 用户指定；权衡后不做 seccomp/chroot |
 | 构建系统 | CMake + 系统包 / vcpkg | 用户指定 |
-| 部署 | 裸机原生（Ubuntu + 系统 MySQL + nginx + 自编译后端） | 详见 `docs/DEPLOY_NATIVE.md` |
+| 部署 | 裸机原生（Ubuntu + 系统 MySQL + nginx + 自编译后端） | 详见 `DEPLOY.md` |
 
 ---
 
@@ -65,7 +65,7 @@ graph TB
     User[浏览器用户]
     Admin[管理员]
 
-    subgraph 裸机原生部署（docs/DEPLOY_NATIVE.md）
+    subgraph 裸机原生部署（DEPLOY.md）
         Nginx[系统 nginx :80<br/>静态文件 + /api/* 反代]
         Binary[自编译 minioj-backend<br/>:8080]
         MysqlSys[(系统 MySQL 8<br/>:3306)]
@@ -564,7 +564,7 @@ stateDiagram-v2
 
 ## 9. 部署
 
-本项目采用**裸机原生部署**：Ubuntu/Debian 系统包（MySQL 8 + Nginx）+ 自编译 C++ 后端 + nginx 反代 `/api/*`。完整步骤见 [`docs/DEPLOY_NATIVE.md`](./docs/DEPLOY_NATIVE.md)。
+本项目采用**裸机原生部署**：Ubuntu/Debian 系统包（MySQL 8 + Nginx）+ 自编译 C++ 后端 + nginx 反代 `/api/*`。完整步骤见 [`DEPLOY.md`](./DEPLOY.md)。
 
 ### 9.0 服务清单
 
@@ -574,7 +574,7 @@ stateDiagram-v2
 | `minioj-backend`（自编译） | HTTP + 判题 | 8080 | `systemd` 或前台 `./build/minioj-backend` |
 | `nginx`（系统服务） | 静态文件 + `/api/*` 反代 | **80（唯一对外入口）** | `systemctl enable --now nginx` |
 
-> ⚠️ **端口拓扑要点**：浏览器只能访问 nginx 的 80 端口；后端 8080 与 MySQL 3306 仅监听 localhost。详见 `docs/DEPLOY_NATIVE.md §4 nginx 反代配置`。
+> ⚠️ **端口拓扑要点**：浏览器只能访问 nginx 的 80 端口；后端 8080 与 MySQL 3306 仅监听 localhost。详见 `DEPLOY.md §4 nginx 反代配置`。
 >
 > 部署到外网时，**只需放行 80 端口**（腾讯云安全组默认仅放 22/3389，需手动添加）。
 
@@ -605,7 +605,7 @@ sudo mysql -uminioj -pchange_me minioj < backend/sql/schema.sql
 # 4. 灌种子题 + 创建 admin（密码随机写入 stdout）
 ./backend/build/minioj-seed --reset
 
-# 5. 起后端（systemd / 前台 二选一，详见 docs/DEPLOY_NATIVE.md §3）
+# 5. 起后端（systemd / 前台 二选一，详见 DEPLOY.md §3）
 HTTP_HOST=127.0.0.1 HTTP_PORT=8080 \
 DB_HOST=127.0.0.1 DB_PORT=3306 DB_NAME=minioj \
 DB_USER=minioj DB_PASSWORD=change_me \
@@ -654,8 +654,7 @@ minioj/
 ├── api-smoke.sh                    # shell 端到端冒烟脚本
 ├── api-curl-test.md                # curl 接口断言文档
 ├── dependence.md                   # 第三方依赖说明
-├── docs/
-│   └── DEPLOY_NATIVE.md            # 裸机部署指南（apt 装依赖 + MySQL + nginx + systemd）
+├── DEPLOY.md                       # 裸机原生部署指南（apt + MySQL + nginx + systemd；v1.3 升为唯一部署文档）
 ├── design-system/minioj/           # ui-ux-pro-max skill 持久化的设计令牌
 ├── .env.example                    # 环境变量样例（DB 密码、Session TTL 等）
 ├── .gitignore
@@ -1008,12 +1007,12 @@ EOF
 
 > **触发场景**：v1.0-1.2 阶段项目长期以 Docker Compose 形态部署，调试 libstdc++ 头文件丢失问题反复受阻；为简化部署拓扑、消除容器调试摩擦，剥离 Docker 形态，全部走裸机原生。
 
-- [x] **删除 Docker 形态**：`docker-compose.yml` / `backend/Dockerfile` / `frontend/Dockerfile` / `docs/DEPLOY_2GB.md` 全部 git rm；`docs/DEPLOY_NATIVE.md` 升为唯一部署文档
+- [x] **删除 Docker 形态**：`docker-compose.yml` / `backend/Dockerfile` / `frontend/Dockerfile` / `docs/DEPLOY_2GB.md` 全部 git rm；`DEPLOY.md` 升为唯一部署文档
 - [x] **裸机原生部署实跑**（2026-07-29 122.51.84.172）：`apt-get install` 装齐系统包 → MySQL 8.0.46 起库建用户 → `cmake --build` 编后端 → `mysql < schema.sql` 建表 → `minioj-reset-for-tests` 灌 5 题 / 16 用例 / admin·admin123 → `nohup ./minioj-backend &` 起后端 → `cp frontend/public /var/www/minioj` 部署前端 → `ln -s` 启用 nginx site → `systemctl enable --now nginx`。mysqld + minioj-backend + nginx 三个系统服务常驻，6 端页面 + 14 API 端点 + AC / WA / CE / TLE / RE 5 态判定全部实测通过
 - [x] **3 个孤儿 Docker 容器清理**：`docker stop minioj-mysql minioj-backend minioj-frontend`（Docker Compose 文件已删，无法再 recreate，作为遗留进程直到下次机器重启自然消亡）
 - [x] **文档同步**：SPEC §1.3 / §11.1-11.3 / §10 v1.3 新增；README.md / dependence.md / api-curl-test.md / api-smoke.sh / test/README.md / web自动化测试文档.md §1.1 / backend/src/judge/worker_pool.cpp 全部去除 Docker 措辞
 
-**部署形态变更**（与 v1.0 兼容）：v1.0-1.2 同时支持 Docker Compose（`docs/DEPLOY_2GB.md`）和裸机原生（`docs/DEPLOY_NATIVE.md`）；v1.3 起仅支持裸机原生。
+**部署形态变更**（与 v1.0 兼容）：v1.0-1.2 同时支持 Docker Compose（`docs/DEPLOY_2GB.md`）和裸机原生（`DEPLOY.md`）；v1.3 起仅支持裸机原生。
 
 ---
 
@@ -1054,7 +1053,7 @@ EOF
 ### 11.3 部署验收
 | # | 项 | 代码 | E2E |
 |---|----|------|-----|
-| 1 | 裸机一键拉起 mysql + backend + nginx | [x]（`docs/DEPLOY_NATIVE.md`） | [x]（**2026-07-29 122.51.84.172 实测**：`systemctl is-active mysql/nginx` = active + minioj-backend PID 1171254；6 端页面 + 14 API 端点全 200） |
+| 1 | 裸机一键拉起 mysql + backend + nginx | [x]（`DEPLOY.md`） | [x]（**2026-07-29 122.51.84.172 实测**：`systemctl is-active mysql/nginx` = active + minioj-backend PID 1171254；6 端页面 + 14 API 端点全 200） |
 | 2 | README 含完整启动步骤与默认账号 | [x] | [x]（本仓库 README 更新） |
 | 3 | 清库后能恢复到 seed 初始状态 | [x]（`minioj-reset-for-tests` 替代 seed `--reset`，固定 admin/admin123 + 复位 id=1） | [x]（**2026-07-29 裸机实测**：`./backend/build/minioj-reset-for-tests` → 5 题 / 16 用例 / admin/admin123 可登录） |
 

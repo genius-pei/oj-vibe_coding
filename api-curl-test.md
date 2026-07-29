@@ -23,7 +23,7 @@
 
 ### 启动后端
 
-#### 裸机原生（SPEC §9.1 / `docs/DEPLOY_NATIVE.md`）
+#### 裸机原生（SPEC §9.1 / `DEPLOY.md`）
 
 ```bash
 # 1. 装依赖（apt）
@@ -31,7 +31,7 @@ sudo apt-get install -y build-essential cmake ninja-build pkg-config \
     g++ default-libmysqlclient-dev libjsoncpp-dev libssl-dev libcrypt-dev \
     default-mysql-client nginx
 
-# 2. 配 MySQL（一次性，见 docs/DEPLOY_NATIVE.md §2）
+# 2. 配 MySQL（一次性，见 DEPLOY.md §2）
 sudo systemctl enable --now mysql
 sudo mysql -uroot <<'SQL'
 CREATE DATABASE minioj DEFAULT CHARACTER SET utf8mb4;
